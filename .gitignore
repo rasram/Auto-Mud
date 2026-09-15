@@ -1,0 +1,83 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---------- Jupyter ----------
+.ipynb_checkpoints/
+
+# ---------- Environment / secrets ----------
+.env
+.env.*
+
+# ---------- Packet captures & traffic logs ----------
+*.pcap
+*.pcapng
+*.cap
+# Zeek output
+*.log
+.state/
+spool/
+
+# ---------- Large tabular / array data ----------
+# Directory structure under data/ stays tracked (READMEs, .gitkeep);
+# only the heavy files are ignored.
+data/**/*.csv
+data/**/*.parquet
+data/**/*.feather
+data/**/*.npy
+data/**/*.npz
+data/**/*.pkl
+data/**/*.pickle
+data/**/*.h5
+data/**/*.hdf5
+data/**/*.zip
+data/**/*.tar
+data/**/*.tar.gz
+data/**/*.tgz
+data/**/*.gz
+data/**/*.7z
+data/**/*.rar
+
+# ---------- Model weights & checkpoints ----------
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+checkpoints/
+runs/
+lightning_logs/
+wandb/
+mlruns/
+
+# ---------- Neo4j local data ----------
+neo4j/data/
+neo4j/logs/
+
+# ---------- Node / React (dashboard/frontend) ----------
+node_modules/
+.next/
+npm-debug.log*
+yarn-error.log*
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+
+# ---------- IDEs ----------
+.vscode/
+.idea/
+*.swp

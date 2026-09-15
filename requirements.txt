@@ -1,0 +1,25 @@
+# AutoMUD — core Python dependencies
+#
+# Only tools already chosen in docs/AutoMUD_Project_Context.md (§8) are listed here.
+# Versions are intentionally UNPINNED for now. They will be pinned as each module
+# is built, once the Python version and target OS are decided.
+#
+# Not pip dependencies (install separately):
+#   - Mininet, Open vSwitch   : system packages (network/testbed/)
+#   - Zeek                    : system package (network/zeek/)
+#   - Neo4j server            : database server (ml/graph/)
+#   - Suricata                : system package, evaluation baseline only (integration/evaluation/)
+#   - React                   : Node/npm tooling, managed in dashboard/frontend/package.json
+
+# --- ML Engineering (ml/) ---
+torch                # required by PyTorch Geometric
+torch_geometric      # GraphSAGE
+
+# --- Graph database client (ml/graph/, integration/) ---
+neo4j                # official Neo4j Python driver
+
+# --- SDN controller (network/sdn/) ---
+ryu
+
+# --- Dashboard backend (dashboard/backend/) ---
+fastapi
