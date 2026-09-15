@@ -81,3 +81,14 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# ---------- Dataset contents (raw + processed) ----------
+# All downloaded and derived data stays local. Directory READMEs/.gitkeep remain tracked.
+data/raw/**
+data/processed/**
+!data/raw/**/
+!data/processed/**/
+!data/raw/**/README.md
+!data/processed/**/README.md
+!data/raw/**/.gitkeep
+!data/processed/**/.gitkeep
