@@ -1,0 +1,86 @@
+{
+  "devices": [
+    "SamsungSmartThings_d052a800675e_flows",
+    "AmazonEcho_44650d56ccd3_flows",
+    "PhilipsHue_0017882b9a25_flows",
+    "BelkinWemoSwitch_ec1a5979f489_flows",
+    "SamsungCamera_00166cab6b88_flows",
+    "NestDropCam_308cfb2fe4b2_flows",
+    "AugustDoorBell_e076d03f00ae_flows",
+    "BelkinWemoMotionSensor_ec1a59832811_flows",
+    "HPPrinter_705a0fe49bc0_flows",
+    "NetatmoWeatherStation_70ee5003b8ac_flows",
+    "AwairAirQuality_70886b100fc6_flows",
+    "WithingsSmartScale_0024e41b6f96_flows"
+  ],
+  "device_ip": {
+    "SamsungSmartThings_d052a800675e_flows": "10.0.0.11",
+    "AmazonEcho_44650d56ccd3_flows": "10.0.0.12",
+    "PhilipsHue_0017882b9a25_flows": "10.0.0.13",
+    "BelkinWemoSwitch_ec1a5979f489_flows": "10.0.0.14",
+    "SamsungCamera_00166cab6b88_flows": "10.0.0.15",
+    "NestDropCam_308cfb2fe4b2_flows": "10.0.0.16",
+    "AugustDoorBell_e076d03f00ae_flows": "10.0.0.17",
+    "BelkinWemoMotionSensor_ec1a59832811_flows": "10.0.0.18",
+    "HPPrinter_705a0fe49bc0_flows": "10.0.0.19",
+    "NetatmoWeatherStation_70ee5003b8ac_flows": "10.0.0.20",
+    "AwairAirQuality_70886b100fc6_flows": "10.0.0.21",
+    "WithingsSmartScale_0024e41b6f96_flows": "10.0.0.22"
+  },
+  "edges": [
+    {
+      "source": "AmazonEcho_44650d56ccd3_flows",
+      "dest": "SamsungSmartThings_d052a800675e_flows",
+      "avg_events_per_hour": 6,
+      "port": 8080,
+      "protocol": "http",
+      "payload_bytes_range": [60, 200],
+      "description": "voice command routed to hub"
+    },
+    {
+      "source": "SamsungSmartThings_d052a800675e_flows",
+      "dest": "PhilipsHue_0017882b9a25_flows",
+      "avg_events_per_hour": 10,
+      "port": 80,
+      "protocol": "http",
+      "payload_bytes_range": [40, 150],
+      "description": "hub-issued bulb command"
+    },
+    {
+      "source": "SamsungSmartThings_d052a800675e_flows",
+      "dest": "BelkinWemoSwitch_ec1a5979f489_flows",
+      "avg_events_per_hour": 4,
+      "port": 80,
+      "protocol": "http",
+      "payload_bytes_range": [40, 150],
+      "description": "hub-issued plug command"
+    },
+    {
+      "source": "BelkinWemoMotionSensor_ec1a59832811_flows",
+      "dest": "PhilipsHue_0017882b9a25_flows",
+      "avg_events_per_hour": 12,
+      "port": 80,
+      "protocol": "http",
+      "payload_bytes_range": [40, 120],
+      "description": "motion-triggered lighting"
+    },
+    {
+      "source": "BelkinWemoMotionSensor_ec1a59832811_flows",
+      "dest": "SamsungCamera_00166cab6b88_flows",
+      "avg_events_per_hour": 3,
+      "port": 554,
+      "protocol": "rtsp",
+      "payload_bytes_range": [100, 300],
+      "description": "motion-triggered recording"
+    },
+    {
+      "source": "AugustDoorBell_e076d03f00ae_flows",
+      "dest": "SamsungSmartThings_d052a800675e_flows",
+      "avg_events_per_hour": 2,
+      "port": 8080,
+      "protocol": "http",
+      "payload_bytes_range": [60, 200],
+      "description": "doorbell event notification to hub"
+    }
+  ]
+}

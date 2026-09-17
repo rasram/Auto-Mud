@@ -11,6 +11,15 @@
 #   - Suricata                : system package, evaluation baseline only (integration/evaluation/)
 #   - React                   : Node/npm tooling, managed in dashboard/frontend/package.json
 
+# --- Project dependencies ---
+joblib
+matplotlib
+networkx
+numpy
+pandas
+scikit-learn
+scapy
+
 # --- ML Engineering (ml/) ---
 torch                # required by PyTorch Geometric
 torch_geometric      # GraphSAGE
