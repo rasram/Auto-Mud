@@ -1,0 +1,476 @@
+{
+  "schema_version": 1,
+  "device": "WithingsSmartScale_0024e41b6f96",
+  "mac": "00:24:e4:1b:6f:96",
+  "generated_at": "2026-09-18T14:48:52.303547+00:00",
+  "frozen": true,
+  "source": {
+    "zeek_dir": "data/processed/unsw/zeek/WithingsSmartScale",
+    "window_seconds": 60,
+    "note": "UNSW-IoTraffic offline replay (Stage 0)"
+  },
+  "observation": {
+    "active_windows": 385,
+    "flows": 1311,
+    "first_window": 1475246280,
+    "last_window": 1492051200,
+    "span_days": 194.5013888888889
+  },
+  "window_features": {
+    "flow_count": {
+      "median": 4,
+      "q1": 1.0,
+      "q3": 5.0,
+      "iqr": 4.0,
+      "mean": 3.4051948051948053,
+      "min": 1,
+      "max": 10,
+      "p95": 5,
+      "p99": 5,
+      "windows_observed": 385,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.5655752274330038,
+        56.5473628087002
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_destinations": {
+      "median": 3,
+      "q1": 1.0,
+      "q3": 4.0,
+      "iqr": 3.0,
+      "mean": 2.6597402597402597,
+      "min": 1,
+      "max": 5,
+      "p95": 4,
+      "p99": 4,
+      "windows_observed": 385,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.4786932718740809,
+        29.69210339471253
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_domains": {
+      "median": 1,
+      "q1": 0.0,
+      "q3": 1.0,
+      "iqr": 1.0,
+      "mean": 0.7064935064935065,
+      "min": 0,
+      "max": 2,
+      "p95": 1,
+      "p99": 1,
+      "windows_observed": 385,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.5718671422063165,
+        8.342894214224485
+      ],
+      "trim_space": "log1p"
+    },
+    "domain_entropy": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.004982586581959713,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "windows_observed": 385,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    },
+    "bytes_total": {
+      "median": 25828.0,
+      "q1": 25646.0,
+      "q3": 32449.0,
+      "iqr": 6803.0,
+      "mean": 31054.09931506849,
+      "min": 152,
+      "max": 777862,
+      "p95": 32768,
+      "p99": 34528,
+      "windows_observed": 385,
+      "windows_excluded": 93,
+      "outlier_bounds": [
+        8.375397726716997,
+        70159007.5213731
+      ],
+      "trim_space": "log1p"
+    },
+    "orig_bytes": {
+      "median": 20888.0,
+      "q1": 20888.0,
+      "q3": 25826.0,
+      "iqr": 4938.0,
+      "mean": 20791.092465753423,
+      "min": 152,
+      "max": 31164,
+      "p95": 25865,
+      "p99": 26286,
+      "windows_observed": 385,
+      "windows_excluded": 93,
+      "outlier_bounds": [
+        11.97835355155032,
+        33621391.672561005
+      ],
+      "trim_space": "log1p"
+    },
+    "resp_bytes": {
+      "median": 4758,
+      "q1": 0.0,
+      "q3": 6623.0,
+      "iqr": 6623.0,
+      "mean": 7783.890909090909,
+      "min": 0,
+      "max": 763503,
+      "p95": 6903,
+      "p99": 7014,
+      "windows_observed": 385,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.9999848698708598,
+        1496886166016.3547
+      ],
+      "trim_space": "log1p"
+    },
+    "packets_total": {
+      "median": 148,
+      "q1": 3.0,
+      "q3": 158.0,
+      "iqr": 155.0,
+      "mean": 112.2,
+      "min": 1,
+      "max": 1186,
+      "p95": 162,
+      "p99": 165,
+      "windows_observed": 385,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.9586506063538032,
+        536911.347251359
+      ],
+      "trim_space": "log1p"
+    },
+    "interflow_gap_variance": {
+      "median": 1.466989366649715,
+      "q1": 0.9582263897270814,
+      "q3": 111.33572560433693,
+      "iqr": 110.37749921460984,
+      "mean": 55.52983352935011,
+      "min": 0.07499299008986782,
+      "max": 262.4673948250369,
+      "p95": 137.7277762679562,
+      "p99": 167.42724236843995,
+      "windows_observed": 270,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.9996972053938089,
+        20098.548262622102
+      ],
+      "trim_space": "log1p"
+    },
+    "tcp_failed_ratio": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.04271961492178099,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 0.0,
+      "p99": 1.0,
+      "windows_observed": 277,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    }
+  },
+  "service_distribution": {
+    "dhcp": {
+      "mean_share": 0.6454854669140373,
+      "windows_present": 374,
+      "window_share": 0.9714285714285714
+    },
+    "dns": {
+      "mean_share": 0.1652009894867041,
+      "windows_present": 270,
+      "window_share": 0.7012987012987013
+    },
+    "http": {
+      "mean_share": 0.10178107606679035,
+      "windows_present": 170,
+      "window_share": 0.44155844155844154
+    },
+    "ssl": {
+      "mean_share": 0.0607359307359307,
+      "windows_present": 99,
+      "window_share": 0.2571428571428571
+    },
+    "-": {
+      "mean_share": 0.026796536796536798,
+      "windows_present": 14,
+      "window_share": 0.03636363636363636
+    }
+  },
+  "active_hours": [
+    {
+      "hour": 0,
+      "flows": 62,
+      "flow_share": 0.04729214340198322,
+      "windows": 17,
+      "window_share": 0.04415584415584416
+    },
+    {
+      "hour": 1,
+      "flows": 25,
+      "flow_share": 0.01906941266209001,
+      "windows": 9,
+      "window_share": 0.023376623376623377
+    },
+    {
+      "hour": 2,
+      "flows": 61,
+      "flow_share": 0.04652936689549962,
+      "windows": 19,
+      "window_share": 0.04935064935064935
+    },
+    {
+      "hour": 3,
+      "flows": 39,
+      "flow_share": 0.029748283752860413,
+      "windows": 12,
+      "window_share": 0.03116883116883117
+    },
+    {
+      "hour": 4,
+      "flows": 78,
+      "flow_share": 0.059496567505720827,
+      "windows": 23,
+      "window_share": 0.05974025974025974
+    },
+    {
+      "hour": 5,
+      "flows": 43,
+      "flow_share": 0.03279938977879481,
+      "windows": 12,
+      "window_share": 0.03116883116883117
+    },
+    {
+      "hour": 6,
+      "flows": 66,
+      "flow_share": 0.05034324942791762,
+      "windows": 20,
+      "window_share": 0.05194805194805195
+    },
+    {
+      "hour": 7,
+      "flows": 39,
+      "flow_share": 0.029748283752860413,
+      "windows": 12,
+      "window_share": 0.03116883116883117
+    },
+    {
+      "hour": 8,
+      "flows": 72,
+      "flow_share": 0.05491990846681922,
+      "windows": 23,
+      "window_share": 0.05974025974025974
+    },
+    {
+      "hour": 9,
+      "flows": 35,
+      "flow_share": 0.02669717772692601,
+      "windows": 11,
+      "window_share": 0.02857142857142857
+    },
+    {
+      "hour": 10,
+      "flows": 71,
+      "flow_share": 0.05415713196033562,
+      "windows": 23,
+      "window_share": 0.05974025974025974
+    },
+    {
+      "hour": 11,
+      "flows": 35,
+      "flow_share": 0.02669717772692601,
+      "windows": 10,
+      "window_share": 0.025974025974025976
+    },
+    {
+      "hour": 12,
+      "flows": 76,
+      "flow_share": 0.057971014492753624,
+      "windows": 22,
+      "window_share": 0.05714285714285714
+    },
+    {
+      "hour": 13,
+      "flows": 44,
+      "flow_share": 0.033562166285278416,
+      "windows": 12,
+      "window_share": 0.03116883116883117
+    },
+    {
+      "hour": 14,
+      "flows": 73,
+      "flow_share": 0.05568268497330282,
+      "windows": 21,
+      "window_share": 0.05454545454545454
+    },
+    {
+      "hour": 15,
+      "flows": 50,
+      "flow_share": 0.03813882532418002,
+      "windows": 12,
+      "window_share": 0.03116883116883117
+    },
+    {
+      "hour": 16,
+      "flows": 72,
+      "flow_share": 0.05491990846681922,
+      "windows": 21,
+      "window_share": 0.05454545454545454
+    },
+    {
+      "hour": 17,
+      "flows": 39,
+      "flow_share": 0.029748283752860413,
+      "windows": 11,
+      "window_share": 0.02857142857142857
+    },
+    {
+      "hour": 18,
+      "flows": 72,
+      "flow_share": 0.05491990846681922,
+      "windows": 21,
+      "window_share": 0.05454545454545454
+    },
+    {
+      "hour": 19,
+      "flows": 36,
+      "flow_share": 0.02745995423340961,
+      "windows": 9,
+      "window_share": 0.023376623376623377
+    },
+    {
+      "hour": 20,
+      "flows": 70,
+      "flow_share": 0.05339435545385202,
+      "windows": 19,
+      "window_share": 0.04935064935064935
+    },
+    {
+      "hour": 21,
+      "flows": 38,
+      "flow_share": 0.028985507246376812,
+      "windows": 12,
+      "window_share": 0.03116883116883117
+    },
+    {
+      "hour": 22,
+      "flows": 80,
+      "flow_share": 0.06102212051868802,
+      "windows": 24,
+      "window_share": 0.06233766233766234
+    },
+    {
+      "hour": 23,
+      "flows": 35,
+      "flow_share": 0.02669717772692601,
+      "windows": 10,
+      "window_share": 0.025974025974025976
+    }
+  ],
+  "endpoints": {
+    "domains": {
+      "scalews.withings.net": 179,
+      "wbs02-ws.withings.net": 115,
+      "cdnfw.withings.net": 2
+    },
+    "tls_server_names": {
+      "wbs02-ws.withings.net": 101,
+      "withings.net": 52
+    },
+    "destination_ports": {
+      "udp/67": 742,
+      "udp/53": 272,
+      "tcp/80": 189,
+      "tcp/443": 108
+    },
+    "listening_ports": {
+      "icmp/0": 251
+    },
+    "destination_ips": {
+      "192.168.1.1": 542,
+      "89.30.121.150": 295,
+      "255.255.255.255": 270,
+      "0.0.0.0": 202,
+      "151.101.29.62": 2
+    },
+    "source_ips": {
+      "192.168.1.1": 251
+    },
+    "counts": {
+      "domains": 3,
+      "tls_server_names": 2,
+      "destination_ports": 4,
+      "listening_ports": 1,
+      "destination_ips": 5,
+      "source_ips": 1
+    }
+  },
+  "calibration": {
+    "components": {
+      "new_destinations": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_domains": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_ports": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "protocol_drift": {
+        "p50": 0.23301793444650537,
+        "p95": 0.3545145330859622,
+        "p99": 0.9732034632034632
+      },
+      "failed_conns": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "volume": {
+        "p50": 0.0,
+        "p95": 0.18528576414950965,
+        "p99": 0.20017574935519425
+      },
+      "flow_rate": {
+        "p50": 0.0,
+        "p95": 0.03597034960147365,
+        "p99": 0.03597034960147365
+      }
+    },
+    "baseline_scores": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.029514876160361747,
+      "max": 0.73748387109301,
+      "windows": 385
+    }
+  }
+}

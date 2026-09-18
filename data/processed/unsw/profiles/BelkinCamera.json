@@ -1,0 +1,654 @@
+{
+  "schema_version": 1,
+  "device": "BelkinCamera_b4750eece5a9",
+  "mac": "b4:75:0e:ec:e5:a9",
+  "generated_at": "2026-09-18T14:47:24.454140+00:00",
+  "frozen": true,
+  "source": {
+    "zeek_dir": "data/processed/unsw/zeek/BelkinCamera",
+    "window_seconds": 60,
+    "note": "UNSW-IoTraffic offline replay (Stage 0)"
+  },
+  "observation": {
+    "active_windows": 8662,
+    "flows": 36405,
+    "first_window": 1487682000,
+    "last_window": 1489650060,
+    "span_days": 22.778472222222224
+  },
+  "window_features": {
+    "flow_count": {
+      "median": 3.0,
+      "q1": 2.0,
+      "q3": 5.0,
+      "iqr": 3.0,
+      "mean": 4.000233045910044,
+      "min": 1,
+      "max": 17,
+      "p95": 11,
+      "p99": 15,
+      "windows_observed": 8662,
+      "windows_excluded": 80,
+      "outlier_bounds": [
+        -0.14373428441263292,
+        17.685788428448962
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_destinations": {
+      "median": 3.0,
+      "q1": 1.0,
+      "q3": 3.0,
+      "iqr": 2.0,
+      "mean": 2.544331563149388,
+      "min": 1,
+      "max": 11,
+      "p95": 5,
+      "p99": 5,
+      "windows_observed": 8662,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.1437342844126331,
+        17.685788428448973
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_domains": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 2.0,
+      "iqr": 2.0,
+      "mean": 0.7270732270732271,
+      "min": 0,
+      "max": 10,
+      "p95": 2,
+      "p99": 3,
+      "windows_observed": 8662,
+      "windows_excluded": 4,
+      "outlier_bounds": [
+        -0.9131150454866007,
+        10.509472561740038
+      ],
+      "trim_space": "log1p"
+    },
+    "domain_entropy": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 1.0,
+      "iqr": 1.0,
+      "mean": 0.34216083365244565,
+      "min": 0.0,
+      "max": 2.0,
+      "p95": 1.0,
+      "p99": 1.4716022614097979,
+      "windows_observed": 8662,
+      "windows_excluded": 14,
+      "outlier_bounds": [
+        -2.223869532987398,
+        2.223869532987398
+      ],
+      "trim_space": "linear"
+    },
+    "bytes_total": {
+      "median": 4213.0,
+      "q1": 1598.0,
+      "q3": 4670.0,
+      "iqr": 3072.0,
+      "mean": 5440.5515129683,
+      "min": 395,
+      "max": 45899,
+      "p95": 22434,
+      "p99": 30928,
+      "windows_observed": 8662,
+      "windows_excluded": 334,
+      "outlier_bounds": [
+        384.7641999945712,
+        46031.77338915824
+      ],
+      "trim_space": "log1p"
+    },
+    "orig_bytes": {
+      "median": 319.0,
+      "q1": 158.0,
+      "q3": 398.0,
+      "iqr": 240.0,
+      "mean": 348.5162154540327,
+      "min": 72,
+      "max": 1492,
+      "p95": 1011,
+      "p99": 1099,
+      "windows_observed": 8662,
+      "windows_excluded": 1570,
+      "outlier_bounds": [
+        67.02758896369241,
+        1504.2716340520717
+      ],
+      "trim_space": "log1p"
+    },
+    "resp_bytes": {
+      "median": 3894,
+      "q1": 579.0,
+      "q3": 4272.0,
+      "iqr": 3693.0,
+      "mean": 4594.728633228107,
+      "min": 56,
+      "max": 221864,
+      "p95": 18933,
+      "p99": 26352,
+      "windows_observed": 8662,
+      "windows_excluded": 109,
+      "outlier_bounds": [
+        44.89173961169726,
+        330581.9137959523
+      ],
+      "trim_space": "log1p"
+    },
+    "packets_total": {
+      "median": 22.0,
+      "q1": 21.0,
+      "q3": 28.0,
+      "iqr": 7.0,
+      "mean": 25.433531746031747,
+      "min": 7,
+      "max": 65,
+      "p95": 44,
+      "p99": 54,
+      "windows_observed": 8662,
+      "windows_excluded": 2614,
+      "outlier_bounds": [
+        6.296459611684051,
+        65.33354061536306
+      ],
+      "trim_space": "log1p"
+    },
+    "interflow_gap_variance": {
+      "median": 0.010923700067223763,
+      "q1": 0.010127797532049954,
+      "q3": 43.62017635181384,
+      "iqr": 43.61004855428179,
+      "mean": 32.61701835048043,
+      "min": 5.6843418860808015e-12,
+      "max": 661.1517634246411,
+      "p95": 148.6954939837759,
+      "p99": 347.88813660164243,
+      "windows_observed": 6317,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.9997781249920438,
+        4605.047056725491
+      ],
+      "trim_space": "log1p"
+    },
+    "tcp_failed_ratio": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.019690755476420838,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 0.0,
+      "p99": 1.0,
+      "windows_observed": 6899,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    }
+  },
+  "service_distribution": {
+    "http": {
+      "mean_share": 0.5032502109039253,
+      "windows_present": 6739,
+      "window_share": 0.7779958439159548
+    },
+    "dns": {
+      "mean_share": 0.2466227616474152,
+      "windows_present": 3186,
+      "window_share": 0.36781343800507965
+    },
+    "-": {
+      "mean_share": 0.2398784275818491,
+      "windows_present": 6396,
+      "window_share": 0.7383975987069961
+    },
+    "ssl": {
+      "mean_share": 0.008979805014206808,
+      "windows_present": 278,
+      "window_share": 0.03209420457169245
+    },
+    "dhcp": {
+      "mean_share": 0.0008459162116769844,
+      "windows_present": 42,
+      "window_share": 0.004848764719464327
+    },
+    "ntp": {
+      "mean_share": 0.0004228786409039935,
+      "windows_present": 52,
+      "window_share": 0.006003232509812976
+    }
+  },
+  "active_hours": [
+    {
+      "hour": 0,
+      "flows": 1702,
+      "flow_share": 0.046751819804971846,
+      "windows": 387,
+      "window_share": 0.044677903486492726
+    },
+    {
+      "hour": 1,
+      "flows": 1445,
+      "flow_share": 0.03969234995192968,
+      "windows": 376,
+      "window_share": 0.04340798891710921
+    },
+    {
+      "hour": 2,
+      "flows": 1852,
+      "flow_share": 0.05087213294877077,
+      "windows": 390,
+      "window_share": 0.04502424382359732
+    },
+    {
+      "hour": 3,
+      "flows": 2707,
+      "flow_share": 0.07435791786842466,
+      "windows": 442,
+      "window_share": 0.051027476333410295
+    },
+    {
+      "hour": 4,
+      "flows": 1756,
+      "flow_share": 0.04823513253673946,
+      "windows": 425,
+      "window_share": 0.049064881089817595
+    },
+    {
+      "hour": 5,
+      "flows": 1804,
+      "flow_share": 0.049553632742755115,
+      "windows": 440,
+      "window_share": 0.05079658277534057
+    },
+    {
+      "hour": 6,
+      "flows": 1644,
+      "flow_share": 0.045158632056036256,
+      "windows": 415,
+      "window_share": 0.04791041329946894
+    },
+    {
+      "hour": 7,
+      "flows": 1394,
+      "flow_share": 0.03829144348303804,
+      "windows": 347,
+      "window_share": 0.04006003232509813
+    },
+    {
+      "hour": 8,
+      "flows": 1016,
+      "flow_share": 0.027908254360664745,
+      "windows": 268,
+      "window_share": 0.0309397367813438
+    },
+    {
+      "hour": 9,
+      "flows": 1089,
+      "flow_share": 0.029913473423980222,
+      "windows": 251,
+      "window_share": 0.028977141537751095
+    },
+    {
+      "hour": 10,
+      "flows": 989,
+      "flow_share": 0.027166597994780935,
+      "windows": 239,
+      "window_share": 0.027591780189332716
+    },
+    {
+      "hour": 11,
+      "flows": 992,
+      "flow_share": 0.027249004257656917,
+      "windows": 264,
+      "window_share": 0.03047794966520434
+    },
+    {
+      "hour": 12,
+      "flows": 1016,
+      "flow_share": 0.027908254360664745,
+      "windows": 260,
+      "window_share": 0.03001616254906488
+    },
+    {
+      "hour": 13,
+      "flows": 1474,
+      "flow_share": 0.04048894382639747,
+      "windows": 386,
+      "window_share": 0.04456245670745786
+    },
+    {
+      "hour": 14,
+      "flows": 1543,
+      "flow_share": 0.04238428787254498,
+      "windows": 383,
+      "window_share": 0.04421611637035327
+    },
+    {
+      "hour": 15,
+      "flows": 1806,
+      "flow_share": 0.0496085702513391,
+      "windows": 388,
+      "window_share": 0.04479335026552759
+    },
+    {
+      "hour": 16,
+      "flows": 1450,
+      "flow_share": 0.039829693723389646,
+      "windows": 372,
+      "window_share": 0.04294620180096975
+    },
+    {
+      "hour": 17,
+      "flows": 1569,
+      "flow_share": 0.0430984754841368,
+      "windows": 374,
+      "window_share": 0.043177095359039484
+    },
+    {
+      "hour": 18,
+      "flows": 1510,
+      "flow_share": 0.041477818980909215,
+      "windows": 370,
+      "window_share": 0.04271530824290002
+    },
+    {
+      "hour": 19,
+      "flows": 1564,
+      "flow_share": 0.04296113171267683,
+      "windows": 364,
+      "window_share": 0.04202262756869083
+    },
+    {
+      "hour": 20,
+      "flows": 1445,
+      "flow_share": 0.03969234995192968,
+      "windows": 377,
+      "window_share": 0.04352343569614408
+    },
+    {
+      "hour": 21,
+      "flows": 1618,
+      "flow_share": 0.044444444444444446,
+      "windows": 373,
+      "window_share": 0.043061648580004615
+    },
+    {
+      "hour": 22,
+      "flows": 1504,
+      "flow_share": 0.04131300645515726,
+      "windows": 380,
+      "window_share": 0.043869776033248674
+    },
+    {
+      "hour": 23,
+      "flows": 1516,
+      "flow_share": 0.04164263150666117,
+      "windows": 391,
+      "window_share": 0.04513969060263218
+    }
+  ],
+  "endpoints": {
+    "domains": {
+      "www.belkin.com": 2837,
+      "d3gjecg2uu2eaq.cloudfront.net": 2836,
+      "ntp.seedonk.com": 468,
+      "api.xbcs.net": 275,
+      "origin.belkin-us.tendplatform.com": 205,
+      "time.windows.com": 52,
+      "mobile.pipe.aria.microsoft.com": 51,
+      "settings.crashlytics.com": 43,
+      "snowplow.canary.is": 42,
+      "connectivitycheck.gstatic.com": 33,
+      "mtalk.google.com": 28,
+      "ssl.google-analytics.com": 25,
+      "resolver.msg.xiaomi.net": 21,
+      "www.google.com": 21,
+      "nat.xbcs.net": 20,
+      "prod1-nat-xbcs-net-1543133972.us-east-1.elb.amazonaws.com": 20,
+      "api.samsungosp.com": 18,
+      "ws.invoxia.io": 18,
+      "device-api.urbanairship.com": 15,
+      "alt7-mtalk.google.com": 15,
+      "resolver.gslb.mi-idc.com": 15,
+      "bcmls2.glpals.com": 13,
+      "s-usc1c-nss-117.firebaseio.com": 13,
+      "android.clients.google.com": 11,
+      "b.config.skype.com": 10,
+      "ping.seedonk.com": 10,
+      "app.chat.xiaomi.net": 9,
+      "tplinkkasa.firebaseio.com": 9,
+      "e.crashlytics.com": 9,
+      "devices.xbcs.net": 8,
+      "a.root-servers.net": 7,
+      "a.config.skype.com": 6,
+      "config.edge.skype.com": 5,
+      "pitangui.amazon.com": 4,
+      "alt1-mtalk.google.com": 4,
+      "alt2-mtalk.google.com": 4,
+      "api.surfeasy.com": 4,
+      "alt4-mtalk.google.com": 4,
+      "alt3-mtalk.google.com": 4,
+      "www.googleapis.com": 4,
+      "au-odc.samsungapps.com": 4,
+      "api.tplinkra.com": 3,
+      "googleads.g.doubleclick.net": 3,
+      "imap.gmail.com": 3,
+      "play.googleapis.com": 3,
+      "analytics.localytics.com": 2,
+      "alt6-mtalk.google.com": 2,
+      "alt8-mtalk.google.com": 2,
+      "www.samsungsmartcam.com": 1,
+      "api.segment.io": 1,
+      "sip.invoxia.com": 1,
+      "web.belkin-us.tendplatform.com": 1,
+      "metrics.nt.vc": 1,
+      "pagead2.googlesyndication.com": 1,
+      "alt5-mtalk.google.com": 1,
+      "www.google.com.au": 1,
+      "safebrowsing.googleapis.com": 1
+    },
+    "tls_server_names": {
+      "api.xbcs.net": 275,
+      "xbcs.net": 12,
+      "origin.belkin-us.tendplatform.com": 12
+    },
+    "destination_ports": {
+      "tcp/49152": 11432,
+      "udp/53": 6873,
+      "udp/1900": 6674,
+      "tcp/5000": 6069,
+      "tcp/49153": 2208,
+      "udp/3087": 1398,
+      "tcp/80": 575,
+      "tcp/8443": 333,
+      "udp/50000": 311,
+      "icmp/0": 147,
+      "udp/3079": 99,
+      "udp/123": 52,
+      "tcp/443": 46,
+      "udp/67": 42,
+      "tcp/3478": 41,
+      "udp/3082": 32,
+      "tcp/5104": 31,
+      "tcp/3475": 20,
+      "tcp/8899": 8,
+      "tcp/9122": 5,
+      "icmp/3": 3,
+      "tcp/3097": 3,
+      "udp/54195": 1,
+      "tcp/3098": 1,
+      "tcp/5103": 1
+    },
+    "listening_ports": {
+      "tcp/49154": 9531,
+      "udp/50184": 9472,
+      "udp/56400": 2916,
+      "tcp/49153": 398,
+      "udp/38244": 47,
+      "tcp/80": 13,
+      "udp/59715": 8,
+      "udp/50227": 3,
+      "udp/56450": 2,
+      "udp/52501": 2,
+      "udp/47140": 2,
+      "udp/34568": 2,
+      "udp/42679": 2,
+      "udp/59472": 2,
+      "icmp/0": 2,
+      "icmp/8": 2,
+      "udp/56311": 2,
+      "udp/37740": 2,
+      "udp/36154": 2,
+      "tcp/60640": 1,
+      "udp/38628": 1,
+      "udp/48332": 1,
+      "udp/56589": 1,
+      "udp/58116": 1,
+      "icmp/3": 1,
+      "tcp/33029": 1,
+      "tcp/45620": 1,
+      "udp/60455": 1,
+      "tcp/9030": 1
+    },
+    "destination_ips": {
+      "192.168.1.1": 12684,
+      "192.168.1.193": 7896,
+      "239.255.255.250": 6641,
+      "192.168.1.248": 5420,
+      "192.168.1.223": 1582,
+      "192.168.1.159": 576,
+      "8.8.8.8": 313,
+      "192.168.1.239": 311,
+      "192.168.1.249": 309,
+      "216.58.199.68": 120,
+      "52.203.180.238": 62,
+      "23.21.45.83": 51,
+      "23.21.245.140": 50,
+      "54.243.197.83": 45,
+      "107.22.231.142": 41,
+      "50.19.255.135": 39,
+      "23.23.103.165": 37,
+      "23.21.76.183": 35,
+      "54.243.96.69": 35,
+      "52.187.60.107": 21,
+      "52.178.223.23": 19,
+      "23.23.244.247": 12,
+      "184.73.191.189": 8,
+      "40.68.115.144": 7,
+      "54.88.86.219": 7,
+      "52.4.202.62": 6,
+      "216.58.199.36": 5,
+      "50.19.247.85": 5,
+      "40.118.106.130": 5,
+      "52.203.179.71": 5,
+      "54.242.186.111": 5,
+      "54.82.112.116": 5,
+      "52.20.23.169": 5,
+      "54.226.60.164": 4,
+      "52.200.236.200": 4,
+      "255.255.255.255": 3,
+      "54.163.61.228": 2,
+      "54.225.106.176": 2,
+      "54.225.39.37": 2,
+      "54.158.211.38": 2,
+      "54.163.62.191": 2,
+      "54.167.1.54": 2,
+      "54.224.32.180": 2,
+      "54.82.44.242": 2,
+      "54.242.130.182": 2,
+      "107.20.107.179": 1,
+      "52.203.189.15": 1,
+      "54.80.248.72": 1,
+      "192.168.1.240": 1,
+      "54.226.62.227": 1,
+      "54.90.235.24": 1,
+      "50.19.212.16": 1,
+      "54.196.70.185": 1,
+      "107.20.49.226": 1,
+      "107.21.155.237": 1,
+      "107.21.167.195": 1,
+      "54.92.216.67": 1,
+      "54.226.142.2": 1,
+      "54.225.39.33": 1
+    },
+    "source_ips": {
+      "192.168.1.193": 9855,
+      "192.168.1.1": 5710,
+      "192.168.1.248": 4923,
+      "192.168.1.223": 1034,
+      "192.168.1.239": 303,
+      "192.168.1.249": 288,
+      "192.168.1.159": 287,
+      "10.68.68.100": 11,
+      "192.168.1.240": 4,
+      "192.168.1.141": 2,
+      "52.206.41.6": 1,
+      "52.4.202.62": 1,
+      "54.158.211.38": 1
+    },
+    "counts": {
+      "domains": 57,
+      "tls_server_names": 3,
+      "destination_ports": 25,
+      "listening_ports": 29,
+      "destination_ips": 59,
+      "source_ips": 13
+    }
+  },
+  "calibration": {
+    "components": {
+      "new_destinations": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_domains": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_ports": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "protocol_drift": {
+        "p50": 0.25687136151420875,
+        "p95": 0.7533772383525792,
+        "p99": 0.7601215724181455
+      },
+      "failed_conns": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "volume": {
+        "p50": 0.0,
+        "p95": 0.2735875181258785,
+        "p99": 0.36689769958608937
+      },
+      "flow_rate": {
+        "p50": 0.0,
+        "p95": 0.2765761663493357,
+        "p99": 0.3278989352339911
+      }
+    },
+    "baseline_scores": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.041913922561657935,
+      "max": 0.9964735627951026,
+      "windows": 8662
+    }
+  }
+}

@@ -1,0 +1,455 @@
+{
+  "schema_version": 1,
+  "device": "BlipCareBPMeter_746a89002e25",
+  "mac": "74:6a:89:00:2e:25",
+  "generated_at": "2026-09-18T14:47:52.362327+00:00",
+  "frozen": true,
+  "source": {
+    "zeek_dir": "data/processed/unsw/zeek/BlipCareBPMeter",
+    "window_seconds": 60,
+    "note": "UNSW-IoTraffic offline replay (Stage 0)"
+  },
+  "observation": {
+    "active_windows": 14,
+    "flows": 48,
+    "first_window": 1475562000,
+    "last_window": 1491799680,
+    "span_days": 187.9361111111111
+  },
+  "window_features": {
+    "flow_count": {
+      "median": 4,
+      "q1": 4.0,
+      "q3": 4.0,
+      "iqr": 0.0,
+      "mean": 3.8181818181818183,
+      "min": 3,
+      "max": 4,
+      "p95": 4,
+      "p99": 4,
+      "windows_observed": 14,
+      "windows_excluded": 3,
+      "outlier_bounds": [
+        2.0440710087774665,
+        7.212686211298428
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_destinations": {
+      "median": 3.0,
+      "q1": 2.0,
+      "q3": 3.0,
+      "iqr": 1.0,
+      "mean": 2.642857142857143,
+      "min": 2,
+      "max": 3,
+      "p95": 3,
+      "p99": 3,
+      "windows_observed": 14,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        1.1096603543058603,
+        6.584159207117709
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_domains": {
+      "median": 1.0,
+      "q1": 1.0,
+      "q3": 1.0,
+      "iqr": 0.0,
+      "mean": 0.8571428571428571,
+      "min": 0,
+      "max": 1,
+      "p95": 1,
+      "p99": 1,
+      "windows_observed": 14,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "log1p"
+    },
+    "domain_entropy": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "windows_observed": 14,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    },
+    "bytes_total": {
+      "median": 3407.5,
+      "q1": 1892.0,
+      "q3": 3947.0,
+      "iqr": 2055.0,
+      "mean": 3035.5,
+      "min": 1216,
+      "max": 4528,
+      "p95": 4111,
+      "p99": 4528,
+      "windows_observed": 14,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        660.7508319644605,
+        17541.4819120189
+      ],
+      "trim_space": "log1p"
+    },
+    "orig_bytes": {
+      "median": 1403.5,
+      "q1": 783.75,
+      "q3": 1661.0,
+      "iqr": 877.25,
+      "mean": 1295.0,
+      "min": 616,
+      "max": 1969,
+      "p95": 1762,
+      "p99": 1969,
+      "windows_observed": 14,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        260.633322657639,
+        7528.889465104349
+      ],
+      "trim_space": "log1p"
+    },
+    "resp_bytes": {
+      "median": 2004.0,
+      "q1": 1014.75,
+      "q3": 2259.0,
+      "iqr": 1244.25,
+      "mean": 1740.5,
+      "min": 600,
+      "max": 2559,
+      "p95": 2424,
+      "p99": 2559,
+      "windows_observed": 14,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        325.0188085996265,
+        12323.44231441376
+      ],
+      "trim_space": "log1p"
+    },
+    "packets_total": {
+      "median": 47.5,
+      "q1": 14.25,
+      "q3": 49.0,
+      "iqr": 34.75,
+      "mean": 36.285714285714285,
+      "min": 4,
+      "max": 55,
+      "p95": 54,
+      "p99": 55,
+      "windows_observed": 14,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        0.612427661312189,
+        1456.4297231341066
+      ],
+      "trim_space": "log1p"
+    },
+    "interflow_gap_variance": {
+      "median": 1.0358146944601887,
+      "q1": 0.8892901159853086,
+      "q3": 1.562865235362431,
+      "iqr": 0.6735751193771224,
+      "mean": 1.0420121962716218,
+      "min": 1.4568661905893046e-05,
+      "max": 1.7937913549778968,
+      "p95": 1.7937913549778968,
+      "p99": 1.7937913549778968,
+      "windows_observed": 11,
+      "windows_excluded": 1,
+      "outlier_bounds": [
+        -0.04379344759324012,
+        3.6028738964754035
+      ],
+      "trim_space": "log1p"
+    },
+    "tcp_failed_ratio": {
+      "median": 1.0,
+      "q1": 1.0,
+      "q3": 1.0,
+      "iqr": 0.0,
+      "mean": 0.9,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "windows_observed": 10,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    }
+  },
+  "service_distribution": {
+    "dhcp": {
+      "mean_share": 0.5595238095238095,
+      "windows_present": 13,
+      "window_share": 0.9285714285714286
+    },
+    "dns": {
+      "mean_share": 0.24404761904761904,
+      "windows_present": 12,
+      "window_share": 0.8571428571428571
+    },
+    "ssl": {
+      "mean_share": 0.19642857142857142,
+      "windows_present": 10,
+      "window_share": 0.7142857142857143
+    }
+  },
+  "active_hours": [
+    {
+      "hour": 0,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 1,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 2,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 3,
+      "flows": 12,
+      "flow_share": 0.25,
+      "windows": 4,
+      "window_share": 0.2857142857142857
+    },
+    {
+      "hour": 4,
+      "flows": 12,
+      "flow_share": 0.25,
+      "windows": 3,
+      "window_share": 0.21428571428571427
+    },
+    {
+      "hour": 5,
+      "flows": 8,
+      "flow_share": 0.16666666666666666,
+      "windows": 2,
+      "window_share": 0.14285714285714285
+    },
+    {
+      "hour": 6,
+      "flows": 12,
+      "flow_share": 0.25,
+      "windows": 4,
+      "window_share": 0.2857142857142857
+    },
+    {
+      "hour": 7,
+      "flows": 4,
+      "flow_share": 0.08333333333333333,
+      "windows": 1,
+      "window_share": 0.07142857142857142
+    },
+    {
+      "hour": 8,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 9,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 10,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 11,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 12,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 13,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 14,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 15,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 16,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 17,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 18,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 19,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 20,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 21,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 22,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 23,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    }
+  ],
+  "endpoints": {
+    "domains": {
+      "tech.carematix.com": 14
+    },
+    "tls_server_names": {},
+    "destination_ports": {
+      "udp/67": 26,
+      "udp/53": 12,
+      "tcp/8777": 10
+    },
+    "listening_ports": {
+      "icmp/0": 6
+    },
+    "destination_ips": {
+      "192.168.1.1": 25,
+      "255.255.255.255": 13,
+      "65.182.180.12": 10
+    },
+    "source_ips": {
+      "192.168.1.1": 6
+    },
+    "counts": {
+      "domains": 1,
+      "tls_server_names": 0,
+      "destination_ports": 3,
+      "listening_ports": 1,
+      "destination_ips": 3,
+      "source_ips": 1
+    }
+  },
+  "calibration": {
+    "components": {
+      "new_destinations": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_domains": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_ports": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "protocol_drift": {
+        "p50": 0.059523809523809534,
+        "p95": 0.44047619047619047,
+        "p99": 0.5595238095238095
+      },
+      "failed_conns": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "volume": {
+        "p50": 0.0,
+        "p95": 0.054278551991160155,
+        "p99": 0.07998509396146644
+      },
+      "flow_rate": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      }
+    },
+    "baseline_scores": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "max": 0.0,
+      "windows": 14
+    }
+  }
+}

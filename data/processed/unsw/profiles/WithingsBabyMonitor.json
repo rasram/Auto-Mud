@@ -1,0 +1,466 @@
+{
+  "schema_version": 1,
+  "device": "WithingsBabyMonitor_0024e41118a8",
+  "mac": "00:24:e4:11:18:a8",
+  "generated_at": "2026-09-18T14:48:50.831943+00:00",
+  "frozen": true,
+  "source": {
+    "zeek_dir": "data/processed/unsw/zeek/WithingsBabyMonitor",
+    "window_seconds": 60,
+    "note": "UNSW-IoTraffic offline replay (Stage 0)"
+  },
+  "observation": {
+    "active_windows": 4503,
+    "flows": 11245,
+    "first_window": 1474552860,
+    "last_window": 1475812920,
+    "span_days": 14.584027777777777
+  },
+  "window_features": {
+    "flow_count": {
+      "median": 2,
+      "q1": 2.0,
+      "q3": 2.0,
+      "iqr": 0.0,
+      "mean": 2.4972240728403285,
+      "min": 1,
+      "max": 23,
+      "p95": 6,
+      "p99": 6,
+      "windows_observed": 4503,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "log1p"
+    },
+    "unique_destinations": {
+      "median": 2,
+      "q1": 2.0,
+      "q3": 2.0,
+      "iqr": 0.0,
+      "mean": 1.9851210304241618,
+      "min": 1,
+      "max": 4,
+      "p95": 2,
+      "p99": 2,
+      "windows_observed": 4503,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "log1p"
+    },
+    "unique_domains": {
+      "median": 1,
+      "q1": 1.0,
+      "q3": 1.0,
+      "iqr": 0.0,
+      "mean": 0.9880079946702198,
+      "min": 0,
+      "max": 2,
+      "p95": 1,
+      "p99": 1,
+      "windows_observed": 4503,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "log1p"
+    },
+    "domain_entropy": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.0006662225183211193,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "windows_observed": 4503,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    },
+    "bytes_total": {
+      "median": 2407.0,
+      "q1": 748.0,
+      "q3": 2417.0,
+      "iqr": 1669.0,
+      "mean": 1831.689808633734,
+      "min": 186,
+      "max": 14027,
+      "p95": 3170,
+      "p99": 5006,
+      "windows_observed": 4503,
+      "windows_excluded": 9,
+      "outlier_bounds": [
+        176.7311889112865,
+        32623.909761304047
+      ],
+      "trim_space": "log1p"
+    },
+    "orig_bytes": {
+      "median": 786,
+      "q1": 430.0,
+      "q3": 1883.0,
+      "iqr": 1453.0,
+      "mean": 1154.0504780965089,
+      "min": 37,
+      "max": 6829,
+      "p95": 2231,
+      "p99": 2420,
+      "windows_observed": 4503,
+      "windows_excluded": 6,
+      "outlier_bounds": [
+        28.60437117377163,
+        20920.53879453914
+      ],
+      "trim_space": "log1p"
+    },
+    "resp_bytes": {
+      "median": 532,
+      "q1": 318.0,
+      "q3": 532.0,
+      "iqr": 214.0,
+      "mean": 454.5416983523447,
+      "min": 242,
+      "max": 1303,
+      "p95": 825,
+      "p99": 850,
+      "windows_observed": 4503,
+      "windows_excluded": 558,
+      "outlier_bounds": [
+        169.19447641010663,
+        1668.202232600363
+      ],
+      "trim_space": "log1p"
+    },
+    "packets_total": {
+      "median": 15.0,
+      "q1": 11.0,
+      "q3": 15.0,
+      "iqr": 4.0,
+      "mean": 14.848803827751196,
+      "min": 9,
+      "max": 29,
+      "p95": 25,
+      "p99": 27,
+      "windows_observed": 4503,
+      "windows_excluded": 323,
+      "outlier_bounds": [
+        7.438641417223439,
+        29.33663682847084
+      ],
+      "trim_space": "log1p"
+    },
+    "interflow_gap_variance": {
+      "median": 0.09650109882379639,
+      "q1": 0.0746188300815144,
+      "q3": 44.03579500072003,
+      "iqr": 43.96117617063852,
+      "mean": 57.998548532299985,
+      "min": 0.002066235536744898,
+      "max": 683.8293287307986,
+      "p95": 347.2718231964595,
+      "p99": 554.6963811523763,
+      "windows_observed": 850,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.9997294609098216,
+        4443.143773564685
+      ],
+      "trim_space": "log1p"
+    },
+    "tcp_failed_ratio": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.0016884286357496624,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "windows_observed": 4442,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    }
+  },
+  "service_distribution": {
+    "dns": {
+      "mean_share": 0.4950352914579662,
+      "windows_present": 4446,
+      "window_share": 0.9873417721518988
+    },
+    "http": {
+      "mean_share": 0.4929011264729481,
+      "windows_present": 4434,
+      "window_share": 0.9846768820786143
+    },
+    "dhcp": {
+      "mean_share": 0.010842174118830266,
+      "windows_present": 59,
+      "window_share": 0.01310237619364868
+    },
+    "-": {
+      "mean_share": 0.0012214079502553853,
+      "windows_present": 10,
+      "window_share": 0.0022207417277370642
+    }
+  },
+  "active_hours": [
+    {
+      "hour": 0,
+      "flows": 593,
+      "flow_share": 0.05273454868830591,
+      "windows": 243,
+      "window_share": 0.05396402398401066
+    },
+    {
+      "hour": 1,
+      "flows": 652,
+      "flow_share": 0.05798132503334816,
+      "windows": 257,
+      "window_share": 0.05707306240284255
+    },
+    {
+      "hour": 2,
+      "flows": 586,
+      "flow_share": 0.05211204979991107,
+      "windows": 233,
+      "window_share": 0.051743282256273594
+    },
+    {
+      "hour": 3,
+      "flows": 651,
+      "flow_share": 0.05789239662072032,
+      "windows": 254,
+      "window_share": 0.05640683988452143
+    },
+    {
+      "hour": 4,
+      "flows": 438,
+      "flow_share": 0.03895064473099155,
+      "windows": 185,
+      "window_share": 0.041083721963135686
+    },
+    {
+      "hour": 5,
+      "flows": 599,
+      "flow_share": 0.053268119164072925,
+      "windows": 224,
+      "window_share": 0.04974461470131024
+    },
+    {
+      "hour": 6,
+      "flows": 522,
+      "flow_share": 0.04642063139172966,
+      "windows": 220,
+      "window_share": 0.048856318010215415
+    },
+    {
+      "hour": 7,
+      "flows": 530,
+      "flow_share": 0.04713205869275233,
+      "windows": 203,
+      "window_share": 0.045081057073062404
+    },
+    {
+      "hour": 8,
+      "flows": 376,
+      "flow_share": 0.03343708314806581,
+      "windows": 155,
+      "window_share": 0.034421496779924496
+    },
+    {
+      "hour": 9,
+      "flows": 430,
+      "flow_share": 0.03823921742996887,
+      "windows": 171,
+      "window_share": 0.0379746835443038
+    },
+    {
+      "hour": 10,
+      "flows": 364,
+      "flow_share": 0.03236994219653179,
+      "windows": 152,
+      "window_share": 0.03375527426160337
+    },
+    {
+      "hour": 11,
+      "flows": 408,
+      "flow_share": 0.036282792352156513,
+      "windows": 156,
+      "window_share": 0.034643570952698204
+    },
+    {
+      "hour": 12,
+      "flows": 350,
+      "flow_share": 0.031124944419742107,
+      "windows": 151,
+      "window_share": 0.03353320008882967
+    },
+    {
+      "hour": 13,
+      "flows": 396,
+      "flow_share": 0.0352156514006225,
+      "windows": 155,
+      "window_share": 0.034421496779924496
+    },
+    {
+      "hour": 14,
+      "flows": 378,
+      "flow_share": 0.033614939973321475,
+      "windows": 155,
+      "window_share": 0.034421496779924496
+    },
+    {
+      "hour": 15,
+      "flows": 452,
+      "flow_share": 0.04019564250778124,
+      "windows": 177,
+      "window_share": 0.03930712858094604
+    },
+    {
+      "hour": 16,
+      "flows": 364,
+      "flow_share": 0.03236994219653179,
+      "windows": 154,
+      "window_share": 0.03419942260715079
+    },
+    {
+      "hour": 17,
+      "flows": 428,
+      "flow_share": 0.038061360604713206,
+      "windows": 160,
+      "window_share": 0.03553186764379303
+    },
+    {
+      "hour": 18,
+      "flows": 373,
+      "flow_share": 0.033170297910182306,
+      "windows": 163,
+      "window_share": 0.036198090162114144
+    },
+    {
+      "hour": 19,
+      "flows": 464,
+      "flow_share": 0.04126278345931525,
+      "windows": 175,
+      "window_share": 0.03886298023539862
+    },
+    {
+      "hour": 20,
+      "flows": 392,
+      "flow_share": 0.03485993775011116,
+      "windows": 163,
+      "window_share": 0.036198090162114144
+    },
+    {
+      "hour": 21,
+      "flows": 507,
+      "flow_share": 0.04508670520231214,
+      "windows": 198,
+      "window_share": 0.04397068620919387
+    },
+    {
+      "hour": 22,
+      "flows": 456,
+      "flow_share": 0.04055135615829258,
+      "windows": 191,
+      "window_share": 0.042416166999777925
+    },
+    {
+      "hour": 23,
+      "flows": 536,
+      "flow_share": 0.047665629168519345,
+      "windows": 208,
+      "window_share": 0.046191427936930936
+    }
+  ],
+  "endpoints": {
+    "domains": {
+      "babyws.withings.net": 5581,
+      "fr-eqx-fwd-03.withings.com": 9,
+      "fr-on-vm-02-lxc-05.withings.net": 2,
+      "fr-on-fwd-01.withings.net": 1,
+      "us-iweb-fwd-05-lxc-02.withings.net": 1
+    },
+    "tls_server_names": {},
+    "destination_ports": {
+      "udp/53": 5593,
+      "tcp/80": 5581,
+      "udp/67": 60,
+      "tcp/1935": 8,
+      "udp/5353": 3
+    },
+    "listening_ports": {
+      "icmp/1": 3,
+      "tcp/37802": 1
+    },
+    "destination_ips": {
+      "192.168.1.1": 5652,
+      "89.30.121.150": 5581,
+      "89.30.121.13": 6,
+      "224.0.0.251": 3,
+      "195.154.50.167": 1,
+      "255.255.255.255": 1,
+      "198.50.110.244": 1
+    },
+    "source_ips": {
+      "149.171.37.162": 3,
+      "212.83.131.101": 1
+    },
+    "counts": {
+      "domains": 5,
+      "tls_server_names": 0,
+      "destination_ports": 5,
+      "listening_ports": 2,
+      "destination_ips": 7,
+      "source_ips": 2
+    }
+  },
+  "calibration": {
+    "components": {
+      "new_destinations": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_domains": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_ports": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "protocol_drift": {
+        "p50": 0.012063582069085674,
+        "p95": 0.012063582069085674,
+        "p99": 0.9891578258811697
+      },
+      "failed_conns": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "volume": {
+        "p50": 0.0,
+        "p95": 0.05015670869423658,
+        "p99": 0.12314377103004197
+      },
+      "flow_rate": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      }
+    },
+    "baseline_scores": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.00013431609029290748,
+      "max": 1.0,
+      "windows": 4503
+    }
+  }
+}
