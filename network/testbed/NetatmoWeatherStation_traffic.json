@@ -1,0 +1,32 @@
+[
+  {
+    "flow_type": "cloud",
+    "device": "NetatmoWeatherStation_70ee5003b8ac_flows",
+    "src_ip": "10.0.0.20",
+    "timestamp": "2026-09-18T07:02:15.482802+00:00",
+    "destination": "192.168.1.112",
+    "dst_port": 53,
+    "ip_proto": "17",
+    "protocol": "icmpv6",
+    "duration_sec": 102563.234,
+    "src_num_packets": 9,
+    "dst_num_packets": 4,
+    "src_avg_payload_bytes": 54.1,
+    "dst_avg_payload_bytes": 47.6
+  },
+  {
+    "flow_type": "cloud",
+    "device": "NetatmoWeatherStation_70ee5003b8ac_flows",
+    "src_ip": "10.0.0.20",
+    "timestamp": "2026-09-18T09:22:04.652138+00:00",
+    "destination": "192.168.1.112",
+    "dst_port": 68,
+    "ip_proto": "17",
+    "protocol": "dhcp",
+    "duration_sec": 5926.639,
+    "src_num_packets": 6,
+    "dst_num_packets": 2,
+    "src_avg_payload_bytes": 24.4,
+    "dst_avg_payload_bytes": 702.7
+  }
+]
