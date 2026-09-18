@@ -23,11 +23,11 @@ htmlcov/
 .env.*
 
 # ---------- Packet captures & traffic logs ----------
-*.pcap
-*.pcapng
-*.cap
+#*.pcap
+#*.pcapng
+#*.cap
 # Zeek output
-*.log
+#*.log
 .state/
 spool/
 
@@ -58,7 +58,6 @@ data/**/*.rar
 *.safetensors
 *.onnx
 checkpoints/
-runs/
 lightning_logs/
 wandb/
 mlruns/
@@ -82,13 +81,5 @@ Thumbs.db
 .idea/
 *.swp
 
-# ---------- Dataset contents (raw + processed) ----------
-# All downloaded and derived data stays local. Directory READMEs/.gitkeep remain tracked.
+# ---------- Dataset contents ----------
 data/raw/**
-data/processed/**
-!data/raw/**/
-!data/processed/**/
-!data/raw/**/README.md
-!data/processed/**/README.md
-!data/raw/**/.gitkeep
-!data/processed/**/.gitkeep

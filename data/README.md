@@ -7,5 +7,10 @@ The directory structure is committed, but large files (PCAPs, CSVs, Zeek logs, m
 | Subdirectory | Contents |
 |---|---|
 | `raw/` | Original datasets, unmodified |
-| `processed/` | Extracted features and graph snapshots derived from `raw/` |
-| `artifacts/` | Frozen outputs of Stage 0 that the live loop consumes |
+| `processed/` | Reproducible derived data, including generated testbed traffic, run logs, captures, extracted features, and graph snapshots |
+| `artifacts/` | Versioned or separately shared frozen outputs consumed by generators and the live inference loop |
+
+Generated testbed data belongs under `processed/testbed/`, not beside runtime
+code in `network/testbed/`. The calibrated statistics used to generate that
+traffic live under `artifacts/traffic_generation/` because they are an input
+to repeatable runs rather than the output of one run.

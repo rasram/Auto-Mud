@@ -53,8 +53,8 @@ integration/      Live-loop orchestration, decision engine, LLM explanations, ev
   orchestrator/  decision_engine/  explanation/  evaluation/
 dashboard/        Web dashboard
   backend/ (FastAPI)  frontend/ (React)
-data/             Datasets and frozen artifacts (large files git-ignored)
-  raw/  processed/  artifacts/
+data/             Original datasets, reproducible derived data, and frozen artifacts
+  raw/  processed/ (including testbed traffic/runs)  artifacts/
 configs/          Shared configuration
 scripts/          Cross-cutting helper scripts
 common/           Shared Python utilities
@@ -71,4 +71,6 @@ Every directory has a `README.md` that describes what goes there and who owns it
 
 ## Status
 
-Repository skeleton only. No implementation yet. Modules will be built one at a time, and dependency versions in `requirements.txt` will be pinned as each module is built.
+The initial Mininet topology and calibrated traffic-generation workflow are in
+place. Other modules will be built incrementally, and dependency versions in
+`requirements.txt` will be pinned as each module is implemented.

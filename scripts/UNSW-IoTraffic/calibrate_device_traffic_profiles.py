@@ -14,7 +14,7 @@ needed to parameterize the Mininet traffic-generation scripts:
     - active-hours histogram
 
 Usage:
-    python calibrate_device_traffic_profiles.py --folder /path/to/csvs --out device_traffic_profiles.json
+    python calibrate_device_traffic_profiles.py --folder /path/to/csvs
 
 Assumes columns matching:
     time, srcMac, dstMac, ethType, srcIp, dstIp, ipProto, srcPort, dstPort,
@@ -35,7 +35,14 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 
-RESULTS_DIR = Path(__file__).resolve().parents[2] / "results"
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_OUTPUT = (
+    PROJECT_ROOT
+    / "data"
+    / "artifacts"
+    / "traffic_generation"
+    / "device_traffic_profiles.json"
+)
 
 # ---------------------------------------------------------------------------
 # Columns of interest
@@ -259,11 +266,14 @@ def compute_device_profile(df_per_file: dict) -> dict:
 def main():
     parser = argparse.ArgumentParser(description="Calibrate per-device traffic profiles from flow CSVs.")
     parser.add_argument("--folder", required=True, help="Folder containing the flow CSV files.")
-    parser.add_argument("--out", default=str(RESULTS_DIR / "device_traffic_profiles.json"), help="Output JSON file path.")
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=DEFAULT_OUTPUT,
+        help="Output JSON file path (default: data/artifacts/traffic_generation/device_traffic_profiles.json).",
+    )
     parser.add_argument("--pattern", default="*.csv", help="Glob pattern for CSV files (default: *.csv).")
     args = parser.parse_args()
-    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-
     folder = Path(args.folder)
     csv_files = sorted(folder.glob(args.pattern))
 
@@ -302,7 +312,8 @@ def main():
             print(f"  Excluded {len(excluded)} day(s) from active-hours calibration "
                   f"(too few flows or single-hour concentration): {excluded}")
 
-    with open(args.out, "w") as f:
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    with args.out.open("w") as f:
         json.dump(all_profiles, f, indent=2)
 
     print(f"\nSaved calibration profiles for {len(all_profiles)} devices to {args.out}")
