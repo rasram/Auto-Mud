@@ -1,0 +1,8 @@
+device,generated_file,reference_file,profile_fidelity_percent,overall_similarity_percent,endpoint_precision,endpoint_recall,service_f1,protocol_f1,ace_f1
+blipcarebpmeter,BlipCareBPMeter_746a89002e25.mud.json,blipcareBPmeterMud.json,87.5,80.44,0.875,0.875,0.7619,0.7059,0.7619
+hellobarbie,HelloBarbie_28c2ddffa52d.mud.json,hellobarbieMud.json,91.67,79.82,0.9167,0.9167,0.6957,0.7059,0.7059
+pixstarphotoframe,PixStarPhotoFrame_e076d033bb85.mud.json,pixstarphotoframeMud.json,83.33,68.19,0.6667,0.8333,0.6829,0.6957,0.4898
+ringdoorbell,RingDoorBell_884aea31669d.mud.json,ringdoorbellMud.json,68.75,59.77,0.55,0.6875,0.5581,0.8,0.4211
+tplinkcamera,TPLinkCamera_f4f26D9351f1.mud.json,tplinkcameraMud.json,86.36,57.2,0.6333,0.8636,0.3137,0.7778,0.3206
+tplinkplug,TPLinkSmartPlug_50c7bf005639.mud.json,tplinkplugMud.json,75.86,74.71,0.9565,0.7586,0.6154,0.75,0.6667
+withingscardio,WithingsSmartScale_0024e41b6f96.mud.json,withingscardioMud.json,71.43,65.92,0.5,0.7143,0.7619,0.8,0.56

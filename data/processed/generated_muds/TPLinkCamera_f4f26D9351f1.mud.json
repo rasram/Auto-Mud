@@ -1,0 +1,3361 @@
+{
+  "ietf-mud:mud": {
+    "mud-version": 1,
+    "mud-url": "urn:automud:generated:tplinkcamera",
+    "last-update": "2026-09-18T19:28:33+00:00",
+    "cache-validity": 48,
+    "is-supported": true,
+    "systeminfo": "TPLinkCamera",
+    "from-device-policy": {
+      "access-lists": {
+        "access-list": [
+          {
+            "name": "from-ipv4-tplinkcamera"
+          },
+          {
+            "name": "from-ethernet-tplinkcamera"
+          }
+        ]
+      }
+    },
+    "to-device-policy": {
+      "access-lists": {
+        "access-list": [
+          {
+            "name": "to-ipv4-tplinkcamera"
+          },
+          {
+            "name": "to-ethernet-tplinkcamera"
+          }
+        ]
+      }
+    }
+  },
+  "ietf-access-control-list:access-lists": {
+    "acl": [
+      {
+        "name": "from-ipv4-tplinkcamera",
+        "type": "ipv4-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "from-ipv4-tplinkcamera-0",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 1
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-1",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "129.94.5.92/32"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-2",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "149.171.37.162/32"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-3",
+              "matches": {
+                "ietf-mud:mud": {
+                  "controller": "urn:ietf:params:mud:dns"
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 53
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-4",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 67
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-5",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 5353
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-6",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 12340
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-7",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 12597
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-8",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 12601
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-9",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 12897
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-10",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13104
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-11",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13112
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-12",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13155
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-13",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13157
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-14",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13366
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-15",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13367
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-16",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13619
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-17",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13665
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-18",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13876
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-19",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13880
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-20",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 13922
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-21",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14132
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-22",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14180
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-23",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14384
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-24",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14436
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-25",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14438
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-26",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14643
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-27",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14644
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-28",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14645
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-29",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14647
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-30",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 14690
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-31",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 24883
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-32",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 24888
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-33",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 24933
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-34",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 24934
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-35",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25189
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-36",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25392
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-37",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25393
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-38",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25394
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-39",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25442
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-40",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25444
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-41",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25446
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-42",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25648
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-43",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25655
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-44",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25697
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-45",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25698
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-46",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25908
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-47",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 25912
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-48",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 26163
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-49",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 26210
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-50",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 26214
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-51",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 62733
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-52",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 40443
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-53",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 46128
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-54",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 50662
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-55",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "ietf-acldns:dst-dnsname": "0.pool.ntp.org"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 123
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-56",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "224.0.0.251/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 5353
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-57",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "239.255.255.250/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 3702
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-58",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "239.255.255.250/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 29285
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-59",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "255.255.255.255/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 67
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-60",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "255.255.255.255/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 40809
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-61",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "255.255.255.255/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 58419
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-62",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "255.255.255.255/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 58672
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-63",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "52.221.220.40/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 3478
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-64",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "52.74.225.231/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 3478
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-65",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "52.76.40.177/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 3478
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-66",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "ietf-acldns:dst-dnsname": "sg-stun.tplinkcloud.com"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 3478
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-67",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "ietf-acldns:dst-dnsname": "sg-stun.tplinkcloud.com"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 8089
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-68",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 2,
+                  "dst-ipv4-network": "224.0.0.1/32"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-69",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 2,
+                  "dst-ipv4-network": "224.0.0.2/32"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-70",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 2,
+                  "dst-ipv4-network": "224.0.0.251/32"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-71",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 6
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 9999
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-72",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 6
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 8080
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-73",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 6
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 80
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-74",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:dst-dnsname": "ipc.tplinkcloud.com"
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 80
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-75",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:dst-dnsname": "aps1-relay.tplinkcloud.com"
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 80
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-tplinkcamera-76",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:dst-dnsname": "devs.tplinkcloud.com"
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 50443
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "from-ethernet-tplinkcamera",
+        "type": "ethernet-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "from-ethernet-tplinkcamera-0",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "eth": {
+                  "ethertype": "0x0006"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ethernet-tplinkcamera-1",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "eth": {
+                  "ethertype": "0x888e"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ethernet-tplinkcamera-2",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "eth": {
+                  "ethertype": "0x0806"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "to-ipv4-tplinkcamera",
+        "type": "ipv4-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "to-ipv4-tplinkcamera-0",
+              "matches": {
+                "ipv4": {
+                  "protocol": 1,
+                  "src-ipv4-network": "129.94.5.92/32"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-1",
+              "matches": {
+                "ipv4": {
+                  "protocol": 1,
+                  "src-ipv4-network": "149.171.37.162/32"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-2",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 1
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-3",
+              "matches": {
+                "ietf-mud:mud": {
+                  "controller": "urn:ietf:params:mud:dns"
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 53
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-4",
+              "matches": {
+                "ietf-mud:mud": {
+                  "controller": "urn:ietf:params:mud:gateway"
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 67
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-5",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 16740
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-6",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "ietf-acldns:src-dnsname": "0.pool.ntp.org"
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 123
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-7",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "src-ipv4-network": "52.221.220.40/32"
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 3478
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-8",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "src-ipv4-network": "52.74.225.231/32"
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 3478
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-9",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "src-ipv4-network": "52.76.40.177/32"
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 3478
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-10",
+              "matches": {
+                "ipv4": {
+                  "protocol": 17,
+                  "ietf-acldns:src-dnsname": "sg-stun.tplinkcloud.com"
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 3478
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-11",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 6
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 9999
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-12",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 6
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 8080
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-13",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 6
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 80
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-14",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:src-dnsname": "ipc.tplinkcloud.com"
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 80
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-15",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:src-dnsname": "aps1-relay.tplinkcloud.com"
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 80
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-tplinkcamera-16",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:src-dnsname": "devs.tplinkcloud.com"
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 50443
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "to-ethernet-tplinkcamera",
+        "type": "ethernet-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "to-ethernet-tplinkcamera-0",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "eth": {
+                  "ethertype": "0x0806"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "automud:behavioral-statistics": {
+    "source-pcap": "TPLinkCamera_f4f26D9351f1.pcap",
+    "device-mac": "f4:f2:6d:93:51:f1",
+    "packets-observed": 435198,
+    "window-seconds": 300,
+    "total-windows": 56160,
+    "filter": {
+      "min-packets": 2,
+      "min-window-support": 0.0
+    },
+    "rules": [
+      {
+        "ace": "from-ipv4-tplinkcamera-0",
+        "packets": 3,
+        "bytes": 378,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-1",
+        "packets": 11646,
+        "bytes": 815220,
+        "window_support": 0.0292,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-2",
+        "packets": 2254,
+        "bytes": 157780,
+        "window_support": 0.0056,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-3",
+        "packets": 5303,
+        "bytes": 450073,
+        "window_support": 0.082,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-4",
+        "packets": 163,
+        "bytes": 96170,
+        "window_support": 0.0028,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-5",
+        "packets": 2,
+        "bytes": 360,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-6",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-7",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-8",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-9",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-10",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-11",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-12",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-13",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-14",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-15",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-16",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-17",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-18",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-19",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-20",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-21",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-22",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-23",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-24",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-25",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-26",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-27",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-28",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-29",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-30",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-31",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-32",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-33",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-34",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-35",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-36",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-37",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-38",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-39",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-40",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-41",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-42",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-43",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-44",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-45",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-46",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-47",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-48",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-49",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-50",
+        "packets": 2,
+        "bytes": 2222,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-51",
+        "packets": 96,
+        "bytes": 145344,
+        "window_support": 0.0002,
+        "packets_per_5m": {
+          "median": 11.0,
+          "iqr": 8.0,
+          "mean": 8.727,
+          "stddev": 4.371,
+          "upper_3sigma": 21.841
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-52",
+        "packets": 3,
+        "bytes": 210,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 3.0,
+          "iqr": 0.0,
+          "mean": 3.0,
+          "stddev": 0.0,
+          "upper_3sigma": 3.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-53",
+        "packets": 3,
+        "bytes": 210,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 3.0,
+          "iqr": 0.0,
+          "mean": 3.0,
+          "stddev": 0.0,
+          "upper_3sigma": 3.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-54",
+        "packets": 3,
+        "bytes": 210,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 3.0,
+          "iqr": 0.0,
+          "mean": 3.0,
+          "stddev": 0.0,
+          "upper_3sigma": 3.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-55",
+        "packets": 42,
+        "bytes": 3780,
+        "window_support": 0.0007,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-56",
+        "packets": 209,
+        "bytes": 46451,
+        "window_support": 0.0008,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-57",
+        "packets": 1,
+        "bytes": 1514,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 1.0,
+          "iqr": 0.0,
+          "mean": 1.0,
+          "stddev": 0.0,
+          "upper_3sigma": 1.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-58",
+        "packets": 1,
+        "bytes": 667,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 1.0,
+          "iqr": 0.0,
+          "mean": 1.0,
+          "stddev": 0.0,
+          "upper_3sigma": 1.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-59",
+        "packets": 8,
+        "bytes": 4720,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-60",
+        "packets": 3,
+        "bytes": 1578,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 3.0,
+          "iqr": 0.0,
+          "mean": 3.0,
+          "stddev": 0.0,
+          "upper_3sigma": 3.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-61",
+        "packets": 3,
+        "bytes": 1578,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 3.0,
+          "iqr": 0.0,
+          "mean": 3.0,
+          "stddev": 0.0,
+          "upper_3sigma": 3.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-62",
+        "packets": 3,
+        "bytes": 1578,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 3.0,
+          "iqr": 0.0,
+          "mean": 3.0,
+          "stddev": 0.0,
+          "upper_3sigma": 3.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-63",
+        "packets": 694,
+        "bytes": 48580,
+        "window_support": 0.0122,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-64",
+        "packets": 211,
+        "bytes": 14770,
+        "window_support": 0.0037,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-65",
+        "packets": 1089,
+        "bytes": 76230,
+        "window_support": 0.0191,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-66",
+        "packets": 36062,
+        "bytes": 2524340,
+        "window_support": 0.0365,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-67",
+        "packets": 2088,
+        "bytes": 114845,
+        "window_support": 0.0364,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-68",
+        "packets": 26762,
+        "bytes": 1231066,
+        "window_support": 0.1995,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-69",
+        "packets": 29,
+        "bytes": 1376,
+        "window_support": 0.0002,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-70",
+        "packets": 20,
+        "bytes": 920,
+        "window_support": 0.0002,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-71",
+        "packets": 2,
+        "bytes": 108,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-72",
+        "packets": 69,
+        "bytes": 58956,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-73",
+        "packets": 894,
+        "bytes": 867462,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-74",
+        "packets": 18,
+        "bytes": 1665,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-75",
+        "packets": 20342,
+        "bytes": 1520202,
+        "window_support": 0.0624,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-tplinkcamera-76",
+        "packets": 110846,
+        "bytes": 11877940,
+        "window_support": 0.1996,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ethernet-tplinkcamera-0",
+        "packets": 20,
+        "bytes": 400,
+        "window_support": 0.0002,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ethernet-tplinkcamera-1",
+        "packets": 5641,
+        "bytes": 637873,
+        "window_support": 0.0999,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ethernet-tplinkcamera-2",
+        "packets": 56621,
+        "bytes": 2381106,
+        "window_support": 0.1997,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-0",
+        "packets": 11562,
+        "bytes": 1134140,
+        "window_support": 0.0292,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-1",
+        "packets": 2245,
+        "bytes": 220010,
+        "window_support": 0.0056,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-2",
+        "packets": 3,
+        "bytes": 378,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-3",
+        "packets": 5286,
+        "bytes": 1168031,
+        "window_support": 0.082,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-4",
+        "packets": 165,
+        "bytes": 56430,
+        "window_support": 0.0028,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-5",
+        "packets": 2,
+        "bytes": 296,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-6",
+        "packets": 41,
+        "bytes": 3690,
+        "window_support": 0.0007,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-7",
+        "packets": 693,
+        "bytes": 76230,
+        "window_support": 0.0122,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-8",
+        "packets": 211,
+        "bytes": 23210,
+        "window_support": 0.0037,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-9",
+        "packets": 1089,
+        "bytes": 119790,
+        "window_support": 0.0191,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-10",
+        "packets": 2046,
+        "bytes": 225060,
+        "window_support": 0.0348,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-11",
+        "packets": 2,
+        "bytes": 156,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 2.0,
+          "iqr": 0.0,
+          "mean": 2.0,
+          "stddev": 0.0,
+          "upper_3sigma": 2.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-12",
+        "packets": 80,
+        "bytes": 9844,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-13",
+        "packets": 750,
+        "bytes": 65241,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-14",
+        "packets": 12,
+        "bytes": 1797,
+        "window_support": 0.0001,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-15",
+        "packets": 17549,
+        "bytes": 2023801,
+        "window_support": 0.0623,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-tplinkcamera-16",
+        "packets": 55740,
+        "bytes": 6924893,
+        "window_support": 0.1997,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ethernet-tplinkcamera-0",
+        "packets": 56469,
+        "bytes": 2371698,
+        "window_support": 0.1997,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      }
+    ]
+  }
+}

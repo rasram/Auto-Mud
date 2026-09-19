@@ -35,6 +35,7 @@ spool/
 # Directory structure under data/ stays tracked (READMEs, .gitkeep);
 # only the heavy files are ignored.
 data/**/*.csv
+!data/artifacts/**/*.csv
 data/**/*.parquet
 data/**/*.feather
 data/**/*.npy

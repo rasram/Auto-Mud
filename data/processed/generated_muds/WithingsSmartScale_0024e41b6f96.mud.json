@@ -1,0 +1,587 @@
+{
+  "ietf-mud:mud": {
+    "mud-version": 1,
+    "mud-url": "urn:automud:generated:withingssmartscale",
+    "last-update": "2026-09-18T19:28:35+00:00",
+    "cache-validity": 48,
+    "is-supported": true,
+    "systeminfo": "WithingsSmartScale",
+    "from-device-policy": {
+      "access-lists": {
+        "access-list": [
+          {
+            "name": "from-ipv4-withingssmartscale"
+          },
+          {
+            "name": "from-ethernet-withingssmartscale"
+          }
+        ]
+      }
+    },
+    "to-device-policy": {
+      "access-lists": {
+        "access-list": [
+          {
+            "name": "to-ipv4-withingssmartscale"
+          },
+          {
+            "name": "to-ethernet-withingssmartscale"
+          }
+        ]
+      }
+    }
+  },
+  "ietf-access-control-list:access-lists": {
+    "acl": [
+      {
+        "name": "from-ipv4-withingssmartscale",
+        "type": "ipv4-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "from-ipv4-withingssmartscale-0",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 67
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-withingssmartscale-1",
+              "matches": {
+                "ietf-mud:mud": {
+                  "controller": "urn:ietf:params:mud:dns"
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 53
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-withingssmartscale-2",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 17,
+                  "dst-ipv4-network": "255.255.255.255/32"
+                },
+                "udp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 67
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-withingssmartscale-3",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:dst-dnsname": "cdnfw.withings.net"
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 80
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-withingssmartscale-4",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:dst-dnsname": "ws.withings.net"
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 80
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ipv4-withingssmartscale-5",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:dst-dnsname": "ws.withings.net"
+                },
+                "tcp": {
+                  "destination-port": {
+                    "operator": "eq",
+                    "port": 443
+                  },
+                  "ietf-mud:direction-initiated": "from-device"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "from-ethernet-withingssmartscale",
+        "type": "ethernet-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "from-ethernet-withingssmartscale-0",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "eth": {
+                  "ethertype": "0x0006"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ethernet-withingssmartscale-1",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "eth": {
+                  "ethertype": "0x888e"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "from-ethernet-withingssmartscale-2",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "eth": {
+                  "ethertype": "0x0806"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "to-ipv4-withingssmartscale",
+        "type": "ipv4-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "to-ipv4-withingssmartscale-0",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "ipv4": {
+                  "protocol": 1
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-withingssmartscale-1",
+              "matches": {
+                "ietf-mud:mud": {
+                  "controller": "urn:ietf:params:mud:dns"
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 53
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-withingssmartscale-2",
+              "matches": {
+                "ietf-mud:mud": {
+                  "controller": "urn:ietf:params:mud:gateway"
+                },
+                "ipv4": {
+                  "protocol": 17
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 67
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-withingssmartscale-3",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:src-dnsname": "cdnfw.withings.net"
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 80
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-withingssmartscale-4",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:src-dnsname": "ws.withings.net"
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 80
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            },
+            {
+              "name": "to-ipv4-withingssmartscale-5",
+              "matches": {
+                "ipv4": {
+                  "protocol": 6,
+                  "ietf-acldns:src-dnsname": "ws.withings.net"
+                },
+                "tcp": {
+                  "source-port": {
+                    "operator": "eq",
+                    "port": 443
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "to-ethernet-withingssmartscale",
+        "type": "ethernet-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "to-ethernet-withingssmartscale-0",
+              "matches": {
+                "ietf-mud:mud": {
+                  "local-networks": [
+                    null
+                  ]
+                },
+                "eth": {
+                  "ethertype": "0x0806"
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "automud:behavioral-statistics": {
+    "source-pcap": "WithingsSmartScale_0024e41b6f96.pcap",
+    "device-mac": "00:24:e4:1b:6f:96",
+    "packets-observed": 46605,
+    "window-seconds": 300,
+    "total-windows": 56017,
+    "filter": {
+      "min-packets": 2,
+      "min-window-support": 0.0
+    },
+    "rules": [
+      {
+        "ace": "from-ipv4-withingssmartscale-0",
+        "packets": 204,
+        "bytes": 69768,
+        "window_support": 0.0036,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-withingssmartscale-1",
+        "packets": 296,
+        "bytes": 23791,
+        "window_support": 0.0048,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-withingssmartscale-2",
+        "packets": 817,
+        "bytes": 279414,
+        "window_support": 0.0049,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-withingssmartscale-3",
+        "packets": 824,
+        "bytes": 44860,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-withingssmartscale-4",
+        "packets": 12153,
+        "bytes": 4027685,
+        "window_support": 0.0033,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ipv4-withingssmartscale-5",
+        "packets": 7679,
+        "bytes": 2857556,
+        "window_support": 0.0019,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ethernet-withingssmartscale-0",
+        "packets": 270,
+        "bytes": 5400,
+        "window_support": 0.0048,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ethernet-withingssmartscale-1",
+        "packets": 824,
+        "bytes": 100132,
+        "window_support": 0.0048,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "from-ethernet-withingssmartscale-2",
+        "packets": 1352,
+        "bytes": 56784,
+        "window_support": 0.0048,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-withingssmartscale-0",
+        "packets": 251,
+        "bytes": 15562,
+        "window_support": 0.0045,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-withingssmartscale-1",
+        "packets": 270,
+        "bytes": 61765,
+        "window_support": 0.0047,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-withingssmartscale-2",
+        "packets": 817,
+        "bytes": 279414,
+        "window_support": 0.0048,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-withingssmartscale-3",
+        "packets": 1279,
+        "bytes": 1596017,
+        "window_support": 0.0,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-withingssmartscale-4",
+        "packets": 11530,
+        "bytes": 1253101,
+        "window_support": 0.0033,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ipv4-withingssmartscale-5",
+        "packets": 7328,
+        "bytes": 962686,
+        "window_support": 0.0019,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      },
+      {
+        "ace": "to-ethernet-withingssmartscale-0",
+        "packets": 711,
+        "bytes": 29862,
+        "window_support": 0.0049,
+        "packets_per_5m": {
+          "median": 0.0,
+          "iqr": 0.0,
+          "mean": 0.0,
+          "stddev": 0.0,
+          "upper_3sigma": 0.0
+        }
+      }
+    ]
+  }
+}
