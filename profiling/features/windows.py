@@ -41,13 +41,22 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-from zeek_log import (
-    TCP_FAILED_STATES,
-    device_ips,
-    device_mac_from_name,
-    read_conn,
-    read_dns_queries,
-)
+if __package__:
+    from .zeek_log import (
+        TCP_FAILED_STATES,
+        device_ips,
+        device_mac_from_name,
+        read_conn,
+        read_dns_queries,
+    )
+else:
+    from zeek_log import (
+        TCP_FAILED_STATES,
+        device_ips,
+        device_mac_from_name,
+        read_conn,
+        read_dns_queries,
+    )
 
 DEFAULT_WINDOW_SECONDS = 60
 
@@ -55,6 +64,7 @@ DEFAULT_WINDOW_SECONDS = 60
 FEATURE_FIELDS = (
     "ts",
     "id.resp_h",
+    "id.resp_p",
     "proto",
     "service",
     "conn_state",

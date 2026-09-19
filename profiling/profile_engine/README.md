@@ -2,30 +2,25 @@
 
 **Owner:** Sarveshwar Balu
 
-The Behavioral Profiling Engine.
+The Zeek behavioral profiling engine has two stages:
 
-- **Offline (Stage 0, step 3):** computes robust statistics per device type (median/IQR, 3σ outlier exclusion) and produces a frozen MUD-like JSON profile.
-- **Live (Stage 2, step 9):** runs in frozen inference mode and computes a behavioral deviation score per device (new destinations, volume z-score, protocol drift, etc.). It does not relearn.
+1. `build_profile.py` combines 60-second windows from
+   `../features/windows.py` with observed endpoints from Zeek logs. It writes
+   a frozen per-device JSON baseline with robust feature statistics and
+   calibration.
+2. `score_window.py` compares subsequent windows against that baseline and
+   returns a deviation score with component evidence. It does not relearn
+   during scoring.
 
-Also covers the poisoned-baseline defenses (§14): hard constraint rules, cross-validation against clean datasets, and robust statistics.
+Build all available UNSW profiles and validate their observed endpoints with
+the MUDgee reference set from the repository root:
 
-## Offline profile generation
+```sh
+bash scripts/UNSW-IoTraffic/build_all_profiles.sh
+```
 
-`generator.py` streams every available device PCAP/PCAPNG with a standard-library
-packet reader. It infers the
-device MAC from the filename, learns DNS-to-IP mappings and bidirectional
-services, and records robust five-minute-window statistics (median, IQR, and a
-3-sigma upper bound after Tukey outlier exclusion). It emits RFC 8520-shaped
-JSON without reading any ground-truth profile.
-
-Run the complete generation and held-out scoring pipeline from the project root:
-
-    .\.venv\Scripts\python.exe -m profiling.run_unsw_profiling
-
-The command discovers `.pcap` and `.pcapng` files dynamically, so future device captures are
-included without code changes. Generated profiles are written to
-`data/processed/generated_muds/`. Capture-derived observations are cached in
-`temp/profile_cache/`; reference profiles are used only for scoring after
-generation. The corpus runner uses two packets for DNS-named services and a
-capture-size-aware threshold for unnamed IPs (1% of observed packets, bounded
-from 2 to 5,000); both can be overridden with CLI flags.
+The frozen profiles live in `data/processed/unsw/behavioral_profiles/`. The
+live orchestrator and response tier selection are unfinished;
+`score_window.suggest_tiers()` currently raises `NotImplementedError`.
+The committed profiles predate the destination-port and TLS certificate
+attribution fixes and need regeneration before revised metrics are reported.

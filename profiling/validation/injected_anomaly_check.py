@@ -20,7 +20,7 @@ device and changing only what the attack would change:
 
 Usage:
     python profiling/validation/injected_anomaly_check.py \
-        --profile data/processed/unsw/profiles/AmazonEcho.json \
+        --profile data/processed/unsw/behavioral_profiles/AmazonEcho.json \
         --windows data/processed/unsw/features/AmazonEcho/windows.jsonl
 """
 

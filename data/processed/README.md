@@ -10,7 +10,8 @@ repository's code.
 | Subdirectory | Contents |
 |---|---|
 | `testbed/` | Per-device generated/replay-safe traffic plus outputs from Mininet runs |
+| `unsw/behavioral_profiles/` | Zeek-derived per-device window baselines for deviation scoring |
+| `unsw/reports/` | Zeek profile comparison with MUDgee references |
 
-Derived data files are intentionally git-ignored. Keep the README files in
-version control so the expected local layout and reproduction steps remain
-clear.
+Large intermediate files are ignored; the frozen Zeek behavioral profiles and
+their reference comparison report are tracked.

@@ -34,9 +34,9 @@ the score.
 
 Usage:
     python profiling/validation/compare_mud.py \
-        --profiles data/processed/unsw/profiles \
-        --mud-dir data/mud_profiles \
-        --out data/processed/unsw/objective1_report.json
+        --profiles data/processed/unsw/behavioral_profiles \
+        --mud-dir data/references/mudgee_muds \
+        --out data/processed/unsw/reports/zeek_reference_fact_recall.json
 """
 
 import argparse

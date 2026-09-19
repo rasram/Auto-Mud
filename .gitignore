@@ -35,7 +35,6 @@ spool/
 # Directory structure under data/ stays tracked (READMEs, .gitkeep);
 # only the heavy files are ignored.
 data/**/*.csv
-!data/artifacts/**/*.csv
 data/**/*.parquet
 data/**/*.feather
 data/**/*.npy
@@ -89,8 +88,8 @@ data/downloaded/**
 # ---------- Derived UNSW pipeline outputs ----------
 # Regenerable from data/raw/unsw_iot pcaps via scripts/UNSW-IoTraffic/.
 # ~2.8 GB total; several individual files exceed GitHub's 100 MB hard limit.
-# The small, hand-checkable end products (profiles/, objective1_report.json,
-# data/mud_profiles/) stay tracked.
+# The small, hand-checkable end products (behavioral_profiles/, reports/,
+# data/references/mudgee_muds/) stay tracked.
 data/processed/unsw/zeek/**/*.log
 data/processed/unsw/features/**/*.jsonl
 data/processed/unsw/scores/**/*.jsonl

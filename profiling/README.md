@@ -2,7 +2,8 @@
 
 **Owner:** Sarveshwar Balu
 
-Turns traffic into per-device behavioral profiles (automatically generated MUD-like profiles) and deviation scores. Also generates realistic background traffic for the testbed.
+Turns Zeek traffic metadata into frozen per-device behavioral profiles and
+deviation scores. It also generates background traffic for the testbed.
 
 | Subdirectory | Contents |
 |---|---|
@@ -11,4 +12,7 @@ Turns traffic into per-device behavioral profiles (automatically generated MUD-l
 | `profile_engine/` | Behavioral Profiling Engine: baseline construction and deviation scoring |
 | `validation/` | Comparison of generated profiles with MUDgee ground truth (Objective 1) |
 
-Note: the "Behavioral Profile Engine" and the "automated MUD profile engine" are the same system (§14).
+The maintained path is `features/windows.py` ->
+`profile_engine/build_profile.py` -> `profile_engine/score_window.py`.
+See [ENGINE_COMPARISON.md](ENGINE_COMPARISON.md) for the implementation decision
+and its evaluation limits.

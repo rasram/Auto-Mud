@@ -14,15 +14,23 @@
 #
 # Usage:
 #   bash scripts/UNSW-IoTraffic/build_all_profiles.sh
+#   UNSW_PCAP_DIR=/path/to/pcaps bash scripts/UNSW-IoTraffic/build_all_profiles.sh
 
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-PCAPS="$ROOT/data/downloaded/UNSW/pcaps"
+PCAPS="${UNSW_PCAP_DIR:-$ROOT/data/downloaded/UNSW/pcaps}"
+if [ -z "${UNSW_PCAP_DIR:-}" ] && [ ! -d "$PCAPS" ]; then
+    PCAPS="$ROOT/data/raw/unsw_iot/traffic/pcaps"
+fi
+if [ ! -d "$PCAPS" ]; then
+    echo "No PCAP directory found: $PCAPS" >&2
+    exit 2
+fi
 ZEEK_DIR="$ROOT/data/processed/unsw/zeek"
 FEATURE_DIR="$ROOT/data/processed/unsw/features"
-PROFILE_DIR="$ROOT/data/processed/unsw/profiles"
-REPORT="$ROOT/data/processed/unsw/objective1_report.json"
+PROFILE_DIR="$ROOT/data/processed/unsw/behavioral_profiles"
+REPORT="$ROOT/data/processed/unsw/reports/zeek_reference_fact_recall.json"
 
 ok=0
 failed=()
@@ -74,11 +82,21 @@ for pcap in "$PCAPS"/*.pcap "$PCAPS"/*.pcapng; do
     ok=$((ok + 1))
 done
 
+if [ "$ok" -eq 0 ] && [ "${#failed[@]}" -eq 0 ]; then
+    echo "No .pcap or .pcapng captures found in $PCAPS" >&2
+    exit 2
+fi
+
 echo
 echo "=== profiles built: $ok   failed: ${#failed[@]} ${failed[*]:-}"
 echo
 
+if [ "${#failed[@]}" -gt 0 ]; then
+    echo "Skipping validation because one or more profiles failed to build." >&2
+    exit 1
+fi
+
 python3 "$ROOT/profiling/validation/compare_mud.py" \
     --profiles "$PROFILE_DIR" \
-    --mud-dir "$ROOT/data/mud_profiles" \
+    --mud-dir "$ROOT/data/references/mudgee_muds" \
     --out "$REPORT"

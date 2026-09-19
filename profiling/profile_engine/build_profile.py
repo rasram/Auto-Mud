@@ -31,7 +31,7 @@ Usage:
         --windows data/processed/unsw/features/AmazonEcho/windows.jsonl \
         --zeek-dir data/processed/unsw/zeek/AmazonEcho \
         --device AmazonEcho_44650d56ccd3 \
-        --out data/processed/unsw/profiles/AmazonEcho.json
+        --out data/processed/unsw/behavioral_profiles/AmazonEcho.json
 """
 
 import argparse

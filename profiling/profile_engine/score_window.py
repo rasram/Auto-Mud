@@ -34,7 +34,7 @@ the Decision Engine fuses with the GNN's signals before choosing a response.
 
 Usage:
     python profiling/profile_engine/score_window.py \
-        --profile data/processed/unsw/profiles/AmazonEcho.json \
+        --profile data/processed/unsw/behavioral_profiles/AmazonEcho.json \
         --windows data/processed/unsw/features/AmazonEcho/windows.jsonl \
         --out data/processed/unsw/scores/AmazonEcho.jsonl
 """

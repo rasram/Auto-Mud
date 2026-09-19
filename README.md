@@ -74,3 +74,7 @@ Every directory has a `README.md` that describes what goes there and who owns it
 The initial Mininet topology and calibrated traffic-generation workflow are in
 place. Other modules will be built incrementally, and dependency versions in
 `requirements.txt` will be pinned as each module is implemented.
+
+The Zeek behavioral profiling pipeline is the maintained implementation. Its
+selection and evaluation limits are documented in
+[profiling/ENGINE_COMPARISON.md](profiling/ENGINE_COMPARISON.md).

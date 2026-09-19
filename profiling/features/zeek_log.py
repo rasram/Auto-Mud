@@ -160,8 +160,10 @@ def read_tls_server_names(zeek_dir, ips=None):
     Two sources, because IoT devices frequently omit SNI: ssl.log's
     server_name, and the CN of the server certificate in x509.log. Used as a
     second endpoint source for the MUD comparison, not as a window feature.
-    x509 records carry no addresses and are not filtered.
+    x509 records carry no addresses, so link them to filtered ssl.log records
+    through certificate file IDs before attributing them to a device.
     """
+    certificate_ids = set()
     for record in read_log(Path(zeek_dir) / "ssl.log"):
         if ips is not None and record.get("id.orig_h") not in ips:
             continue
@@ -169,7 +171,14 @@ def read_tls_server_names(zeek_dir, ips=None):
         if name not in UNSET and name is not None:
             yield name.lower()
 
+        for field in ("cert_chain_fuids", "client_cert_chain_fuids"):
+            raw = record.get(field)
+            if raw not in UNSET and raw is not None:
+                certificate_ids.update(raw.split(","))
+
     for record in read_log(Path(zeek_dir) / "x509.log"):
+        if ips is not None and record.get("id") not in certificate_ids:
+            continue
         subject = record.get("certificate.subject", "")
         for part in subject.split(","):
             part = part.strip()

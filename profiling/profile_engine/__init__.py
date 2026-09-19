@@ -1,1 +1,1 @@
-"""Behavioral MUD profile generation from packet captures."""
+"""Frozen Zeek behavioral baseline construction and window scoring."""
