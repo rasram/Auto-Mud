@@ -84,3 +84,18 @@ Thumbs.db
 
 # ---------- Dataset contents ----------
 data/raw/**
+data/downloaded/**
+
+# ---------- Derived UNSW pipeline outputs ----------
+# Regenerable from data/raw/unsw_iot pcaps via scripts/UNSW-IoTraffic/.
+# ~2.8 GB total; several individual files exceed GitHub's 100 MB hard limit.
+# The small, hand-checkable end products (profiles/, objective1_report.json,
+# data/mud_profiles/) stay tracked.
+data/processed/unsw/zeek/**/*.log
+data/processed/unsw/features/**/*.jsonl
+data/processed/unsw/scores/**/*.jsonl
+
+# ---------- Zeek run output (testbed) ----------
+# Small today (~350 KB) so it stays tracked; if a future run's conn.log gets
+# large, ignore it here rather than committing it.
+#data/processed/testbed/runs/**/zeek/*.log

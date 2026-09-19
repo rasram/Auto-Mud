@@ -1,0 +1,535 @@
+{
+  "schema_version": 1,
+  "device": "WithingsSleepSensor_0024e42028c6",
+  "mac": "00:24:e4:20:28:c6",
+  "generated_at": "2026-09-18T14:48:51.398032+00:00",
+  "frozen": true,
+  "source": {
+    "zeek_dir": "data/processed/unsw/zeek/WithingsSleepSensor",
+    "window_seconds": 60,
+    "note": "UNSW-IoTraffic offline replay (Stage 0)"
+  },
+  "observation": {
+    "active_windows": 10451,
+    "flows": 51358,
+    "first_window": 1475244000,
+    "last_window": 1490360100,
+    "span_days": 174.95486111111111
+  },
+  "window_features": {
+    "flow_count": {
+      "median": 4,
+      "q1": 2.0,
+      "q3": 6.0,
+      "iqr": 4.0,
+      "mean": 4.103345223175552,
+      "min": 0,
+      "max": 29,
+      "p95": 8,
+      "p99": 12,
+      "windows_observed": 10451,
+      "windows_excluded": 78,
+      "outlier_bounds": [
+        -0.2403078432340828,
+        31.90806648106965
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_destinations": {
+      "median": 2,
+      "q1": 2.0,
+      "q3": 2.0,
+      "iqr": 0.0,
+      "mean": 1.9750263132714572,
+      "min": 0,
+      "max": 8,
+      "p95": 2,
+      "p99": 2,
+      "windows_observed": 10451,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "log1p"
+    },
+    "unique_domains": {
+      "median": 1,
+      "q1": 1.0,
+      "q3": 1.0,
+      "iqr": 0.0,
+      "mean": 0.9596210888910152,
+      "min": 0,
+      "max": 6,
+      "p95": 1,
+      "p99": 1,
+      "windows_observed": 10451,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "log1p"
+    },
+    "domain_entropy": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.0037720372860649306,
+      "min": 0.0,
+      "max": 1.573402452417767,
+      "p95": 0.0,
+      "p99": 0.0,
+      "windows_observed": 10451,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    },
+    "bytes_total": {
+      "median": 2742.0,
+      "q1": 691.0,
+      "q3": 6240.0,
+      "iqr": 5549.0,
+      "mean": 6089.767251577287,
+      "min": 76,
+      "max": 331218,
+      "p95": 24334,
+      "p99": 34453,
+      "windows_observed": 10451,
+      "windows_excluded": 307,
+      "outlier_bounds": [
+        18.9423431923834,
+        353203.0308427853
+      ],
+      "trim_space": "log1p"
+    },
+    "orig_bytes": {
+      "median": 863.0,
+      "q1": 260.0,
+      "q3": 2735.5,
+      "iqr": 2475.5,
+      "mean": 2803.483244628425,
+      "min": 38,
+      "max": 110664,
+      "p95": 13547,
+      "p99": 26174,
+      "windows_observed": 10451,
+      "windows_excluded": 305,
+      "outlier_bounds": [
+        4.583663562840465,
+        133691.86877668707
+      ],
+      "trim_space": "log1p"
+    },
+    "resp_bytes": {
+      "median": 1487.0,
+      "q1": 431.0,
+      "q3": 2069.0,
+      "iqr": 1638.0,
+      "mean": 3189.760003961965,
+      "min": 54,
+      "max": 48089,
+      "p95": 15798,
+      "p99": 21012,
+      "windows_observed": 10451,
+      "windows_excluded": 355,
+      "outlier_bounds": [
+        44.63410285067652,
+        48518.503215503064
+      ],
+      "trim_space": "log1p"
+    },
+    "packets_total": {
+      "median": 23,
+      "q1": 11.0,
+      "q3": 39.0,
+      "iqr": 28.0,
+      "mean": 30.80599171563433,
+      "min": 1,
+      "max": 338,
+      "p95": 82,
+      "p99": 112,
+      "windows_observed": 10451,
+      "windows_excluded": 70,
+      "outlier_bounds": [
+        0.6496702051402329,
+        348.16069782022663
+      ],
+      "trim_space": "log1p"
+    },
+    "interflow_gap_variance": {
+      "median": 0.07752202957297413,
+      "q1": 0.05568831666820036,
+      "q3": 0.1151940326720434,
+      "iqr": 0.05950571600384304,
+      "mean": 0.15054796480334634,
+      "min": 2.8574106636369834e-08,
+      "max": 0.8584051165130085,
+      "p95": 0.4996760777313648,
+      "p99": 0.6158360322121682,
+      "windows_observed": 5938,
+      "windows_excluded": 548,
+      "outlier_bounds": [
+        -0.3858241944164821,
+        0.8989427765473854
+      ],
+      "trim_space": "log1p"
+    },
+    "tcp_failed_ratio": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.007553123445117786,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 0.0,
+      "p99": 0.3157894736842105,
+      "windows_observed": 10137,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    }
+  },
+  "service_distribution": {
+    "dns": {
+      "mean_share": 0.48306242696708696,
+      "windows_present": 10166,
+      "window_share": 0.9727298823079131
+    },
+    "http": {
+      "mean_share": 0.37390447851460007,
+      "windows_present": 7848,
+      "window_share": 0.7509329250789398
+    },
+    "ssl": {
+      "mean_share": 0.09715156666282687,
+      "windows_present": 2036,
+      "window_share": 0.19481389340732944
+    },
+    "dhcp": {
+      "mean_share": 0.022326883523284383,
+      "windows_present": 301,
+      "window_share": 0.028801071667782986
+    },
+    "-": {
+      "mean_share": 0.021841921973083104,
+      "windows_present": 269,
+      "window_share": 0.025739163716390775
+    },
+    "xmpp,ssl": {
+      "mean_share": 0.0005405857214755445,
+      "windows_present": 25,
+      "window_share": 0.0023921155870251652
+    },
+    "xmpp": {
+      "mean_share": 0.00011960577935125826,
+      "windows_present": 2,
+      "window_share": 0.0001913692469620132
+    }
+  },
+  "active_hours": [
+    {
+      "hour": 0,
+      "flows": 2113,
+      "flow_share": 0.04114256785700378,
+      "windows": 418,
+      "window_share": 0.03999617261506076
+    },
+    {
+      "hour": 1,
+      "flows": 2139,
+      "flow_share": 0.041648818100393316,
+      "windows": 489,
+      "window_share": 0.04678978088221223
+    },
+    {
+      "hour": 2,
+      "flows": 4681,
+      "flow_share": 0.0911445149733245,
+      "windows": 431,
+      "window_share": 0.041240072720313846
+    },
+    {
+      "hour": 3,
+      "flows": 2242,
+      "flow_share": 0.043654347910744185,
+      "windows": 425,
+      "window_share": 0.04066596497942781
+    },
+    {
+      "hour": 4,
+      "flows": 4864,
+      "flow_share": 0.09470773784025857,
+      "windows": 459,
+      "window_share": 0.04391924217778203
+    },
+    {
+      "hour": 5,
+      "flows": 2475,
+      "flow_share": 0.04819112893804276,
+      "windows": 448,
+      "window_share": 0.042866711319490956
+    },
+    {
+      "hour": 6,
+      "flows": 2015,
+      "flow_share": 0.03923439386268936,
+      "windows": 428,
+      "window_share": 0.04095301884987083
+    },
+    {
+      "hour": 7,
+      "flows": 2122,
+      "flow_share": 0.041317808325869385,
+      "windows": 496,
+      "window_share": 0.047459573246579276
+    },
+    {
+      "hour": 8,
+      "flows": 1812,
+      "flow_share": 0.035281747731609484,
+      "windows": 412,
+      "window_share": 0.03942206487417472
+    },
+    {
+      "hour": 9,
+      "flows": 1697,
+      "flow_share": 0.03304256396277114,
+      "windows": 400,
+      "window_share": 0.038273849392402644
+    },
+    {
+      "hour": 10,
+      "flows": 1742,
+      "flow_share": 0.03391876630709919,
+      "windows": 426,
+      "window_share": 0.04076164960290881
+    },
+    {
+      "hour": 11,
+      "flows": 1741,
+      "flow_share": 0.033899295143891894,
+      "windows": 409,
+      "window_share": 0.0391350110037317
+    },
+    {
+      "hour": 12,
+      "flows": 1757,
+      "flow_share": 0.03421083375520854,
+      "windows": 432,
+      "window_share": 0.041335757343794854
+    },
+    {
+      "hour": 13,
+      "flows": 1991,
+      "flow_share": 0.038767085945714395,
+      "windows": 508,
+      "window_share": 0.04860778872835136
+    },
+    {
+      "hour": 14,
+      "flows": 1633,
+      "flow_share": 0.03179640951750458,
+      "windows": 408,
+      "window_share": 0.03903932638025069
+    },
+    {
+      "hour": 15,
+      "flows": 1477,
+      "flow_share": 0.028758908057167337,
+      "windows": 380,
+      "window_share": 0.03636015692278251
+    },
+    {
+      "hour": 16,
+      "flows": 1527,
+      "flow_share": 0.029732466217531835,
+      "windows": 385,
+      "window_share": 0.036838580040187544
+    },
+    {
+      "hour": 17,
+      "flows": 1629,
+      "flow_share": 0.03171852486467541,
+      "windows": 413,
+      "window_share": 0.03951774949765573
+    },
+    {
+      "hour": 18,
+      "flows": 1543,
+      "flow_share": 0.030044004828848475,
+      "windows": 399,
+      "window_share": 0.038178164768921635
+    },
+    {
+      "hour": 19,
+      "flows": 1959,
+      "flow_share": 0.038144008723081116,
+      "windows": 509,
+      "window_share": 0.04870347335183236
+    },
+    {
+      "hour": 20,
+      "flows": 2026,
+      "flow_share": 0.039448576657969546,
+      "windows": 540,
+      "window_share": 0.05166969667974357
+    },
+    {
+      "hour": 21,
+      "flows": 1642,
+      "flow_share": 0.031971649986370185,
+      "windows": 396,
+      "window_share": 0.03789111089847862
+    },
+    {
+      "hour": 22,
+      "flows": 2355,
+      "flow_share": 0.04585458935316796,
+      "windows": 425,
+      "window_share": 0.04066596497942781
+    },
+    {
+      "hour": 23,
+      "flows": 2176,
+      "flow_share": 0.04236925113906305,
+      "windows": 415,
+      "window_share": 0.03970911874461774
+    }
+  ],
+  "endpoints": {
+    "domains": {
+      "scalews.withings.net": 20654,
+      "xmpp.withings.net": 232,
+      "static.withings.com": 40,
+      "live.radioart.com": 14,
+      "2637611158.airable.io": 13,
+      "live.radioart.biz": 8,
+      "esdk-ffl.spotify.com": 5
+    },
+    "tls_server_names": {
+      "scalews.withings.net": 4325,
+      "withings.net": 17,
+      "xmpp.withings.net": 14
+    },
+    "destination_ports": {
+      "tcp/80": 22483,
+      "udp/53": 20906,
+      "tcp/443": 6869,
+      "tcp/5222": 670,
+      "udp/67": 326,
+      "udp/5353": 95,
+      "tcp/0": 3,
+      "icmp/3": 2,
+      "unknown_transport/0": 1,
+      "tcp/11850": 1,
+      "tcp/61564": 1,
+      "tcp/12594": 1
+    },
+    "listening_ports": {
+      "tcp/7888": 58,
+      "udp/5353": 41,
+      "tcp/80": 33,
+      "icmp/0": 7,
+      "tcp/22": 5,
+      "icmp/1": 4,
+      "tcp/139": 4,
+      "tcp/7": 4,
+      "udp/1900": 2,
+      "udp/161": 2,
+      "tcp/20302": 1
+    },
+    "destination_ips": {
+      "89.30.121.150": 25273,
+      "192.168.1.1": 21219,
+      "104.28.29.105": 1411,
+      "104.28.15.96": 1023,
+      "104.28.14.96": 790,
+      "104.28.28.105": 698,
+      "89.30.121.26": 434,
+      "89.30.121.24": 122,
+      "89.30.121.25": 100,
+      "224.0.0.251": 95,
+      "46.105.202.21": 52,
+      "89.30.121.140": 48,
+      "144.76.157.132": 45,
+      "255.255.255.255": 13,
+      "194.68.30.50": 11,
+      "89.30.121.23": 8,
+      "89.30.121.22": 5,
+      "89.30.121.21": 3,
+      "149.171.37.190": 2,
+      "88.56.57.50": 1,
+      "217.159.45.142": 1,
+      "0.0.0.0": 1,
+      "194.68.30.99": 1,
+      "10.7.97.50": 1,
+      "194.68.29.53": 1
+    },
+    "source_ips": {
+      "192.168.1.248": 84,
+      "192.168.1.239": 32,
+      "192.168.1.243": 23,
+      "192.168.1.1": 5,
+      "149.171.37.190": 4,
+      "149.171.37.134": 4,
+      "149.171.37.162": 2,
+      "192.168.1.166": 2,
+      "192.168.1.225": 1,
+      "192.168.1.240": 1,
+      "54.49.53.55": 1,
+      "198.20.87.98": 1,
+      "129.94.5.92": 1
+    },
+    "counts": {
+      "domains": 7,
+      "tls_server_names": 3,
+      "destination_ports": 12,
+      "listening_ports": 11,
+      "destination_ips": 25,
+      "source_ips": 13
+    }
+  },
+  "calibration": {
+    "components": {
+      "new_destinations": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_domains": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_ports": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "protocol_drift": {
+        "p50": 0.14213016003935652,
+        "p95": 0.5164285992113956,
+        "p99": 0.9776495919825818
+      },
+      "failed_conns": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "volume": {
+        "p50": 0.0,
+        "p95": 0.1837561777708845,
+        "p99": 0.2124374272568392
+      },
+      "flow_rate": {
+        "p50": 0.0,
+        "p95": 0.1349265193725033,
+        "p99": 0.2939037428288142
+      }
+    },
+    "baseline_scores": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.12925185175364862,
+      "max": 1.0,
+      "windows": 10451
+    }
+  }
+}

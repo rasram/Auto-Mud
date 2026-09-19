@@ -1,0 +1,503 @@
+{
+  "schema_version": 1,
+  "device": "HelloBarbie_28c2ddffa52d",
+  "mac": "28:c2:dd:ff:a5:2d",
+  "generated_at": "2026-09-18T14:47:59.594365+00:00",
+  "frozen": true,
+  "source": {
+    "zeek_dir": "data/processed/unsw/zeek/HelloBarbie",
+    "window_seconds": 60,
+    "note": "UNSW-IoTraffic offline replay (Stage 0)"
+  },
+  "observation": {
+    "active_windows": 63,
+    "flows": 171,
+    "first_window": 1488421560,
+    "last_window": 1492090740,
+    "span_days": 42.46736111111111
+  },
+  "window_features": {
+    "flow_count": {
+      "median": 2,
+      "q1": 1.0,
+      "q3": 4.0,
+      "iqr": 3.0,
+      "mean": 2.7142857142857144,
+      "min": 1,
+      "max": 8,
+      "p95": 6,
+      "p99": 7,
+      "windows_observed": 63,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.6090199539055606,
+        22.0190775460344
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_destinations": {
+      "median": 2,
+      "q1": 1.0,
+      "q3": 3.0,
+      "iqr": 2.0,
+      "mean": 2.1746031746031744,
+      "min": 1,
+      "max": 5,
+      "p95": 5,
+      "p99": 5,
+      "windows_observed": 63,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.3578007133094747,
+        13.014341321336731
+      ],
+      "trim_space": "log1p"
+    },
+    "unique_domains": {
+      "median": 1,
+      "q1": 0.0,
+      "q3": 2.0,
+      "iqr": 2.0,
+      "mean": 0.873015873015873,
+      "min": 0,
+      "max": 3,
+      "p95": 2,
+      "p99": 3,
+      "windows_observed": 63,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.8262300909732014,
+        22.01894512348008
+      ],
+      "trim_space": "log1p"
+    },
+    "domain_entropy": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.9182958340544896,
+      "iqr": 0.9182958340544896,
+      "mean": 0.2912121694037447,
+      "min": 0.0,
+      "max": 1.584962500721156,
+      "p95": 1.0,
+      "p99": 1.584962500721156,
+      "windows_observed": 63,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -2.042170127623031,
+        2.042170127623031
+      ],
+      "trim_space": "linear"
+    },
+    "bytes_total": {
+      "median": 4044,
+      "q1": 618.0,
+      "q3": 7805.0,
+      "iqr": 7187.0,
+      "mean": 23674.777777777777,
+      "min": 618,
+      "max": 555203,
+      "p95": 126256,
+      "p99": 221951,
+      "windows_observed": 63,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        13.421852548562747,
+        1134529.0435505165
+      ],
+      "trim_space": "log1p"
+    },
+    "orig_bytes": {
+      "median": 449.0,
+      "q1": 308.0,
+      "q3": 917.75,
+      "iqr": 609.75,
+      "mean": 770.4333333333333,
+      "min": 308,
+      "max": 3443,
+      "p95": 2453,
+      "p99": 2991,
+      "windows_observed": 63,
+      "windows_excluded": 3,
+      "outlier_bounds": [
+        27.319304899230183,
+        9328.18378258577
+      ],
+      "trim_space": "log1p"
+    },
+    "resp_bytes": {
+      "median": 4005.0,
+      "q1": 310.0,
+      "q3": 6913.0,
+      "iqr": 6603.0,
+      "mean": 17041.66129032258,
+      "min": 310,
+      "max": 230504,
+      "p95": 104144,
+      "p99": 218508,
+      "windows_observed": 63,
+      "windows_excluded": 1,
+      "outlier_bounds": [
+        2.639656668313523,
+        3564731.9356512707
+      ],
+      "trim_space": "log1p"
+    },
+    "packets_total": {
+      "median": 30,
+      "q1": 2.0,
+      "q3": 58.5,
+      "iqr": 56.5,
+      "mean": 58.79365079365079,
+      "min": 2,
+      "max": 837,
+      "p95": 268,
+      "p99": 373,
+      "windows_observed": 63,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.9595954840458113,
+        23783.470059970434
+      ],
+      "trim_space": "log1p"
+    },
+    "interflow_gap_variance": {
+      "median": 68.63695124723074,
+      "q1": 1.5796322398261597,
+      "q3": 214.2924950251136,
+      "iqr": 212.71286278528743,
+      "mean": 99.87938328133615,
+      "min": 0.02768831051162124,
+      "max": 244.1414035862931,
+      "p95": 240.98690866391394,
+      "p99": 244.1414035862931,
+      "windows_observed": 30,
+      "windows_excluded": 0,
+      "outlier_bounds": [
+        -0.9963872892691276,
+        1272533.9711713456
+      ],
+      "trim_space": "log1p"
+    },
+    "tcp_failed_ratio": {
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "iqr": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "windows_observed": 35,
+      "windows_excluded": 0,
+      "outlier_bounds": null,
+      "trim_space": "linear"
+    }
+  },
+  "service_distribution": {
+    "dhcp": {
+      "mean_share": 0.49452003023431595,
+      "windows_present": 37,
+      "window_share": 0.5873015873015873
+    },
+    "ssl": {
+      "mean_share": 0.3186696900982616,
+      "windows_present": 35,
+      "window_share": 0.5555555555555556
+    },
+    "dns": {
+      "mean_share": 0.18019652305366596,
+      "windows_present": 34,
+      "window_share": 0.5396825396825397
+    },
+    "-": {
+      "mean_share": 0.006613756613756613,
+      "windows_present": 2,
+      "window_share": 0.031746031746031744
+    }
+  },
+  "active_hours": [
+    {
+      "hour": 0,
+      "flows": 55,
+      "flow_share": 0.3216374269005848,
+      "windows": 14,
+      "window_share": 0.2222222222222222
+    },
+    {
+      "hour": 1,
+      "flows": 6,
+      "flow_share": 0.03508771929824561,
+      "windows": 6,
+      "window_share": 0.09523809523809523
+    },
+    {
+      "hour": 2,
+      "flows": 21,
+      "flow_share": 0.12280701754385964,
+      "windows": 6,
+      "window_share": 0.09523809523809523
+    },
+    {
+      "hour": 3,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 4,
+      "flows": 58,
+      "flow_share": 0.3391812865497076,
+      "windows": 14,
+      "window_share": 0.2222222222222222
+    },
+    {
+      "hour": 5,
+      "flows": 10,
+      "flow_share": 0.05847953216374269,
+      "windows": 2,
+      "window_share": 0.031746031746031744
+    },
+    {
+      "hour": 6,
+      "flows": 1,
+      "flow_share": 0.005847953216374269,
+      "windows": 1,
+      "window_share": 0.015873015873015872
+    },
+    {
+      "hour": 7,
+      "flows": 6,
+      "flow_share": 0.03508771929824561,
+      "windows": 6,
+      "window_share": 0.09523809523809523
+    },
+    {
+      "hour": 8,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 9,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 10,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 11,
+      "flows": 1,
+      "flow_share": 0.005847953216374269,
+      "windows": 1,
+      "window_share": 0.015873015873015872
+    },
+    {
+      "hour": 12,
+      "flows": 1,
+      "flow_share": 0.005847953216374269,
+      "windows": 1,
+      "window_share": 0.015873015873015872
+    },
+    {
+      "hour": 13,
+      "flows": 6,
+      "flow_share": 0.03508771929824561,
+      "windows": 6,
+      "window_share": 0.09523809523809523
+    },
+    {
+      "hour": 14,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 15,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 16,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 17,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 18,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 19,
+      "flows": 6,
+      "flow_share": 0.03508771929824561,
+      "windows": 6,
+      "window_share": 0.09523809523809523
+    },
+    {
+      "hour": 20,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 21,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 22,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    },
+    {
+      "hour": 23,
+      "flows": 0,
+      "flow_share": 0.0,
+      "windows": 0,
+      "window_share": 0.0
+    }
+  ],
+  "endpoints": {
+    "domains": {
+      "storage.toytalk.com": 43,
+      "puppeteer.toytalk.com": 34,
+      "firmware.toytalk.com": 6
+    },
+    "tls_server_names": {
+      "storage.toytalk.com": 51,
+      "puppeteer.toytalk.com": 33,
+      "firmware.toytalk.com": 11
+    },
+    "destination_ports": {
+      "tcp/443": 82,
+      "udp/67": 45,
+      "udp/53": 44
+    },
+    "listening_ports": {
+      "tcp/80": 11,
+      "icmp/0": 6,
+      "tcp/443": 3
+    },
+    "destination_ips": {
+      "192.168.1.1": 80,
+      "52.200.115.243": 10,
+      "255.255.255.255": 9,
+      "52.84.207.121": 8,
+      "52.84.207.136": 7,
+      "50.19.213.155": 6,
+      "52.84.207.10": 5,
+      "184.72.250.146": 4,
+      "52.45.177.200": 4,
+      "52.84.207.230": 3,
+      "34.200.144.204": 3,
+      "52.84.207.252": 3,
+      "34.200.51.255": 3,
+      "52.84.207.180": 3,
+      "52.84.207.184": 2,
+      "52.84.207.146": 2,
+      "52.84.207.175": 2,
+      "52.84.207.66": 2,
+      "52.84.207.194": 2,
+      "52.84.207.100": 2,
+      "52.84.207.58": 2,
+      "52.84.207.23": 1,
+      "52.84.207.39": 1,
+      "52.84.207.13": 1,
+      "52.84.207.97": 1,
+      "52.84.207.85": 1,
+      "52.84.207.193": 1,
+      "52.84.207.199": 1,
+      "52.84.207.227": 1,
+      "52.84.207.164": 1
+    },
+    "source_ips": {
+      "192.168.1.243": 11,
+      "192.168.1.1": 6,
+      "192.168.10.2": 3
+    },
+    "counts": {
+      "domains": 3,
+      "tls_server_names": 3,
+      "destination_ports": 3,
+      "listening_ports": 3,
+      "destination_ips": 30,
+      "source_ips": 3
+    }
+  },
+  "calibration": {
+    "components": {
+      "new_destinations": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_domains": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "new_ports": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "protocol_drift": {
+        "p50": 0.5011337868480725,
+        "p95": 0.5054799697656842,
+        "p99": 0.5054799697656842
+      },
+      "failed_conns": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "volume": {
+        "p50": 0.0,
+        "p95": 0.23385071945666192,
+        "p99": 0.2621409224106235
+      },
+      "flow_rate": {
+        "p50": 0.0,
+        "p95": 0.17211985852706188,
+        "p99": 0.19398348453176806
+      }
+    },
+    "baseline_scores": {
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.056615227722299544,
+      "max": 0.35559801299197535,
+      "windows": 63
+    }
+  }
+}
