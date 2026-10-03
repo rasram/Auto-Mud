@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "manifest": "../../data/collection/normal/manifest.json",
+      "telemetry": "../../data/collection/normal/zeek/telemetry.jsonl",
+      "labels": "../../data/collection/normal/labels.jsonl",
+      "partitions": [
+        {"name": "stage1_train", "start": 1800000000, "end": 1800345600},
+        {"name": "stage1_val", "start": 1800345600, "end": 1800432000},
+        {"name": "calibration", "start": 1800432000, "end": 1800518400},
+        {"name": "normal_test", "start": 1800518400, "end": 1800604800},
+        {"name": "stage2_train", "start": 1800000000, "end": 1800345600}
+      ]
+    },
+    {
+      "manifest": "../../data/gnn/public/verified-attack/manifest.json",
+      "telemetry": "../../data/gnn/public/verified-attack/zeek/telemetry.jsonl",
+      "labels": "../../data/gnn/public/verified-attack/labels.jsonl",
+      "partitions": [
+        {"name": "stage2_train", "start": 1800604800, "end": 1800608400}
+      ]
+    }
+  ],
+  "instructions": "Illustrative timestamps and paths only. Use make-config for actual Mininet runs. Add distinct verified public training/validation/test sessions as needed."
+}

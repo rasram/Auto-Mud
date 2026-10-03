@@ -2,7 +2,10 @@
 
 **Owner:** Jayan Subramanian
 
-Builds and maintains the device communication graph in Neo4j:
+Builds device communication graphs directly from canonical interval telemetry;
+Neo4j is not required. See [the schema](../../docs/gnn/SCHEMA.md).
+
+The original persistence proposal described the following behavior:
 
 - Nodes are devices.
 - Edges are observed communication flows, with byte, protocol, and timing attributes.

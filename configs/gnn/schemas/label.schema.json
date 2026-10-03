@@ -1,0 +1,74 @@
+{
+  "type": "object",
+  "properties": {
+    "device_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "start": {
+      "type": "number"
+    },
+    "end": {
+      "type": "number"
+    },
+    "label": {
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "role": {
+      "enum": [
+        "actor",
+        "normal"
+      ]
+    },
+    "evidence": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attack_family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "onset": {
+      "enum": [
+        "from_start",
+        "later"
+      ]
+    }
+  },
+  "required": [
+    "device_id",
+    "start",
+    "end",
+    "label",
+    "role",
+    "evidence"
+  ],
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "label": {
+            "const": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "role": {
+            "const": "actor"
+          }
+        },
+        "required": [
+          "attack_family",
+          "onset"
+        ]
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AutoMUD label v1"
+}

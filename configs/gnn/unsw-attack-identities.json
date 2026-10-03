@@ -1,0 +1,75 @@
+{
+  "inventory": [
+    {
+      "device_id": "BelkinWemoMotionSensor_ec1a59832811_flows",
+      "device_type": "motion_sensor",
+      "mac": "ec:1a:59:83:28:11",
+      "source_device_type": "WEMO Motion Sensor",
+      "reviewed_ip": "192.168.1.165"
+    },
+    {
+      "device_id": "BelkinWemoSwitch_ec1a5979f489_flows",
+      "device_type": "plug",
+      "mac": "ec:1a:59:79:f4:89",
+      "source_device_type": "WEMO Power Switch",
+      "reviewed_ip": "192.168.1.223"
+    },
+    {
+      "device_id": "SamsungCamera_00166cab6b88_flows",
+      "device_type": "camera",
+      "mac": "00:16:6c:ab:6b:88",
+      "source_device_type": "Samsung Camera",
+      "reviewed_ip": "192.168.1.248"
+    },
+    {
+      "device_id": "UNSW_50c7bf005639",
+      "device_type": "plug",
+      "mac": "50:c7:bf:00:56:39",
+      "source_device_type": "TP Link Plug",
+      "reviewed_ip": "192.168.1.227"
+    },
+    {
+      "device_id": "UNSW_70ee50183443",
+      "device_type": "camera",
+      "mac": "70:ee:50:18:34:43",
+      "source_device_type": "Netatmo Camera",
+      "reviewed_ip": "192.168.1.241"
+    },
+    {
+      "device_id": "PhilipsHue_0017882b9a25_flows",
+      "device_type": "light",
+      "mac": "00:17:88:2b:9a:25",
+      "source_device_type": "Huebulb",
+      "reviewed_ip": "192.168.1.129"
+    },
+    {
+      "device_id": "AmazonEcho_44650d56ccd3_flows",
+      "device_type": "speaker",
+      "mac": "44:65:0d:56:cc:d3",
+      "source_device_type": "AmazonEcho",
+      "reviewed_ip": "192.168.1.239"
+    },
+    {
+      "device_id": "UNSW_f4f5d88f0a3c",
+      "device_type": "unknown",
+      "mac": "f4:f5:d8:8f:0a:3c",
+      "source_device_type": "chromecast",
+      "reviewed_ip": "192.168.1.119"
+    },
+    {
+      "device_id": "UNSW_74c63b29d71d",
+      "device_type": "unknown",
+      "mac": "74:c6:3b:29:d7:1d",
+      "source_device_type": "ihome",
+      "reviewed_ip": "192.168.1.163"
+    },
+    {
+      "device_id": "UNSW_d073d5018308",
+      "device_type": "light",
+      "mac": "d0:73:d5:01:83:08",
+      "source_device_type": "lifx",
+      "reviewed_ip": "192.168.1.118"
+    }
+  ],
+  "review_required": "These are observed IoT target identities, not compromised-actor labels. Check against PCAPs."
+}

@@ -1,0 +1,90 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "automud.graph.v1"
+    },
+    "window_start": {
+      "type": "integer",
+      "multipleOf": 60
+    },
+    "uid": {
+      "type": "string",
+      "minLength": 1
+    },
+    "orig_h": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resp_h": {
+      "type": "string",
+      "minLength": 1
+    },
+    "orig_p": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "resp_p": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "proto": {
+      "type": "string",
+      "minLength": 1
+    },
+    "flow_start": {
+      "type": "number"
+    },
+    "orig_ip_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "resp_ip_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "orig_pkts": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "resp_pkts": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed_duration": {
+      "type": "number",
+      "minimum": 0
+    },
+    "established": {
+      "type": "boolean"
+    },
+    "failed": {
+      "type": "boolean"
+    },
+    "new_flow": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "window_start",
+    "uid",
+    "orig_h",
+    "resp_h",
+    "orig_p",
+    "resp_p",
+    "proto",
+    "flow_start",
+    "orig_ip_bytes",
+    "resp_ip_bytes",
+    "orig_pkts",
+    "resp_pkts",
+    "observed_duration",
+    "established",
+    "failed",
+    "new_flow"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AutoMUD telemetry v1"
+}

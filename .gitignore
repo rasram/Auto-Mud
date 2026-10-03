@@ -81,6 +81,10 @@ Thumbs.db
 .idea/
 *.swp
 
+# ---------- Local project context (not for commits) ----------
+/AGENTS.md
+/docs/AutoMUD_Project_Memory.md
+
 # ---------- Dataset contents ----------
 data/raw/**
 data/downloaded/**
@@ -98,3 +102,9 @@ data/processed/unsw/scores/**/*.jsonl
 # Small today (~350 KB) so it stays tracked; if a future run's conn.log gets
 # large, ignore it here rather than committing it.
 #data/processed/testbed/runs/**/zeek/*.log
+
+# New GNN captures, generated plans, tensors, and local validation artifacts.
+data/gnn/
+data/collection/
+tmp/
+.linux-tools/

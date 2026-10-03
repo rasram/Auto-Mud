@@ -2,6 +2,10 @@
 
 **Owner:** Jayan Subramanian
 
-Turns the raw datasets (UNSW, N-BaIoT, CICIoT2023) into labeled graph-snapshot training data for the GNN. Raw inputs are read from `data/raw/`. Processed outputs go to `data/processed/`.
+Canonical Zeek extraction, dataset inventory, reviewed public identity manifests,
+generator calibration, capture inspection, graph preparation, explicit split
+catalogs, and training-only normalization live here. Public aggregate feature CSVs
+are audited rather than silently mapped into incompatible graph features.
 
-Methodology: Stage 0, step 5.
+See [collection commands and exact public files](../../docs/gnn/COLLECTION.md)
+and [input contracts](../../docs/gnn/SCHEMA.md).

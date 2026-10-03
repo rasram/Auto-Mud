@@ -38,9 +38,12 @@ def main():
         default=PROJECT_ROOT / "data" / "processed" / "testbed" / "runs" / "full_topology",
         help="Directory for the PCAP and per-agent logs",
     )
-    parser.add_argument("--speed", type=float, default=3600)
+    parser.add_argument("--speed", type=float, default=1,
+                        help="Replay speed; legacy packet replay is diagnostic only. Use network.testbed.collect for ML collection.")
     parser.add_argument("--no-nat", action="store_true")
     args = parser.parse_args()
+    print("Legacy diagnostic replay: this runner does not produce validated ML training data. "
+          "Use python -m network.testbed.collect with a collection plan.")
 
     topology_path = args.topology.expanduser().resolve()
     traffic_dir = args.traffic_dir.expanduser().resolve()

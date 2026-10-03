@@ -1,0 +1,119 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "automud.graph.v1"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "start": {
+      "type": "integer",
+      "multipleOf": 60
+    },
+    "end": {
+      "type": "integer",
+      "multipleOf": 60
+    },
+    "normal": {
+      "type": "boolean"
+    },
+    "capture_complete": {
+      "type": "boolean"
+    },
+    "replay_speed": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "inventory": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "device_type": {
+            "enum": [
+              "hub",
+              "speaker",
+              "light",
+              "plug",
+              "camera",
+              "doorbell",
+              "motion_sensor",
+              "printer",
+              "environmental_sensor",
+              "scale",
+              "unknown"
+            ]
+          },
+          "mac": {
+            "type": "string",
+            "minLength": 1
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ip": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "start": {
+                  "type": "number"
+                },
+                "end": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "ip",
+                "start",
+                "end"
+              ],
+              "additionalProperties": true
+            }
+          }
+        },
+        "required": [
+          "device_id",
+          "device_type",
+          "addresses"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "capture_drops": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "source",
+    "session_id",
+    "start",
+    "end",
+    "normal",
+    "capture_complete",
+    "replay_speed",
+    "inventory"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AutoMUD manifest v1"
+}

@@ -1,0 +1,4259 @@
+{
+  "cic": {
+    "CSV": [
+      {
+        "columns": [
+          "Header_Length",
+          "Protocol Type",
+          "Time_To_Live",
+          "Rate",
+          "fin_flag_number",
+          "syn_flag_number",
+          "rst_flag_number",
+          "psh_flag_number",
+          "ack_flag_number",
+          "ece_flag_number",
+          "cwr_flag_number",
+          "ack_count",
+          "syn_count",
+          "fin_count",
+          "rst_count",
+          "HTTP",
+          "HTTPS",
+          "DNS",
+          "Telnet",
+          "SMTP",
+          "SSH",
+          "IRC",
+          "TCP",
+          "UDP",
+          "DHCP",
+          "ARP",
+          "ICMP",
+          "IGMP",
+          "IPv",
+          "LLC",
+          "Tot sum",
+          "Min",
+          "Max",
+          "AVG",
+          "Std",
+          "Tot size",
+          "IAT",
+          "Number",
+          "Variance"
+        ],
+        "file_count": 309,
+        "example": "E:\\Projects_Archive\\FYP\\CICIOT2023\\CSV\\CSV\\Backdoor_Malware\\Backdoor_Malware.pcap.csv"
+      }
+    ],
+    "MERGED_CSV": [
+      {
+        "columns": [
+          "Header_Length",
+          "Protocol Type",
+          "Time_To_Live",
+          "Rate",
+          "fin_flag_number",
+          "syn_flag_number",
+          "rst_flag_number",
+          "psh_flag_number",
+          "ack_flag_number",
+          "ece_flag_number",
+          "cwr_flag_number",
+          "ack_count",
+          "syn_count",
+          "fin_count",
+          "rst_count",
+          "HTTP",
+          "HTTPS",
+          "DNS",
+          "Telnet",
+          "SMTP",
+          "SSH",
+          "IRC",
+          "TCP",
+          "UDP",
+          "DHCP",
+          "ARP",
+          "ICMP",
+          "IGMP",
+          "IPv",
+          "LLC",
+          "Tot sum",
+          "Min",
+          "Max",
+          "AVG",
+          "Std",
+          "Tot size",
+          "IAT",
+          "Number",
+          "Variance",
+          "Label"
+        ],
+        "file_count": 63,
+        "example": "E:\\Projects_Archive\\FYP\\CICIOT2023\\MERGED_CSV\\MERGED_CSV\\Merged01.csv"
+      }
+    ],
+    "pcaps": [
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\Backdoor_Malware.pcap",
+        "bytes": 10544806,
+        "role": "needs_verified_actor_and_interval"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\BenignTraffic.pcap",
+        "bytes": 2048000100,
+        "role": "normal_candidate"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\BenignTraffic1.pcap",
+        "bytes": 2048002499,
+        "role": "normal_candidate"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\BenignTraffic2.pcap",
+        "bytes": 2048001991,
+        "role": "normal_candidate"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\BenignTraffic3.pcap",
+        "bytes": 853841091,
+        "role": "normal_candidate"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\MITM-ArpSpoofing.pcap",
+        "bytes": 2046238529,
+        "role": "needs_verified_actor_and_interval"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\MITM-ArpSpoofing1.pcap",
+        "bytes": 632387050,
+        "role": "needs_verified_actor_and_interval"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\Recon-OSScan.pcap",
+        "bytes": 323891580,
+        "role": "needs_verified_actor_and_interval"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\CICIOT2023\\Recon-PortScan.pcap",
+        "bytes": 200950957,
+        "role": "needs_verified_actor_and_interval"
+      }
+    ]
+  },
+  "unsw_normal": {
+    "selected_pcaps": [
+      {
+        "device_id": "SamsungSmartThings_d052a800675e_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\SamsungSmartThings_d052a800675e.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "AmazonEcho_44650d56ccd3_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\AmazonEcho_44650d56ccd3.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "PhilipsHue_0017882b9a25_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\PhilipsHue_0017882b9a25.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "BelkinWemoSwitch_ec1a5979f489_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\BelkinWemoSwitch_ec1a5979f489.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "SamsungCamera_00166cab6b88_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\SamsungCamera_00166cab6b88.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "NestDropCam_308cfb2fe4b2_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\NestDropCam_308cfb2fe4b2.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "AugustDoorBell_e076d03f00ae_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\AugustDoorBell_e076d03f00ae.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "BelkinWemoMotionSensor_ec1a59832811_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\BelkinWemoMotionSensor_ec1a59832811.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "HPPrinter_705a0fe49bc0_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\HPPrinter_705a0fe49bc0.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "NetatmoWeatherStation_70ee5003b8ac_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\NetatmoWeatherStation_70ee5003b8ac.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "AwairAirQuality_70886b100fc6_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\AwairAirQuality_70886b100fc6.pcap",
+        "exists": true
+      },
+      {
+        "device_id": "WithingsSmartScale_0024e41b6f96_flows",
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoTraffic\\pcaps\\WithingsSmartScale_0024e41b6f96.pcap",
+        "exists": true
+      }
+    ]
+  },
+  "unsw_attack": {
+    "flowstats": [
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\00166cab6b88_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromInternetTcpPort40000Packet",
+          "FromInternetTcpPort40000Byte",
+          "FromInternetUdpPortAllPacket",
+          "FromInternetUdpPortAllByte",
+          "ToInternetTcpPort40000Packet",
+          "ToInternetTcpPort40000Byte",
+          "ToInternetUdpPortAllPacket",
+          "ToInternetUdpPortAllByte",
+          "FromLocalTcpPort59486Packet",
+          "FromLocalTcpPort59486Byte",
+          "FromLocalTcpPort554Packet",
+          "FromLocalTcpPort554Byte",
+          "FromLocalIcmpPortAllPacket",
+          "FromLocalIcmpPortAllByte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalTcpPort47893Packet",
+          "FromLocalTcpPort47893Byte",
+          "FromLocalTcpPort41086Packet",
+          "FromLocalTcpPort41086Byte",
+          "FromLocalTcpPort54836Packet",
+          "FromLocalTcpPort54836Byte",
+          "FromLocalTcpPort51125Packet",
+          "FromLocalTcpPort51125Byte",
+          "FromLocalTcpPort53074Packet",
+          "FromLocalTcpPort53074Byte",
+          "FromLocalTcpPort56035Packet",
+          "FromLocalTcpPort56035Byte",
+          "FromLocalUdpPort1900Packet",
+          "FromLocalUdpPort1900Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalTcpPort44416Packet",
+          "FromLocalTcpPort44416Byte",
+          "FromLocalTcpPort49152Packet",
+          "FromLocalTcpPort49152Byte",
+          "FromLocalTcpPort80Packet",
+          "FromLocalTcpPort80Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocal2PortAllIP224.0.0.251/32Packet",
+          "ToLocal2PortAllIP224.0.0.251/32Byte",
+          "ToLocal2PortAllIP224.0.0.22/32Packet",
+          "ToLocal2PortAllIP224.0.0.22/32Byte",
+          "ToLocalTcpPort47893Packet",
+          "ToLocalTcpPort47893Byte",
+          "ToLocalUdpPort1900IP239.255.255.250/32Packet",
+          "ToLocalUdpPort1900IP239.255.255.250/32Byte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocalTcpPort54836Packet",
+          "ToLocalTcpPort54836Byte",
+          "ToLocalUdpPort7711IP255.255.255.255/32Packet",
+          "ToLocalUdpPort7711IP255.255.255.255/32Byte",
+          "ToLocalTcpPort53074Packet",
+          "ToLocalTcpPort53074Byte",
+          "ToLocalUdpPort1900Packet",
+          "ToLocalUdpPort1900Byte",
+          "ToLocalTcpPort51125Packet",
+          "ToLocalTcpPort51125Byte",
+          "ToLocalTcpPort41086Packet",
+          "ToLocalTcpPort41086Byte",
+          "ToLocal2PortAllIP239.255.255.250/32Packet",
+          "ToLocal2PortAllIP239.255.255.250/32Byte",
+          "ToLocalTcpPort59486Packet",
+          "ToLocalTcpPort59486Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalTcpPort49152Packet",
+          "ToLocalTcpPort49152Byte",
+          "ToLocalTcpPort443Packet",
+          "ToLocalTcpPort443Byte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocalTcpPort444Packet",
+          "ToLocalTcpPort444Byte",
+          "ToLocalTcpPort554Packet",
+          "ToLocalTcpPort554Byte",
+          "ToLocalTcpPort56035Packet",
+          "ToLocalTcpPort56035Byte",
+          "ToLocalUdpPort5353IP224.0.0.251/32Packet",
+          "ToLocalUdpPort5353IP224.0.0.251/32Byte",
+          "ToLocalTcpPort44416Packet",
+          "ToLocalTcpPort44416Byte",
+          "ToLocal2PortAllIP224.0.0.2/32Packet",
+          "ToLocal2PortAllIP224.0.0.2/32Byte",
+          "ToLocalTcpPort80Packet",
+          "ToLocalTcpPort80Byte",
+          "ToLocalUdpPort1900IPff00::/8Packet",
+          "ToLocalUdpPort1900IPff00::/8Byte",
+          "ToLocalUdpPort5353IPff00::/8Packet",
+          "ToLocalUdpPort5353IPff00::/8Byte",
+          "ToLocal0PortAllIPff05:0:0:0:0:0:0:cPacket",
+          "ToLocal0PortAllIPff05:0:0:0:0:0:0:cByte",
+          "ToLocal0PortAllIPff00::/8Packet",
+          "ToLocal0PortAllIPff00::/8Byte",
+          "ToLocal0x0006PortAllPacket",
+          "ToLocal0x0006PortAllByte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetUdpPort123Packet",
+          "FromInternetUdpPort123Byte",
+          "FromInternetTcpPort443Packet",
+          "FromInternetTcpPort443Byte",
+          "FromInternetTcpPort80Packet",
+          "FromInternetTcpPort80Byte",
+          "FromInternetTcpPort465Packet",
+          "FromInternetTcpPort465Byte",
+          "FromInternetTcpPort5222Packet",
+          "FromInternetTcpPort5222Byte",
+          "ToInternetUdpPort123Packet",
+          "ToInternetUdpPort123Byte",
+          "ToInternetTcpPort5222Packet",
+          "ToInternetTcpPort5222Byte",
+          "ToInternetTcpPort80Packet",
+          "ToInternetTcpPort80Byte",
+          "ToInternetTcpPort443Packet",
+          "ToInternetTcpPort443Byte",
+          "ToInternetTcpPort465Packet",
+          "ToInternetTcpPort465Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 70363,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\0017882b9a25_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromLocalIcmpPortAllPacket",
+          "FromLocalIcmpPortAllByte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalTcpPort80Packet",
+          "FromLocalTcpPort80Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocal2PortAllIP224.0.0.22/32Packet",
+          "ToLocal2PortAllIP224.0.0.22/32Byte",
+          "ToLocalUdpPort1900IP239.255.255.250/32Packet",
+          "ToLocalUdpPort1900IP239.255.255.250/32Byte",
+          "ToLocalUdpPort5353IP224.0.0.251/32Packet",
+          "ToLocalUdpPort5353IP224.0.0.251/32Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalTcpPort80Packet",
+          "ToLocalTcpPort80Byte",
+          "ToLocal0PortAllIPff00::/8Packet",
+          "ToLocal0PortAllIPff00::/8Byte",
+          "ToLocalUdpPort5353IPff00::/8Packet",
+          "ToLocalUdpPort5353IPff00::/8Byte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetTcpPort80Packet",
+          "FromInternetTcpPort80Byte",
+          "FromInternetUdpPort123Packet",
+          "FromInternetUdpPort123Byte",
+          "FromInternetTcpPort443Packet",
+          "FromInternetTcpPort443Byte",
+          "ToInternetTcpPort80Packet",
+          "ToInternetTcpPort80Byte",
+          "ToInternetTcpPort443Packet",
+          "ToInternetTcpPort443Byte",
+          "ToInternetUdpPort123Packet",
+          "ToInternetUdpPort123Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 43728,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\44650d56ccd3_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromInternetUdpPort53IP208.67.220.220/32Packet",
+          "FromInternetUdpPort53IP208.67.220.220/32Byte",
+          "ToInternetUdpPort53IP208.67.220.220/32Packet",
+          "ToInternetUdpPort53IP208.67.220.220/32Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalIcmpPortAllIP192.168.1.1Packet",
+          "FromLocalIcmpPortAllIP192.168.1.1Byte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalUdpPort50000Packet",
+          "FromLocalUdpPort50000Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocal2PortAllIP224.0.0.22/32Packet",
+          "ToLocal2PortAllIP224.0.0.22/32Byte",
+          "ToLocalUdpPort1900IP239.255.255.250/32Packet",
+          "ToLocalUdpPort1900IP239.255.255.250/32Byte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocalIcmpPortAllIP192.168.1.1Packet",
+          "ToLocalIcmpPortAllIP192.168.1.1Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocalUdpPort5353IP224.0.0.251/32Packet",
+          "ToLocalUdpPort5353IP224.0.0.251/32Byte",
+          "ToLocal0x0006PortAllPacket",
+          "ToLocal0x0006PortAllByte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetUdpPort123Packet",
+          "FromInternetUdpPort123Byte",
+          "FromInternetTcpPort443Packet",
+          "FromInternetTcpPort443Byte",
+          "FromInternetTcpPort80Packet",
+          "FromInternetTcpPort80Byte",
+          "FromInternetUdpPort33434Packet",
+          "FromInternetUdpPort33434Byte",
+          "ToInternetTcpPort443Packet",
+          "ToInternetTcpPort443Byte",
+          "ToInternetUdpPort123Packet",
+          "ToInternetUdpPort123Byte",
+          "ToInternetTcpPort80Packet",
+          "ToInternetTcpPort80Byte",
+          "ToInternetUdpPort33434Packet",
+          "ToInternetUdpPort33434Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 43728,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\50c7bf005639_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromLocalIcmpPortAllPacket",
+          "FromLocalIcmpPortAllByte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalTcpPort9999Packet",
+          "FromLocalTcpPort9999Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalIcmpPortAllIP192.168.1.1Packet",
+          "FromLocalIcmpPortAllIP192.168.1.1Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalIcmpPortAllIP192.168.1.1Packet",
+          "ToLocalIcmpPortAllIP192.168.1.1Byte",
+          "ToLocalTcpPort9999Packet",
+          "ToLocalTcpPort9999Byte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetUdpPort123Packet",
+          "FromInternetUdpPort123Byte",
+          "FromInternetTcpPort50443Packet",
+          "FromInternetTcpPort50443Byte",
+          "ToInternetUdpPort123Packet",
+          "ToInternetUdpPort123Byte",
+          "ToInternetTcpPort50443Packet",
+          "ToInternetTcpPort50443Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 70371,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\70ee50183443_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalTcpPort80Packet",
+          "FromLocalTcpPort80Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocalTcpPort80Packet",
+          "ToLocalTcpPort80Byte",
+          "ToLocal58PortAllIPff00::/8Packet",
+          "ToLocal58PortAllIPff00::/8Byte",
+          "ToLocal0PortAllIPff00::/8Packet",
+          "ToLocal0PortAllIPff00::/8Byte",
+          "ToLocal0x0006PortAllPacket",
+          "ToLocal0x0006PortAllByte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetIcmpPortAllPacket",
+          "FromInternetIcmpPortAllByte",
+          "FromInternetUdpPort123Packet",
+          "FromInternetUdpPort123Byte",
+          "FromInternetTcpPort80Packet",
+          "FromInternetTcpPort80Byte",
+          "FromInternetTcpPort443Packet",
+          "FromInternetTcpPort443Byte",
+          "FromInternetUdpPort500Packet",
+          "FromInternetUdpPort500Byte",
+          "FromInternetUdpPort4500Packet",
+          "FromInternetUdpPort4500Byte",
+          "ToInternetUdpPort123Packet",
+          "ToInternetUdpPort123Byte",
+          "ToInternetIcmpPortAllPacket",
+          "ToInternetIcmpPortAllByte",
+          "ToInternetUdpPort4500Packet",
+          "ToInternetUdpPort4500Byte",
+          "ToInternetUdpPort500Packet",
+          "ToInternetUdpPort500Byte",
+          "ToInternetTcpPort80Packet",
+          "ToInternetTcpPort80Byte",
+          "ToInternetTcpPort443Packet",
+          "ToInternetTcpPort443Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 70358,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\74c63b29d71d_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocal2PortAllIP224.0.0.251/32Packet",
+          "ToLocal2PortAllIP224.0.0.251/32Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocalUdpPort5353IP224.0.0.251/32Packet",
+          "ToLocalUdpPort5353IP224.0.0.251/32Byte",
+          "ToLocal58PortAllIPff00::/8Packet",
+          "ToLocal58PortAllIPff00::/8Byte",
+          "ToLocal0PortAllIPff00::/8Packet",
+          "ToLocal0PortAllIPff00::/8Byte",
+          "ToLocalUdpPort5353IPff00::/8Packet",
+          "ToLocalUdpPort5353IPff00::/8Byte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetTcpPort80Packet",
+          "FromInternetTcpPort80Byte",
+          "FromInternetTcpPort443Packet",
+          "FromInternetTcpPort443Byte",
+          "ToInternetTcpPort443Packet",
+          "ToInternetTcpPort443Byte",
+          "ToInternetTcpPort80Packet",
+          "ToInternetTcpPort80Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 43735,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\d073d5018308_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromInternetUdpPort53IP8.8.8.8/32Packet",
+          "FromInternetUdpPort53IP8.8.8.8/32Byte",
+          "ToInternetUdpPort53IP8.8.8.8/32Packet",
+          "ToInternetUdpPort53IP8.8.8.8/32Byte",
+          "FromLocalIcmpPortAllPacket",
+          "FromLocalIcmpPortAllByte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalUdpPort56700Packet",
+          "FromLocalUdpPort56700Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocalUdpPort56700Packet",
+          "ToLocalUdpPort56700Byte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalUdpPort56700Packet",
+          "ToLocalUdpPort56700Byte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocal58PortAllIPff00::/8Packet",
+          "ToLocal58PortAllIPff00::/8Byte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocal0x0006PortAllPacket",
+          "ToLocal0x0006PortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetTcpPort56700Packet",
+          "FromInternetTcpPort56700Byte",
+          "FromInternetUdpPort123Packet",
+          "FromInternetUdpPort123Byte",
+          "ToInternetUdpPort123Packet",
+          "ToInternetUdpPort123Byte",
+          "ToInternetTcpPort56700Packet",
+          "ToInternetTcpPort56700Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 43730,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\ec1a5979f489_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromInternetUdpPort123IP130.149.17.8/32Packet",
+          "FromInternetUdpPort123IP130.149.17.8/32Byte",
+          "FromInternetUdpPort123IP129.132.2.21/32Packet",
+          "FromInternetUdpPort123IP129.132.2.21/32Byte",
+          "FromInternetIcmpPortAllIP4.2.2.2/32Packet",
+          "FromInternetIcmpPortAllIP4.2.2.2/32Byte",
+          "FromInternetUdpPort123IP132.163.4.102/32Packet",
+          "FromInternetUdpPort123IP132.163.4.102/32Byte",
+          "FromInternetTcpPort3478Packet",
+          "FromInternetTcpPort3478Byte",
+          "ToInternetTcpPort3478Packet",
+          "ToInternetTcpPort3478Byte",
+          "ToInternetUdpPort123IP129.132.2.21/32Packet",
+          "ToInternetUdpPort123IP129.132.2.21/32Byte",
+          "ToInternetIcmpPortAllIP4.2.2.2/32Packet",
+          "ToInternetIcmpPortAllIP4.2.2.2/32Byte",
+          "ToInternetUdpPort123IP130.149.17.8/32Packet",
+          "ToInternetUdpPort123IP130.149.17.8/32Byte",
+          "ToInternetUdpPort123IP132.163.4.102/32Packet",
+          "ToInternetUdpPort123IP132.163.4.102/32Byte",
+          "FromLocalIcmpPortAllIP192.168.1.1Packet",
+          "FromLocalIcmpPortAllIP192.168.1.1Byte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalTcpPort49153Packet",
+          "FromLocalTcpPort49153Byte",
+          "FromLocalTcpPort49154Packet",
+          "FromLocalTcpPort49154Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalTcpPort49152Packet",
+          "FromLocalTcpPort49152Byte",
+          "FromLocalTcpPort8059Packet",
+          "FromLocalTcpPort8059Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocal2PortAllIP224.0.0.22/32Packet",
+          "ToLocal2PortAllIP224.0.0.22/32Byte",
+          "ToLocalUdpPort1900IP239.255.255.250/32Packet",
+          "ToLocalUdpPort1900IP239.255.255.250/32Byte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocalIcmpPortAllIP192.168.1.1Packet",
+          "ToLocalIcmpPortAllIP192.168.1.1Byte",
+          "ToLocalTcpPort8059Packet",
+          "ToLocalTcpPort8059Byte",
+          "ToLocal2PortAllIP239.255.255.250/32Packet",
+          "ToLocal2PortAllIP239.255.255.250/32Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalTcpPort49154Packet",
+          "ToLocalTcpPort49154Byte",
+          "ToLocalTcpPort49152Packet",
+          "ToLocalTcpPort49152Byte",
+          "ToLocal2PortAllIP224.0.0.2/32Packet",
+          "ToLocal2PortAllIP224.0.0.2/32Byte",
+          "ToLocalTcpPort49153Packet",
+          "ToLocalTcpPort49153Byte",
+          "ToLocal0PortAllIPff00::/8Packet",
+          "ToLocal0PortAllIPff00::/8Byte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocal0x0006PortAllPacket",
+          "ToLocal0x0006PortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetTcpPort8899Packet",
+          "FromInternetTcpPort8899Byte",
+          "FromInternetTcpPort3475Packet",
+          "FromInternetTcpPort3475Byte",
+          "FromInternetTcpPort8443Packet",
+          "FromInternetTcpPort8443Byte",
+          "ToInternetTcpPort8443Packet",
+          "ToInternetTcpPort8443Byte",
+          "ToInternetTcpPort8899Packet",
+          "ToInternetTcpPort8899Byte",
+          "ToInternetTcpPort3475Packet",
+          "ToInternetTcpPort3475Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 70360,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\ec1a59832811_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromInternetUdpPort123IP129.132.2.21/32Packet",
+          "FromInternetUdpPort123IP129.132.2.21/32Byte",
+          "FromInternetUdpPort123IP132.163.4.102/32Packet",
+          "FromInternetUdpPort123IP132.163.4.102/32Byte",
+          "ToInternetUdpPort123IP129.132.2.21/32Packet",
+          "ToInternetUdpPort123IP129.132.2.21/32Byte",
+          "ToInternetUdpPort123IP132.163.4.102/32Packet",
+          "ToInternetUdpPort123IP132.163.4.102/32Byte",
+          "FromLocalIcmpPortAllIP192.168.1.1Packet",
+          "FromLocalIcmpPortAllIP192.168.1.1Byte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalTcpPort49153Packet",
+          "FromLocalTcpPort49153Byte",
+          "FromLocalUdpPort3306Packet",
+          "FromLocalUdpPort3306Byte",
+          "FromLocalUdpPort3079Packet",
+          "FromLocalUdpPort3079Byte",
+          "FromLocalUdpPort3080Packet",
+          "FromLocalUdpPort3080Byte",
+          "FromLocalTcpPort49154Packet",
+          "FromLocalTcpPort49154Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalTcpPort49152Packet",
+          "FromLocalTcpPort49152Byte",
+          "FromLocalUdpPort3087Packet",
+          "FromLocalUdpPort3087Byte",
+          "FromLocalTcpPort8059Packet",
+          "FromLocalTcpPort8059Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocalUdpPort3080Packet",
+          "ToLocalUdpPort3080Byte",
+          "ToLocal2PortAllIP224.0.0.22/32Packet",
+          "ToLocal2PortAllIP224.0.0.22/32Byte",
+          "ToLocalUdpPort1900IP239.255.255.250/32Packet",
+          "ToLocalUdpPort1900IP239.255.255.250/32Byte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocalIcmpPortAllIP192.168.1.1Packet",
+          "ToLocalIcmpPortAllIP192.168.1.1Byte",
+          "ToLocalUdpPort3079Packet",
+          "ToLocalUdpPort3079Byte",
+          "ToLocalTcpPort8059Packet",
+          "ToLocalTcpPort8059Byte",
+          "ToLocal2PortAllIP239.255.255.250/32Packet",
+          "ToLocal2PortAllIP239.255.255.250/32Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalTcpPort49154Packet",
+          "ToLocalTcpPort49154Byte",
+          "ToLocalTcpPort49152Packet",
+          "ToLocalTcpPort49152Byte",
+          "ToLocalUdpPort3306Packet",
+          "ToLocalUdpPort3306Byte",
+          "ToLocalUdpPort3087Packet",
+          "ToLocalUdpPort3087Byte",
+          "ToLocalTcpPort49153Packet",
+          "ToLocalTcpPort49153Byte",
+          "ToLocal0PortAllIPff00::/8Packet",
+          "ToLocal0PortAllIPff00::/8Byte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocal0x0006PortAllPacket",
+          "ToLocal0x0006PortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetTcpPort8443Packet",
+          "FromInternetTcpPort8443Byte",
+          "FromInternetTcpPort8899Packet",
+          "FromInternetTcpPort8899Byte",
+          "FromInternetTcpPort3478Packet",
+          "FromInternetTcpPort3478Byte",
+          "ToInternetTcpPort8443Packet",
+          "ToInternetTcpPort8443Byte",
+          "ToInternetTcpPort3478Packet",
+          "ToInternetTcpPort3478Byte",
+          "ToInternetTcpPort8899Packet",
+          "ToInternetTcpPort8899Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 70358,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\flowdata\\flowdata\\f4f5d88f0a3c_flowstats.csv",
+        "columns": [
+          "Timestamp",
+          "FromInternetUdpPort53IP8.8.8.8/32Packet",
+          "FromInternetUdpPort53IP8.8.8.8/32Byte",
+          "FromInternetIcmpPortAllIP8.8.8.8/32Packet",
+          "FromInternetIcmpPortAllIP8.8.8.8/32Byte",
+          "ToInternetUdpPort53IP8.8.8.8/32Packet",
+          "ToInternetUdpPort53IP8.8.8.8/32Byte",
+          "ToInternetIcmpPortAllIP8.8.8.8/32Packet",
+          "ToInternetIcmpPortAllIP8.8.8.8/32Byte",
+          "FromLocalUdpPort67IP192.168.1.1Packet",
+          "FromLocalUdpPort67IP192.168.1.1Byte",
+          "FromLocalIcmpPortAllIP192.168.1.1Packet",
+          "FromLocalIcmpPortAllIP192.168.1.1Byte",
+          "FromLocalUdpPort53IP192.168.1.1Packet",
+          "FromLocalUdpPort53IP192.168.1.1Byte",
+          "FromLocalTcpPort8008Packet",
+          "FromLocalTcpPort8008Byte",
+          "FromLocalTcpPort8009Packet",
+          "FromLocalTcpPort8009Byte",
+          "FromLocalArpPortAllPacket",
+          "FromLocalArpPortAllByte",
+          "ToLocal2PortAllIP224.0.0.251/32Packet",
+          "ToLocal2PortAllIP224.0.0.251/32Byte",
+          "ToLocalUdpPort53IP192.168.1.1Packet",
+          "ToLocalUdpPort53IP192.168.1.1Byte",
+          "ToLocalTcpPort8009Packet",
+          "ToLocalTcpPort8009Byte",
+          "ToLocal2PortAllIP239.255.255.250/32Packet",
+          "ToLocal2PortAllIP239.255.255.250/32Byte",
+          "ToLocal2PortAllIP224.0.0.22/32Packet",
+          "ToLocal2PortAllIP224.0.0.22/32Byte",
+          "ToLocalUdpPort1900IP239.255.255.250/32Packet",
+          "ToLocalUdpPort1900IP239.255.255.250/32Byte",
+          "ToLocalUdpPort67IP255.255.255.255/32Packet",
+          "ToLocalUdpPort67IP255.255.255.255/32Byte",
+          "ToLocalIcmpPortAllIP192.168.1.1Packet",
+          "ToLocalIcmpPortAllIP192.168.1.1Byte",
+          "ToLocalUdpPort5353IP224.0.0.251/32Packet",
+          "ToLocalUdpPort5353IP224.0.0.251/32Byte",
+          "ToLocal2PortAllIP224.0.0.2/32Packet",
+          "ToLocal2PortAllIP224.0.0.2/32Byte",
+          "ToLocalUdpPort67IP192.168.1.1Packet",
+          "ToLocalUdpPort67IP192.168.1.1Byte",
+          "ToLocalTcpPort8008Packet",
+          "ToLocalTcpPort8008Byte",
+          "ToLocal58PortAllIPff00::/8Packet",
+          "ToLocal58PortAllIPff00::/8Byte",
+          "ToLocal0PortAllIPff00::/8Packet",
+          "ToLocal0PortAllIPff00::/8Byte",
+          "ToLocal0x0006PortAllPacket",
+          "ToLocal0x0006PortAllByte",
+          "ToLocal0x888ePortAllPacket",
+          "ToLocal0x888ePortAllByte",
+          "ToLocalArpPortAllPacket",
+          "ToLocalArpPortAllByte",
+          "FromInternetTcpPort80Packet",
+          "FromInternetTcpPort80Byte",
+          "FromInternetTcpPort443Packet",
+          "FromInternetTcpPort443Byte",
+          "FromInternetUdpPort443Packet",
+          "FromInternetUdpPort443Byte",
+          "FromInternetIcmpPortAllPacket",
+          "FromInternetIcmpPortAllByte",
+          "FromInternetUdpPort123Packet",
+          "FromInternetUdpPort123Byte",
+          "FromInternetTcpPort5228Packet",
+          "FromInternetTcpPort5228Byte",
+          "ToInternetTcpPort443Packet",
+          "ToInternetTcpPort443Byte",
+          "ToInternetUdpPort443Packet",
+          "ToInternetUdpPort443Byte",
+          "ToInternetTcpPort80Packet",
+          "ToInternetTcpPort80Byte",
+          "ToInternetUdpPort123Packet",
+          "ToInternetUdpPort123Byte",
+          "ToInternetIcmpPortAllPacket",
+          "ToInternetIcmpPortAllByte",
+          "ToInternetTcpPort5228Packet",
+          "ToInternetTcpPort5228Byte",
+          " NoOfFlows"
+        ],
+        "row_count": 43729,
+        "compatible": false,
+        "reason": "Policy buckets lack individual peers, connection timing/state and graph context"
+      }
+    ],
+    "annotations": [
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 1,
+        "start": 1527838552.0,
+        "end": 1527839153.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 2,
+        "start": 1527835334.0,
+        "end": 1527835936.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 3,
+        "start": 1527836944.0,
+        "end": 1527837544.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 4,
+        "start": 1527860996.0,
+        "end": 1527861596.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 5,
+        "start": 1527862604.0,
+        "end": 1527863204.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 6,
+        "start": 1527864215.0,
+        "end": 1527864815.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 7,
+        "start": 1527935202.0,
+        "end": 1527935802.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "PingOfDeath1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 8,
+        "start": 1527936810.0,
+        "end": 1527937410.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "PingOfDeath10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 9,
+        "start": 1527938417.0,
+        "end": 1527939017.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "PingOfDeath100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 10,
+        "start": 1527949904.0,
+        "end": 1527950504.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "UdpDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 11,
+        "start": 1527951510.0,
+        "end": 1527952110.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "UdpDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 12,
+        "start": 1527953123.0,
+        "end": 1527953723.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "UdpDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 13,
+        "start": 1527893138.0,
+        "end": 1527893738.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 14,
+        "start": 1527889925.0,
+        "end": 1527890525.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 15,
+        "start": 1527891530.0,
+        "end": 1527892130.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 16,
+        "start": 1527961822.0,
+        "end": 1527962423.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Smurf1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 17,
+        "start": 1527963430.0,
+        "end": 1527964030.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Smurf10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 18,
+        "start": 1527965037.0,
+        "end": 1527965637.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Smurf100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 19,
+        "start": 1527968269.0,
+        "end": 1527968870.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 20,
+        "start": 1527969880.0,
+        "end": 1527970480.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 21,
+        "start": 1527971486.0,
+        "end": 1527972086.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 22,
+        "start": 1528001914.0,
+        "end": 1528002515.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp1L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 23,
+        "start": 1528002528.0,
+        "end": 1528003128.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp10L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 24,
+        "start": 1528003135.0,
+        "end": 1528003735.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp100L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 25,
+        "start": 1527879896.0,
+        "end": 1527880496.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 26,
+        "start": 1527876695.0,
+        "end": 1527877296.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 27,
+        "start": 1527878296.0,
+        "end": 1527878896.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 28,
+        "start": 1527955025.0,
+        "end": 1527955626.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 29,
+        "start": 1527956626.0,
+        "end": 1527957226.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 30,
+        "start": 1527958226.0,
+        "end": 1527958826.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "Snmp100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 31,
+        "start": 1527917995.0,
+        "end": 1527918596.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 32,
+        "start": 1527919596.0,
+        "end": 1527920197.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 33,
+        "start": 1527921197.0,
+        "end": 1527921797.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 34,
+        "start": 1527943358.0,
+        "end": 1527943958.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "UdpDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 35,
+        "start": 1527944959.0,
+        "end": 1527945559.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "UdpDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 36,
+        "start": 1527946559.0,
+        "end": 1527947159.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "UdpDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 37,
+        "start": 1528224632.0,
+        "end": 1528225233.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 38,
+        "start": 1528226233.0,
+        "end": 1528226833.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 39,
+        "start": 1528227833.0,
+        "end": 1528228433.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 40,
+        "start": 1528284070.0,
+        "end": 1528284670.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 41,
+        "start": 1528280869.0,
+        "end": 1528281470.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\00166cab6b88.csv",
+        "line": 42,
+        "start": 1528282470.0,
+        "end": 1528283070.0,
+        "impacted_mac": "00166cab6b88",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 1,
+        "start": 1540358552.0,
+        "end": 1540359152.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 2,
+        "start": 1540357342.0,
+        "end": 1540357942.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 3,
+        "start": 1540348890.0,
+        "end": 1540349490.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 4,
+        "start": 1540350097.0,
+        "end": 1540350697.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 5,
+        "start": 1540351301.0,
+        "end": 1540351902.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 6,
+        "start": 1540353718.0,
+        "end": 1540354318.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "PingOfDeath10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 7,
+        "start": 1540356134.0,
+        "end": 1540356735.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 8,
+        "start": 1540352509.0,
+        "end": 1540353109.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "PingOfDeath1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 9,
+        "start": 1540354923.0,
+        "end": 1540355523.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "PingOfDeath100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 10,
+        "start": 1540365943.0,
+        "end": 1540366543.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Smurf1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 11,
+        "start": 1540373217.0,
+        "end": 1540373817.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 12,
+        "start": 1540366855.0,
+        "end": 1540367455.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Smurf10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 13,
+        "start": 1540368674.0,
+        "end": 1540369275.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynReflection1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 14,
+        "start": 1540369583.0,
+        "end": 1540370183.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynReflection10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 15,
+        "start": 1540371397.0,
+        "end": 1540371998.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 16,
+        "start": 1540372308.0,
+        "end": 1540372908.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 17,
+        "start": 1540370492.0,
+        "end": 1540371092.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynReflection100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 18,
+        "start": 1540367763.0,
+        "end": 1540368363.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Smurf100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 19,
+        "start": 1540361353.0,
+        "end": 1540361953.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp100L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 20,
+        "start": 1540360129.0,
+        "end": 1540360729.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp1L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 21,
+        "start": 1540360741.0,
+        "end": 1540361341.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp10L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 22,
+        "start": 1540380531.0,
+        "end": 1540381131.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 23,
+        "start": 1540378530.0,
+        "end": 1540379131.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 24,
+        "start": 1540379531.0,
+        "end": 1540380131.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 25,
+        "start": 1540384708.0,
+        "end": 1540385308.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 26,
+        "start": 1540382707.0,
+        "end": 1540383308.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 27,
+        "start": 1540383708.0,
+        "end": 1540384308.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "Ssdp10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 28,
+        "start": 1540362695.0,
+        "end": 1540363296.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 29,
+        "start": 1540363696.0,
+        "end": 1540364296.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\0017882b9a25.csv",
+        "line": 30,
+        "start": 1540364696.0,
+        "end": 1540365296.0,
+        "impacted_mac": "0017882b9a25",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 1,
+        "start": 1540218159.0,
+        "end": 1540218759.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 2,
+        "start": 1540214943.0,
+        "end": 1540215543.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 3,
+        "start": 1540216550.0,
+        "end": 1540217150.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 4,
+        "start": 1540240592.0,
+        "end": 1540241193.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "UdpDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 5,
+        "start": 1540249401.0,
+        "end": 1540250001.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "UdpDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 6,
+        "start": 1540251009.0,
+        "end": 1540251609.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "UdpDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 7,
+        "start": 1540305374.0,
+        "end": 1540305974.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "UdpDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 8,
+        "start": 1540305984.0,
+        "end": 1540306584.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "UdpDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\44650d56ccd3.csv",
+        "line": 9,
+        "start": 1540306594.0,
+        "end": 1540307194.0,
+        "impacted_mac": "44650d56ccd3",
+        "attack_family": "UdpDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 1,
+        "start": 1527843385.0,
+        "end": 1527843985.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 2,
+        "start": 1527840167.0,
+        "end": 1527840767.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 3,
+        "start": 1527841774.0,
+        "end": 1527842374.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 4,
+        "start": 1527865835.0,
+        "end": 1527866436.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 5,
+        "start": 1527867446.0,
+        "end": 1527868047.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 6,
+        "start": 1527869057.0,
+        "end": 1527869657.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 10,
+        "start": 1527897987.0,
+        "end": 1527898587.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 11,
+        "start": 1527894761.0,
+        "end": 1527895361.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 12,
+        "start": 1527896376.0,
+        "end": 1527896976.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 13,
+        "start": 1527956962.0,
+        "end": 1527957562.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "Smurf1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 14,
+        "start": 1527958575.0,
+        "end": 1527959175.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "Smurf10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 15,
+        "start": 1527960201.0,
+        "end": 1527960801.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "Smurf100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 16,
+        "start": 1527884697.0,
+        "end": 1527885297.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 17,
+        "start": 1527881496.0,
+        "end": 1527882097.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 18,
+        "start": 1527883097.0,
+        "end": 1527883697.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 19,
+        "start": 1527922797.0,
+        "end": 1527923398.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 20,
+        "start": 1527924398.0,
+        "end": 1527924998.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 21,
+        "start": 1527925998.0,
+        "end": 1527926598.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 22,
+        "start": 1528229672.0,
+        "end": 1528230273.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 23,
+        "start": 1528231273.0,
+        "end": 1528231873.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 24,
+        "start": 1528232873.0,
+        "end": 1528233473.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 25,
+        "start": 1528279106.0,
+        "end": 1528279706.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 26,
+        "start": 1528275905.0,
+        "end": 1528276506.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 27,
+        "start": 1528277506.0,
+        "end": 1528278106.0,
+        "impacted_mac": "50c7bf005639",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 1,
+        "start": 1527848238.0,
+        "end": 1527848838.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 2,
+        "start": 1527844998.0,
+        "end": 1527845599.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 3,
+        "start": 1527846610.0,
+        "end": 1527847210.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 4,
+        "start": 1527870675.0,
+        "end": 1527871276.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 5,
+        "start": 1527872284.0,
+        "end": 1527872884.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 6,
+        "start": 1527873890.0,
+        "end": 1527874490.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 7,
+        "start": 1527902817.0,
+        "end": 1527903417.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 8,
+        "start": 1527899600.0,
+        "end": 1527900201.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 9,
+        "start": 1527901207.0,
+        "end": 1527901807.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 10,
+        "start": 1527889498.0,
+        "end": 1527890098.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 11,
+        "start": 1527886297.0,
+        "end": 1527886898.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 12,
+        "start": 1527887898.0,
+        "end": 1527888498.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 13,
+        "start": 1527927598.0,
+        "end": 1527928199.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 14,
+        "start": 1527929199.0,
+        "end": 1527929799.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 15,
+        "start": 1527930799.0,
+        "end": 1527931399.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 16,
+        "start": 1528253682.0,
+        "end": 1528254282.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 17,
+        "start": 1528255282.0,
+        "end": 1528255883.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 18,
+        "start": 1528256883.0,
+        "end": 1528257483.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 19,
+        "start": 1528268227.0,
+        "end": 1528268827.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 20,
+        "start": 1528265025.0,
+        "end": 1528265626.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\70ee50183443.csv",
+        "line": 21,
+        "start": 1528266626.0,
+        "end": 1528267226.0,
+        "impacted_mac": "70ee50183443",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\74c63b29d71d.csv",
+        "line": 1,
+        "start": 1540227823.0,
+        "end": 1540228423.0,
+        "impacted_mac": "74c63b29d71d",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\74c63b29d71d.csv",
+        "line": 2,
+        "start": 1540224603.0,
+        "end": 1540225204.0,
+        "impacted_mac": "74c63b29d71d",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\74c63b29d71d.csv",
+        "line": 3,
+        "start": 1540226210.0,
+        "end": 1540226811.0,
+        "impacted_mac": "74c63b29d71d",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 1,
+        "start": 1540259613.0,
+        "end": 1540260213.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "PingOfDeath1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 2,
+        "start": 1540261222.0,
+        "end": 1540261822.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "PingOfDeath10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 3,
+        "start": 1540262834.0,
+        "end": 1540263434.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "PingOfDeath100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 4,
+        "start": 1540232657.0,
+        "end": 1540233257.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 5,
+        "start": 1540229442.0,
+        "end": 1540230043.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 6,
+        "start": 1540231049.0,
+        "end": 1540231649.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 7,
+        "start": 1540244228.0,
+        "end": 1540244828.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "UdpDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 8,
+        "start": 1540252626.0,
+        "end": 1540253226.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "UdpDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 9,
+        "start": 1540254243.0,
+        "end": 1540254843.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "UdpDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 10,
+        "start": 1540279892.0,
+        "end": 1540280492.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "Smurf1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 11,
+        "start": 1540281500.0,
+        "end": 1540282100.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "Smurf10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 12,
+        "start": 1540283108.0,
+        "end": 1540283708.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "Smurf100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 13,
+        "start": 1540300287.0,
+        "end": 1540300887.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "UdpDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 14,
+        "start": 1540300897.0,
+        "end": 1540301498.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "UdpDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\d073d5018308.csv",
+        "line": 15,
+        "start": 1540301508.0,
+        "end": 1540302108.0,
+        "impacted_mac": "d073d5018308",
+        "attack_family": "UdpDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 1,
+        "start": 1527833715.0,
+        "end": 1527834315.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 2,
+        "start": 1527830498.0,
+        "end": 1527831098.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 3,
+        "start": 1527832106.0,
+        "end": 1527832706.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 4,
+        "start": 1527856158.0,
+        "end": 1527856758.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 5,
+        "start": 1527857765.0,
+        "end": 1527858365.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 6,
+        "start": 1527859377.0,
+        "end": 1527859977.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 7,
+        "start": 1527923756.0,
+        "end": 1527924356.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "PingOfDeath1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 8,
+        "start": 1527925365.0,
+        "end": 1527925965.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "PingOfDeath10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 9,
+        "start": 1527926974.0,
+        "end": 1527927574.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "PingOfDeath100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 10,
+        "start": 1527888305.0,
+        "end": 1527888905.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 11,
+        "start": 1527885081.0,
+        "end": 1527885682.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 12,
+        "start": 1527886693.0,
+        "end": 1527887293.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 13,
+        "start": 1527875095.0,
+        "end": 1527875695.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 14,
+        "start": 1527871894.0,
+        "end": 1527872495.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 15,
+        "start": 1527873495.0,
+        "end": 1527874095.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 16,
+        "start": 1527913194.0,
+        "end": 1527913795.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 17,
+        "start": 1527914795.0,
+        "end": 1527915395.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 18,
+        "start": 1527916395.0,
+        "end": 1527916995.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 19,
+        "start": 1528219424.0,
+        "end": 1528220024.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 20,
+        "start": 1528221024.0,
+        "end": 1528221624.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 21,
+        "start": 1528222625.0,
+        "end": 1528223225.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 22,
+        "start": 1528292921.0,
+        "end": 1528293521.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 23,
+        "start": 1528289721.0,
+        "end": 1528290321.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a5979f489.csv",
+        "line": 24,
+        "start": 1528291321.0,
+        "end": 1528291921.0,
+        "impacted_mac": "ec1a5979f489",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 1,
+        "start": 1527828872.0,
+        "end": 1527829472.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 2,
+        "start": 1527825643.0,
+        "end": 1527826244.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 3,
+        "start": 1527827256.0,
+        "end": 1527827856.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 4,
+        "start": 1527851321.0,
+        "end": 1527851923.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 5,
+        "start": 1527852933.0,
+        "end": 1527853533.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 6,
+        "start": 1527854541.0,
+        "end": 1527855141.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 7,
+        "start": 1527918925.0,
+        "end": 1527919526.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "PingOfDeath1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 8,
+        "start": 1527920532.0,
+        "end": 1527921132.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "PingOfDeath10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 9,
+        "start": 1527922140.0,
+        "end": 1527922740.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "PingOfDeath100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 10,
+        "start": 1527945065.0,
+        "end": 1527945666.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "UdpDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 11,
+        "start": 1527946676.0,
+        "end": 1527947276.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "UdpDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 12,
+        "start": 1527948284.0,
+        "end": 1527948884.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "UdpDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 13,
+        "start": 1527883466.0,
+        "end": 1527884066.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 14,
+        "start": 1527880245.0,
+        "end": 1527880845.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 15,
+        "start": 1527881855.0,
+        "end": 1527882455.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 16,
+        "start": 1528014857.0,
+        "end": 1528015457.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 17,
+        "start": 1528011637.0,
+        "end": 1528012237.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 18,
+        "start": 1528013251.0,
+        "end": 1528013851.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 19,
+        "start": 1528008710.0,
+        "end": 1528009310.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp100L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 20,
+        "start": 1528007499.0,
+        "end": 1528008099.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp1L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 21,
+        "start": 1528008104.0,
+        "end": 1528008704.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp10L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 22,
+        "start": 1527870294.0,
+        "end": 1527870894.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 23,
+        "start": 1527867093.0,
+        "end": 1527867694.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 24,
+        "start": 1527868694.0,
+        "end": 1527869294.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 25,
+        "start": 1527939658.0,
+        "end": 1527940258.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 26,
+        "start": 1527936456.0,
+        "end": 1527937057.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 27,
+        "start": 1527938057.0,
+        "end": 1527938657.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "Ssdp10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 28,
+        "start": 1527908393.0,
+        "end": 1527908994.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 29,
+        "start": 1527909994.0,
+        "end": 1527910594.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 30,
+        "start": 1527911594.0,
+        "end": 1527912194.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 31,
+        "start": 1528213598.0,
+        "end": 1528214199.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 32,
+        "start": 1528215199.0,
+        "end": 1528215799.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 33,
+        "start": 1528216799.0,
+        "end": 1528217399.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 34,
+        "start": 1528298733.0,
+        "end": 1528299333.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 35,
+        "start": 1528295532.0,
+        "end": 1528296133.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\ec1a59832811.csv",
+        "line": 36,
+        "start": 1528297133.0,
+        "end": 1528297733.0,
+        "impacted_mac": "ec1a59832811",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 1,
+        "start": 1540222987.0,
+        "end": 1540223588.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "ArpSpoof100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 2,
+        "start": 1540219772.0,
+        "end": 1540220372.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "ArpSpoof1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 3,
+        "start": 1540221380.0,
+        "end": 1540221980.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "ArpSpoof10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 4,
+        "start": 1540269173.0,
+        "end": 1540269773.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynDevice1L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 5,
+        "start": 1540270783.0,
+        "end": 1540271383.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynDevice10L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 6,
+        "start": 1540272392.0,
+        "end": 1540272992.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynDevice100L2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 7,
+        "start": 1540277898.0,
+        "end": 1540278498.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynReflection100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 8,
+        "start": 1540274680.0,
+        "end": 1540275281.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynReflection1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 9,
+        "start": 1540276290.0,
+        "end": 1540276890.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynReflection10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 10,
+        "start": 1540288528.0,
+        "end": 1540289128.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp100L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 11,
+        "start": 1540285311.0,
+        "end": 1540285911.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp1L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 12,
+        "start": 1540286919.0,
+        "end": 1540287519.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp10L2D2L",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 13,
+        "start": 1540291862.0,
+        "end": 1540292462.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp100L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 14,
+        "start": 1540290643.0,
+        "end": 1540291244.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp1L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 15,
+        "start": 1540291252.0,
+        "end": 1540291852.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp10L2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 16,
+        "start": 1540453525.0,
+        "end": 1540454125.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 17,
+        "start": 1540452323.0,
+        "end": 1540452924.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 18,
+        "start": 1540315870.0,
+        "end": 1540316470.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 19,
+        "start": 1540313470.0,
+        "end": 1540314070.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 20,
+        "start": 1540314670.0,
+        "end": 1540315270.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "Ssdp10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 21,
+        "start": 1540311495.0,
+        "end": 1540312095.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 22,
+        "start": 1540309095.0,
+        "end": 1540309695.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynReflection1W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 23,
+        "start": 1540310295.0,
+        "end": 1540310895.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynReflection10W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 24,
+        "start": 1540462848.0,
+        "end": 1540463448.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynReflection100W2D2W",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 25,
+        "start": 1540293174.0,
+        "end": 1540293774.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynDevice1W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 26,
+        "start": 1540293784.0,
+        "end": 1540294384.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynDevice10W2D",
+        "role": "victim_or_impacted_unknown"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\f4f5d88f0a3c.csv",
+        "line": 27,
+        "start": 1540294394.0,
+        "end": 1540294994.0,
+        "impacted_mac": "f4f5d88f0a3c",
+        "attack_family": "TcpSynDevice100W2D",
+        "role": "victim_or_impacted_unknown"
+      }
+    ],
+    "malformed_annotations": [
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 7,
+        "row": [
+          "1527928594",
+          "1527929195",
+          "localIcmpPortAllIP192.168.1.1",
+          "Icmpfeatures|Localfeatures|Allfeatures|LocalICMPPortALL",
+          "PingOfDeath1L2D"
+        ],
+        "error": "Unexpected column count/order"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 8,
+        "row": [
+          "1527930207",
+          "1527930807",
+          "localIcmpPortAllIP192.168.1.1",
+          "Icmpfeatures|Localfeatures|Allfeatures|LocalICMPPortALL",
+          "PingOfDeath10L2D"
+        ],
+        "error": "Unexpected column count/order"
+      },
+      {
+        "file": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\annotations\\annotations\\50c7bf005639.csv",
+        "line": 9,
+        "row": [
+          "1527931814",
+          "1527932415",
+          "localIcmpPortAllIP192.168.1.1",
+          "Icmpfeatures|Localfeatures|Allfeatures|LocalICMPPortALL",
+          "PingOfDeath100L2D"
+        ],
+        "error": "Unexpected column count/order"
+      }
+    ],
+    "required_capture_dates": [
+      "2018-06-01",
+      "2018-06-02",
+      "2018-06-03",
+      "2018-06-05",
+      "2018-06-06",
+      "2018-10-22",
+      "2018-10-23",
+      "2018-10-24",
+      "2018-10-25"
+    ],
+    "raw_pcaps": [
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-01.pcap",
+        "bytes": 2874852804,
+        "first_packet_utc": "2018-06-01T03:20:11.879205+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-02.pcap",
+        "bytes": 3527507852,
+        "first_packet_utc": "2018-06-02T00:00:11.311615+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-03.pcap",
+        "bytes": 3698357700,
+        "first_packet_utc": "2018-06-03T00:00:01.926052+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-04.pcap",
+        "bytes": 3464919628,
+        "first_packet_utc": "2018-06-03T23:59:59.458689+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-05.pcap",
+        "bytes": 3076793468,
+        "first_packet_utc": "2018-06-04T23:59:59.463922+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-06.pcap",
+        "bytes": 3394372632,
+        "first_packet_utc": "2018-06-06T00:00:01.366065+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-07.pcap",
+        "bytes": 2400069300,
+        "first_packet_utc": "2018-06-06T23:59:59.681556+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-08.pcap",
+        "bytes": 713559348,
+        "first_packet_utc": "2018-06-08T00:00:01.447934+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-06-20.pcap",
+        "bytes": 739403296,
+        "first_packet_utc": "2018-06-20T00:00:00.753336+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-10-20.pcap",
+        "bytes": 503541320,
+        "first_packet_utc": "2018-10-19T13:00:12.001079+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-10-21.pcap",
+        "bytes": 146805784,
+        "first_packet_utc": "2018-10-20T12:59:59.418602+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-10-22.pcap",
+        "bytes": 916467360,
+        "first_packet_utc": "2018-10-21T13:00:12.379465+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-10-23.pcap",
+        "bytes": 1462152516,
+        "first_packet_utc": "2018-10-22T13:00:01.611051+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-10-24.pcap",
+        "bytes": 213831680,
+        "first_packet_utc": "2018-10-23T12:59:59.443078+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-10-25.pcap",
+        "bytes": 990401184,
+        "first_packet_utc": "2018-10-24T13:00:01.544106+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-10-26.pcap",
+        "bytes": 991244784,
+        "first_packet_utc": "2018-10-25T13:00:00.782853+00:00"
+      },
+      {
+        "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attack+benign-pcaps\\18-10-27.pcap",
+        "bytes": 745900472,
+        "first_packet_utc": "2018-10-26T13:00:11.906076+00:00"
+      }
+    ],
+    "attack_workbook": {
+      "path": "E:\\Projects_Archive\\FYP\\UNSW-IoTraffic\\UNSW-IoT-Attack\\attackinfo.xlsx",
+      "devices": [
+        {
+          "mac": "ec:1a:59:83:28:11",
+          "ip": "192.168.1.165",
+          "device_type": "WEMO Motion Sensor",
+          "start": "2018-05-28 00:00:00",
+          "end": "2018-06-17 00:00:00"
+        },
+        {
+          "mac": "ec:1a:59:79:f4:89",
+          "ip": "192.168.1.223",
+          "device_type": "WEMO Power Switch",
+          "start": "2018-05-28 00:00:00",
+          "end": "2018-06-17 00:00:00"
+        },
+        {
+          "mac": "00:16:6c:ab:6b:88",
+          "ip": "192.168.1.248",
+          "device_type": "Samsung Camera",
+          "start": "2018-05-28 00:00:00",
+          "end": "2018-06-17 00:00:00"
+        },
+        {
+          "mac": "50:c7:bf:00:56:39",
+          "ip": "192.168.1.227",
+          "device_type": "TP Link Plug",
+          "start": "2018-05-28 00:00:00",
+          "end": "2018-06-17 00:00:00"
+        },
+        {
+          "mac": "70:ee:50:18:34:43",
+          "ip": "192.168.1.241",
+          "device_type": "Netatmo Camera",
+          "start": "2018-05-28 00:00:00",
+          "end": "2018-06-17 00:00:00"
+        },
+        {
+          "mac": "00:17:88:2b:9a:25",
+          "ip": "192.168.1.129",
+          "device_type": "Huebulb",
+          "start": "2018-09-24 00:00:00",
+          "end": "2018-10-26 00:00:00"
+        },
+        {
+          "mac": "44:65:0d:56:cc:d3",
+          "ip": "192.168.1.239",
+          "device_type": "AmazonEcho",
+          "start": "2018-09-24 00:00:00",
+          "end": "2018-10-26 00:00:00"
+        },
+        {
+          "mac": "f4:f5:d8:8f:0a:3c",
+          "ip": "192.168.1.119",
+          "device_type": "chromecast",
+          "start": "2018-09-24 00:00:00",
+          "end": "2018-10-26 00:00:00"
+        },
+        {
+          "mac": "74:c6:3b:29:d7:1d",
+          "ip": "192.168.1.163",
+          "device_type": "ihome",
+          "start": "2018-09-24 00:00:00",
+          "end": "2018-10-26 00:00:00"
+        },
+        {
+          "mac": "d0:73:d5:01:83:08",
+          "ip": "192.168.1.118",
+          "device_type": "lifx",
+          "start": "2018-09-24 00:00:00",
+          "end": "2018-10-26 00:00:00"
+        }
+      ],
+      "experiments": [
+        {
+          "attack": "SNMP - 1pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_15_57_05",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SNMP - 10pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_15_57_05",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SNMP - 100pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_15_57_05",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SNMP - 1pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_19_37_26",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SNMP - 10pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_19_37_26",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SNMP - 100pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_19_37_26",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SNMP - 1pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_04_58_14",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SNMP - 10pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_04_58_14",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SNMP - 100pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_04_58_14",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_10_47_36",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "129.132.2.21/123",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_10_47_36",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "129.132.2.21/123",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_10_47_36",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "129.132.2.21/123",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_07_40_22",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_07_40_22",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_07_40_22",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_06_31_17",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "129.132.2.21/123",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_06_31_17",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "129.132.2.21/123",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2003-06-18 00:00:00",
+          "annotation_reference": "2018_06_03_06_31_17",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "129.132.2.21/123",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 1pkt/s",
+          "capture_reference": "2006-06-18 00:00:00",
+          "annotation_reference": null,
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 10pkt/s",
+          "capture_reference": "2006-06-18 00:00:00",
+          "annotation_reference": null,
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 100pkt/s",
+          "capture_reference": "2006-06-18 00:00:00",
+          "annotation_reference": null,
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.36.232",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 1pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_19_10_23",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 10pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_19_10_23",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 100pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_19_10_23",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 1pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_16_29_00",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 10pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_16_29_00",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 100pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_16_29_00",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 1pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_11_08_27",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 10pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_11_08_27",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 100pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_11_08_27",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 1pkt/s",
+          "capture_reference": "18/6/05-06",
+          "annotation_reference": null,
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 10pkt/s",
+          "capture_reference": "18/6/05-06",
+          "annotation_reference": null,
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 100pkt/s",
+          "capture_reference": "18/6/05-06",
+          "annotation_reference": null,
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP- 1pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_13_10_43",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 10pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_13_10_43",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 100pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_13_10_43",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 1pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_12_42_38",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 10pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_12_42_38",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 100pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_12_42_38",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 1pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_05_54_54",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 10pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_05_54_54",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 100pkt/s",
+          "capture_reference": "2002-06-18 00:00:00",
+          "annotation_reference": "2018_06_02_05_54_54",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 1pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_04_00_19",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 10pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_04_00_19",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 100pkt/s",
+          "capture_reference": "2001-06-18 00:00:00",
+          "annotation_reference": "2018_06_01_04_00_19",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_22_13_28_49",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_22_13_28_49",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_22_13_28_49",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_22_20_36_17",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_22_23_03_05",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_22_23_03_05",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_01_53_16",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_01_53_16",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_01_53_16",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_04_32_40",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_04_32_40",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_04_32_40",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.205",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_06_04_08",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_06_04_08",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_06_04_08",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_07_31_15",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_07_31_15",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_07_31_15",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_09_01_36",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_09_01_36",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_09_01_36",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.205",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_10_30_25",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_10_30_25",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_10_30_25",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.205",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 1pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_11_12_54",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 10pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_11_12_54",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 100pkt/s",
+          "capture_reference": "2023-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_11_12_54",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP- 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_13_11_27",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_13_11_27",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "UDP - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_13_11_27",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_15_38_15",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_15_38_15",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_15_38_15",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_16_51_10",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_16_51_10",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_23_16_51_10",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "PING_OF_DEATH - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "arpSpoof - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_02_41_11",
+          "direction": "L2D",
+          "attacker_ip": "192.168.1.229",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_05_48_26",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.229",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_05_48_26",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.229",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_05_48_26",
+          "direction": "L2D2W",
+          "attacker_ip": "192.168.1.229",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_06_31_35",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_06_31_35",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TCPSYN - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_06_31_35",
+          "direction": "W2D",
+          "attacker_ip": "149.171.36.239",
+          "victim": null,
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SMURF - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "\ufeff2018_10_24_07_25_29",
+          "direction": "L2D2L",
+          "attacker_ip": "192.168.1.229",
+          "victim": "192.168.1.175",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_10_55_30",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_10_55_30",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_10_55_30",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_12_05_07",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 10pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_12_05_07",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 100pkt/s",
+          "capture_reference": "2024-10-18 00:00:00",
+          "annotation_reference": "2018_10_24_12_05_07",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "SSDP - 1pkt/s",
+          "capture_reference": "2025-10-18 00:00:00",
+          "annotation_reference": "2018_10_25_07_25_23",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 1pkt/s",
+          "capture_reference": "2025-10-18 00:00:00",
+          "annotation_reference": "2018_10_25_07_45_25",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        },
+        {
+          "attack": "TcpSynReflection - 100pkt/s",
+          "capture_reference": "2025-10-18 00:00:00",
+          "annotation_reference": "2018_10_25_10_20_48",
+          "direction": "W2D2W",
+          "attacker_ip": "149.171.36.239",
+          "victim": "149.171.37.137",
+          "actor_is_listed_device": false
+        }
+      ],
+      "actor_ips": [
+        "149.171.36.239",
+        "192.168.1.205",
+        "192.168.1.229"
+      ],
+      "actor_ips_matching_listed_devices": [],
+      "head_c_label_policy": "Experiment targets are not positive compromised-device labels. Review actors and packet timing before any label."
+    },
+    "acquisition_source": "https://iotanalytics.unsw.edu.au/attack-data.html",
+    "required_metadata": [
+      "verified actor MAC/IP and role",
+      "attack interval",
+      "capture timezone/bounds",
+      "device inventory and leases"
+    ]
+  },
+  "exclusions": [
+    "CIC aggregate CSVs have no device identity/time fields; cannot reconstruct canonical device graphs"
+  ]
+}

@@ -1,6 +1,16 @@
 # AutoMUD — Model Engineering Roadmap
 ### (GNN Anomaly Detection Module — Self-Supervised GraphSAGE + Compromised-Device Classifier)
 
+> **Implementation update (2026-10-03):** The database-free implementation and
+> authoritative v1 contracts are documented in [gnn/README.md](gnn/README.md).
+> It consumes interval telemetry directly, without Neo4j. The original roadmap
+> below provides design background; the v1 schema/runbook supersedes its input
+> fields, collection assumptions, and exporter instructions. Heads A/B learn a
+> population of clean behavior and may flag a new malicious device, but cannot
+> guarantee cold-start detection. Head C adds supervised known-pattern evidence
+> without requiring that device's own clean history. No head proves invisible
+> compromise when the observed behavior is indistinguishable from normal.
+
 ---
 
 ## 1. Overview
@@ -141,7 +151,7 @@ Tasks are ordered to be completed sequentially where they build on one another; 
 
 16. **Run Stage 2 training** (Head C only, encoder frozen) using binary cross-entropy on the labeled normal + attack dataset, including compromised-from-start examples.
 
-17. **Implement the fusion logic** combining reconstruction error, link-prediction score, and classifier probability into one final per-device anomaly score, to be handed off to the Decision Engine.
+17. **Implement the independent output handoff** exposing reconstruction error, link expectedness, and classifier probability to the Decision Engine. Fusion with the profiling deviation score belongs exclusively to that downstream engine.
 
 18. **Run in-domain evaluation**: detection rate and false-positive rate, reported separately for (reconstruction/link-prediction) vs. (classifier) paths, across the representative attack scenarios from Task 14, plus the compromised-from-start scenarios specifically isolating Head C's contribution.
 
@@ -151,4 +161,4 @@ Tasks are ordered to be completed sequentially where they build on one another; 
 
 21. **Document results and limitations**: per-device-type and per-attack-class breakdowns (not just aggregates), explicit statement of Head C's known-pattern limitation, and — if Task 20 was completed — a clearly labeled in-domain vs. out-of-domain comparison rather than a single blended figure.
 
-22. **Package model checkpoints, schema version tags, and normalization statistics** for handoff to the system-integration owner, ensuring the live inference pipeline can load and run the fused model without ambiguity about which schema version or training run produced it.
+22. **Package model checkpoints, schema version tags, and normalization statistics** for handoff to the system-integration owner, ensuring the live inference pipeline can load the three-head model without ambiguity about which schema version or training run produced it.

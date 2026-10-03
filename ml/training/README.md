@@ -2,6 +2,9 @@
 
 **Owner:** Jayan Subramanian
 
-Offline GraphSAGE training and model-level validation. Once trained, the weights are frozen and exported to `data/artifacts/models/` for inference-only use in the live loop.
+`runtime.py` provides two-stage training, held-out calibration, checkpoint loading,
+prediction, and evaluation. Run `python -m ml --help` from the repository root.
+Default examples write checkpoints under `data/gnn/models/`.
 
-Methodology: Stage 0, step 5.
+See the [training runbook](../../docs/gnn/TRAINING.md) and
+[collection prerequisites](../../docs/gnn/COLLECTION.md).

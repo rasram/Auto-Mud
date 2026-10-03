@@ -1,0 +1,9 @@
+# Standalone GNN environment; no Neo4j or Ryu needed. Python 3.12 recommended.
+torch>=2.5,<3
+torch_geometric>=2.6,<3
+numpy>=1.26,<3
+scikit-learn>=1.5,<2
+jsonschema>=4.23,<5
+scapy>=2.6,<3
+pytest>=8,<10
+openpyxl>=3.1,<4

@@ -4,10 +4,14 @@
 
 Graph construction and the GraphSAGE anomaly detector (PyTorch Geometric).
 
+The implemented v1 path is **database-free**. Start at
+[the GNN runbook](../docs/gnn/README.md). Run `python -m ml --help` for data,
+training, calibration, inference, and collection-plan commands.
+
 | Subdirectory | Contents |
 |---|---|
-| `graph/` | Device communication graph construction in Neo4j |
-| `dataset_prep/` | Preparing labeled graph-snapshot data from UNSW, N-BaIoT, and CICIoT2023 |
+| `graph/` | Causal 60-second interval aggregation and direct graph construction |
+| `dataset_prep/` | Canonical telemetry, verified actor labels, dataset audit, scaling, and splits |
 | `model/` | GraphSAGE model (standard PyG architecture; custom GNN design is out of scope) |
 | `training/` | Offline training, model-level validation, freezing weights |
 

@@ -2,8 +2,9 @@
 
 **Owner:** Jayan Subramanian
 
-GraphSAGE model definition in PyTorch Geometric. It takes the current graph snapshot plus the per-device deviation scores and outputs a per-device **anomaly score in [0.0, 1.0]** that combines individual behavioral deviation with structural (relationship) anomaly.
+`graphsage.py` implements a two-layer mean GraphSAGE encoder and independent
+reconstruction, link-expectedness, and compromised-device classifier heads.
+It consumes canonical graph snapshots, without Neo4j or profiling deviation scores.
+Head C masks device-history features and trains on a frozen encoder.
 
-GraphSAGE was chosen over GCN/GAT for its intrusion-detection performance and inductive support for unseen devices (§8). Custom GNN architecture design is out of scope.
-
-Methodology: Stage 2, step 11.
+See [architecture, training and inference](../../docs/gnn/TRAINING.md).
