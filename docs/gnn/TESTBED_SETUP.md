@@ -1,5 +1,8 @@
 # Mininet/OVS setup for database-free GNN collection
 
+Current local setup and v2 dataset/model requirements: [LOCAL_WSL.md](LOCAL_WSL.md).
+The local pipeline and monitoring command are documented there. Use fresh output directories.
+
 This guide targets a **dedicated Ubuntu 24.04 VM or Linux host** with the Auto-MUD
 repository on a native Linux filesystem. Run commands from the repository root
 unless a command says otherwise. The current GNN collection path is:

@@ -1,4 +1,6 @@
-# AutoMUD graph v1: schemas and upstream requirements
+# AutoMUD graph v2: schemas and upstream requirements
+
+For the dedicated local WSL environment and revised collection design, see [LOCAL_WSL.md](LOCAL_WSL.md). V1 interval telemetry remains accepted; v1 graphs/checkpoints must be rebuilt/retrained.
 
 The authoritative ordered contract is `configs/gnn/schemas/features.json`.
 JSON Schemas in that directory describe manifests, telemetry, labels, and graphs.
@@ -20,7 +22,7 @@ Intervals are half-open `[start,end)`. Capture before/after those study bounds i
 retained in source files but excluded from prepared graphs. First/last partial
 public capture windows are excluded by the manifest bootstrap helper.
 
-Inventory entries contain a stable `device_id`, one of eleven functional types,
+Inventory entries contain a stable `device_id`, one of eleven device functional types (plus the external-service context type),
 optional MAC, and time-valid IP leases. IDs/IPs/MACs do **not** become numerical model
 features. IP leases take precedence; a gateway MAC must not identify remote cloud
 hosts as the gateway/device. Ambiguous identity within a window is rejected.
@@ -79,7 +81,11 @@ relative to the device, including when it is the connection responder.
 | 15–16 | `mean_observed_flow_duration`, `median_observed_flow_duration` | Observed durations through cutoff, seconds |
 | 17 | `log_tx_rx_ratio` | `log1p(tx_ip_bytes) - log1p(rx_ip_bytes)` |
 
-Apply `log1p` to indices 0–7, 9, 15, and 16. Scale all 18 statistics using training
+Indices 18–21 are local/external directional bytes; 22–26 are external/service
+fractions; 27 is bytes per initiated flow; 28–31 describe flow gaps and 10-second
+bursts; 32–37 describe preceding 5/15-minute means, log changes, and gap variability.
+See LOCAL_WSL.md for definitions and masks. The ordered JSON contract names every
+column and every `log1p` transform. Scale all 38 measured statistics using training
 means/standard deviations, per functional type; constant features use unit scale.
 Types with fewer than 100 active training observations use the global normal
 training scaler. Unknown types use the same fallback. Fit statistics only on
@@ -87,27 +93,29 @@ available, active, valid Stage-1 training observations.
 
 The remaining encoder columns are:
 
-- 18–19: sine/cosine of UTC seconds through the day.
-- 20: device activity flag.
-- 21–31: one-hot `hub, speaker, light, plug, camera, doorbell, motion_sensor,
-  printer, environmental_sensor, scale, unknown` in that order.
-- 32–49: availability masks for the eighteen traffic features.
+- 38–39: sine/cosine of UTC seconds through the day.
+- 40: device activity flag.
+- 41–52: one-hot `hub, speaker, light, plug, camera, doorbell, motion_sensor,
+  printer, environmental_sensor, scale, unknown, external_service`.
+- 53–60: external service category one-hot; all zeros for device nodes.
+- 61–98: validity masks for the 38 measured features.
 
-Thus `x` has **50 columns**; Head A reconstructs the first **18**, with invalid
+Thus `x` has **99 columns**; Head A reconstructs the first **38**, with invalid
 targets masked out. Missing/undefined normalized values are zero with mask=false.
 Observed silence has valid zero counters but undefined duration/protocol fractions.
 Sensor/device unavailability has all traffic masks false. Inactive/unavailable
 devices receive status output, not a falsely confident Head C probability.
 
-History updates only after completing a window. Head C always zeroes column 8 and
-its mask before a separate shared-encoder pass. Its output therefore does not
+History updates only after completing a window. Head C zeroes destination-history and rolling-context columns and
+their masks before a separate shared-encoder pass. Its output therefore does not
 depend on whether the device had prior destination history.
 
 ## Graph semantics and PyG interface
 
 One graph represents one simultaneous household/network window. Preserve all
-inventoried devices, including observed idle devices. External peers affect node
-features but are not synthetic device nodes. Never merge unrelated public captures
+inventoried devices, including observed idle devices. External peers affect device
+features and observed service-category context nodes. These context nodes are
+not treated as IoT devices for reconstruction or classification. Never merge unrelated public captures
 into a fictitious household. Do not inject intended topology edges.
 
 Each directed observed pair stores source/target node indices, exchanged bytes,
@@ -115,7 +123,7 @@ packets, flow count, protocol histogram, transport-port set, historical novelty,
 and whether any exchange was confirmed. TCP attempts also supply relational
 evidence, but the metadata distinguishes them from confirmed communication.
 
-`to_pyg` returns `x[N,50]`, `target[N,18]`, `feature_mask[N,18]`,
+`to_pyg` returns `x[N,99]`, `target[N,38]`, `feature_mask[N,38]`,
 `edge_index[2,E]`, `positive_pairs[2,P]`, `y[N]`, `active[N]`, and `available[N]`.
 Message passing uses the deduplicated bidirectional adjacency. Positive scoring
 pairs retain direction. Labels use -1 for unknown. IDs and provenance stay in the
@@ -134,16 +142,18 @@ training, calibration, and inference. Negatives never cross graph boundaries.
  "onset":"from_start","evidence":"scenario-run-17"}
 ```
 
-Only a verified malicious actor gets label 1. Being a victim, reflector, or merely
+Only a verified malicious actor gets the Head C actor `label` 1.
+A/B use separate `behavior_label` and `relationship_label` annotations, including
+behavior intervals for affected victims. See LOCAL_WSL.md for exact semantics. Being a victim, reflector, or merely
 present in an attack capture does not prove compromise. Unknown actors/background
 devices remain unlabeled unless there is evidence for a normal label. Positive
 intervals require family/onset/provenance. Mixed boundary windows are excluded from
 the classifier loss. Fully controlled clean manifests can provide label 0.
 
 Predictions contain run/window/model/schema identifiers, per-device status,
-reconstruction error, maximum incident link anomaly (`1 - minimum expectedness`),
+reconstruction error, maximum initiated link anomaly (robust revision) (`1 - minimum expectedness`),
 Head C probability, three individual threshold flags, and per-edge expectedness.
-No incident edge means unavailable link evidence (`null`), not zero risk. The
+No initiated relationship means unavailable robust link evidence (`null`), not zero risk. The
 profiling deviation score bypasses this model and is fused downstream.
 
 ## Limitations of the current contract

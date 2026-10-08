@@ -2,7 +2,7 @@
   "type": "object",
   "properties": {
     "schema_version": {
-      "const": "automud.graph.v1"
+      "const": "automud.graph.v2"
     },
     "schema_hash": {
       "type": "string",
@@ -51,21 +51,22 @@
               "printer",
               "environmental_sensor",
               "scale",
-              "unknown"
+              "unknown",
+              "external_service"
             ]
           },
           "features": {
             "type": "array",
-            "minItems": 18,
-            "maxItems": 18,
+            "minItems": 38,
+            "maxItems": 38,
             "items": {
               "type": "number"
             }
           },
           "feature_mask": {
             "type": "array",
-            "minItems": 18,
-            "maxItems": 18,
+            "minItems": 38,
+            "maxItems": 38,
             "items": {
               "type": "boolean"
             }
@@ -168,5 +169,5 @@
   ],
   "additionalProperties": true,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AutoMUD graph v1"
+  "title": "AutoMUD graph v2"
 }

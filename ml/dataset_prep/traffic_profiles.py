@@ -6,7 +6,7 @@ new-flow timestamps, never per-packet interarrival means from vendor CSVs.
 from collections import Counter, defaultdict
 import random
 
-from ml.schema import VERSION, read_json, read_jsonl, write_json, resolve_device, validate_manifest, validate_telemetry, require, file_hash
+from ml.schema import VERSION, TELEMETRY_VERSION, read_json, read_jsonl, write_json, resolve_device, validate_manifest, validate_telemetry, require, file_hash
 
 
 def calibrate_traffic(sources, out, maximum_samples=4096):
@@ -60,7 +60,7 @@ def calibrate_traffic(sources, out, maximum_samples=4096):
                 "source_run_id": manifest["run_id"], "observed_flows": len(values),
                 "source_manifest_sha256": file_hash(source["manifest"]),
                 "source_telemetry_sha256": file_hash(source["telemetry"])}
-    result = {"schema_version": "automud.generator.v1", "telemetry_version": VERSION, "devices": profiles,
+    result = {"schema_version": "automud.generator.v1", "telemetry_version": TELEMETRY_VERSION, "devices": profiles,
               "approximations": ["Payload sizes approximate IP bytes minus minimum headers", "16 cloud destination slots",
                                  "Durations bounded to 10 seconds; volumes to 64 KiB per event", "Inter-flow gaps capped at 1 hour"]}
     write_json(out, result)

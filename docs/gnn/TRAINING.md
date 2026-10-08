@@ -1,5 +1,8 @@
 # Training, evaluating, and integrating the detector
 
+Current local setup and v2 dataset/model requirements: [LOCAL_WSL.md](LOCAL_WSL.md).
+The local pipeline and monitoring command are documented there. Use fresh output directories.
+
 ## Before training
 
 Complete the collection runbook and create `data/gnn/prepared/catalog.json`.
@@ -63,9 +66,9 @@ python -m ml evaluate --catalog data/gnn/prepared/catalog.json \
 
 ## Architecture and losses
 
-GraphSAGE uses two mean-aggregation layers, `50 -> 64 -> 16`, with ReLU between
+GraphSAGE uses two mean-aggregation layers, `99 -> 64 -> 16`, with ReLU between
 layers. All neighbors are used at this household scale. No device-ID embedding is
-learned. Reconstruction uses `16 -> 64 -> 18` and masked MSE on standardized traffic
+learned. Reconstruction uses `16 -> 64 -> 38` and masked MSE on standardized traffic
 features. Link expectedness uses a directed bilinear scorer and balanced BCE on
 observed versus sampled nonrelationships. Each queried relationship is removed
 from both directions of adjacency for its own encoder pass.
@@ -75,8 +78,9 @@ relationships, and relationships seen in clean training. Graphs without availabl
 positive/negative pairs skip link loss. Training requires validation examples with
 both classes rather than accepting a meaningless link head.
 
-Defaults: Adam 0.001, equal reconstruction/link weights, effective batch of 32
-graphs through gradient accumulation, up to 100 epochs, patience 10, gradient norm
+Defaults: Adam 0.001, equal reconstruction/link weights, disconnected batches of
+32 graphs with the original per-graph loss weighting, up to 100 epochs, patience
+10, gradient norm
 clip 5. Early stopping minimizes summed validation losses. The restored model must
 beat a per-type mean reconstruction predictor and achieve balanced link BCE below
 `log(2)` on held-out normal graphs. A failed gate saves a diagnostic checkpoint and
@@ -153,3 +157,66 @@ statistics, threshold/calibration metadata, dependency versions, seed/settings,
 catalog hash, and training history. `torch.load` uses tensor-safe loading. Move the
 complete checkpoint and the documentation together. Schema mismatch is an error;
 do not reorder columns to make an incompatible tensor shape fit.
+
+## CUDA training and progress
+
+The trainer accepts `--device auto` (default), `--device cuda`, `--device cuda:0`,
+or `--device cpu`. `cuda` explicitly fails if GPU computation is unavailable;
+it does not silently fall back to CPU. CUDA-enabled PyTorch must be installed
+in the interpreter used to run the command. The main project currently uses
+the isolated `.venv-gnn` environment with PyTorch `2.14.1+cu130`.
+
+```powershell
+.\.venv-gnn\Scripts\python.exe -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+.\.venv-gnn\Scripts\python.exe -u scripts/train_ab.py --catalog data/gnn/virtual-normal-prepared/catalog.json --out data/gnn/models/my-new-ab-run --device cuda --epochs 100 --patience 10 --seed 42
+```
+
+`scripts/train_ab.py` requires a new output directory, checks A/B readiness,
+trains the encoder and Heads A/B, checks the quality gate, calibrates thresholds,
+and evaluates the untouched normal test. It writes `training.log`,
+`run-status.json`, `readiness.json`, `stage1.pt`, `stage1.pt.report.json`,
+`stage1.pt.progress.json`, `calibrated.pt`, and `normal-test.json`. An intermediate
+`stage1.pt.best.pt` preserves the best weights during training; it is diagnostic
+and is not a substitute for the final calibrated checkpoint.
+
+Every epoch reports validation losses, duration, the estimate for the remaining
+maximum epochs, and early-stopping progress. Completion records the GPU name,
+CUDA runtime, PyTorch version, elapsed time, and peak CUDA tensor allocation.
+The ETA can shorten when early stopping activates. These small graphs need
+little GPU memory, so GPU utilization need not remain near 100 percent.
+
+Batching preserves disconnected graph boundaries and per-graph loss weighting.
+Link queries are still removed in both directions for their own scoring pass.
+Tests compare batched losses and gradients against the original per-graph
+calculation and exercise a CUDA forward/backward/optimizer step when available.
+
+## Evaluate the frozen A/B model on a new attack/control catalog
+
+The normal-only checkpoint is bound to its original training catalog. Use the
+external adapter to evaluate `stage2_test` in a separately prepared matrix:
+
+```powershell
+.\.venv-gnn\Scripts\python.exe -u scripts/evaluate_ab.py --catalog data/gnn/virtual-prepared/catalog.json --training-catalog data/gnn/virtual-normal-prepared/catalog.json --checkpoint data/gnn/models/virtual-ab-cuda-20261007/calibrated.pt --out data/gnn/evaluation/my-new-evaluation/report.json --device cuda
+```
+
+Use a new report path. The adapter validates training-catalog provenance,
+prepared graph hashes/schema, held-out session separation, duplicate captures,
+known actor labels, complete windows, and paired controls. It preserves the
+checkpoint, scaler and thresholds. It uses only `stage2_test`, not the matrix's
+training or validation partitions, and does not train Head C.
+
+The output contains overall confusion counts, accuracy, balanced accuracy,
+precision, recall, F1, ROC-AUC, PR-AUC, scenario/onset/type breakdowns, paired
+actor-only metrics, and episode detection/latency. Each head's coverage is
+explicit: Head B has no score for a window without an observed incident
+device-to-device edge. Its scored-window recall must be reported alongside
+`population_recall`, which includes all known active malicious actor-windows.
+Unscored windows are not silently classified as normal. Predictions are saved
+beside the report as `report.predictions.jsonl`.
+
+All peers and controls inherit their matched scenario for metric grouping,
+but retain their own actor/normal labels. Normal victims can have anomalous
+traffic during an attack, so compromised-actor false positives should also
+be interpreted alongside control-only and paired-actor metrics. Thresholds
+must not be tuned using this held-out test report; improvements need separate
+development sessions and a newly reserved final test.

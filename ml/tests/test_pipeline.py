@@ -110,7 +110,8 @@ def test_normalizer_train_only_unknown_and_empty_graph(tmp_path):
     data = to_pyg(g, scaler)
     assert scaler.state == before
     assert data.edge_index.shape == (2, 0)
-    assert data.x.shape[1] == 50
+    from ml.schema import X_NAMES
+    assert data.x.shape[1] == len(X_NAMES)
     for architecture in ("sage", "gcn", "mlp"):
         assert torch.isfinite(Detector(architecture).encode(data.x, data.edge_index)).all()
     with pytest.raises(ValueError, match="clean"):

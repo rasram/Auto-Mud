@@ -5,7 +5,8 @@ import json
 import math
 from pathlib import Path
 
-VERSION = "automud.graph.v1"
+VERSION = "automud.graph.v2"
+TELEMETRY_VERSION = "automud.graph.v1"
 WINDOW = 60
 FEATURES = (
     "tx_ip_bytes", "rx_ip_bytes", "tx_packets", "rx_packets", "active_flows",
@@ -14,12 +15,31 @@ FEATURES = (
     "tcp_fraction", "udp_fraction", "icmp_fraction", "tcp_failed_fraction",
     "mean_observed_flow_duration", "median_observed_flow_duration", "log_tx_rx_ratio",
 )
+FEATURES += (
+    "local_tx_ip_bytes", "external_tx_ip_bytes", "local_rx_ip_bytes", "external_rx_ip_bytes",
+    "external_flow_fraction", "web_flow_fraction", "tls_flow_fraction", "dns_flow_fraction",
+    "other_service_flow_fraction", "tx_bytes_per_initiated_flow",
+    "flow_gap_mean", "flow_gap_cv", "flow_gap_min", "flow_burst_max_10s",
+    "rolling_tx_mean_5m", "rolling_tx_mean_15m", "rolling_flows_mean_5m",
+    "log_tx_change_5m", "log_tx_change_15m", "rolling_gap_cv_15m",
+)
+SERVICES = ("dns", "web", "tls", "ntp", "discovery", "messaging", "other_tcp", "other_udp")
+def service_category(proto, port):
+    if port == 53: return "dns"
+    if port in (80,8080,9090): return "web"
+    if port in (443,8443): return "tls"
+    if port == 123: return "ntp"
+    if port in (1900,5353): return "discovery"
+    if port in (1883,8883,5683): return "messaging"
+    return "other_udp" if proto == "udp" else "other_tcp"
+
 TYPES = ("hub", "speaker", "light", "plug", "camera", "doorbell", "motion_sensor",
-         "printer", "environmental_sensor", "scale", "unknown")
-LOG_FEATURES = tuple(i for i in range(18) if i in (*range(8), 9, 15, 16))
+         "printer", "environmental_sensor", "scale", "unknown", "external_service")
+LOG_FEATURES = tuple(FEATURES.index(name) for name in FEATURES if name in FEATURES[:8] + ("unique_destination_ports", "mean_observed_flow_duration", "median_observed_flow_duration", "local_tx_ip_bytes", "external_tx_ip_bytes", "local_rx_ip_bytes", "external_rx_ip_bytes", "tx_bytes_per_initiated_flow", "flow_gap_mean", "flow_gap_min", "flow_burst_max_10s", "rolling_tx_mean_5m", "rolling_tx_mean_15m", "rolling_flows_mean_5m"))
 HISTORY_FEATURE = FEATURES.index("new_destination_fraction")
-X_NAMES = FEATURES + ("time_sin", "time_cos", "active") + tuple("type_" + t for t in TYPES) + tuple("valid_" + f for f in FEATURES)
-MASK_OFFSET = len(FEATURES) + 3 + len(TYPES)
+X_NAMES = FEATURES + ("time_sin", "time_cos", "active") + tuple("type_" + t for t in TYPES) + tuple("service_" + s for s in SERVICES) + tuple("valid_" + f for f in FEATURES)
+SERVICE_OFFSET = len(FEATURES) + 3 + len(TYPES)
+MASK_OFFSET = SERVICE_OFFSET + len(SERVICES)
 SCHEMA_HASH = hashlib.sha256(json.dumps({"version": VERSION, "features": X_NAMES,
     "window": WINDOW, "log_features": LOG_FEATURES}, sort_keys=True).encode()).hexdigest()
 
@@ -31,7 +51,9 @@ def read_json(path):
 def write_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    temporary.replace(path)
 
 
 def read_jsonl(path):
@@ -66,7 +88,7 @@ def require(condition, message):
 
 
 def validate_manifest(m, training=False):
-    require(m.get("schema_version") == VERSION, "Wrong manifest schema_version")
+    require(m.get("schema_version") in (VERSION, TELEMETRY_VERSION), "Wrong manifest schema_version")
     for key in ("run_id", "source", "session_id", "inventory", "start", "end", "normal", "capture_complete", "replay_speed"):
         require(key in m, f"Manifest missing {key}")
     require(m["end"] > m["start"], "Capture end must follow start")
@@ -105,7 +127,7 @@ def resolve_device(m, ip, mac, ts):
 
 
 def validate_telemetry(r):
-    require(r.get("schema_version") == VERSION, "Wrong telemetry version")
+    require(r.get("schema_version") in (VERSION, TELEMETRY_VERSION), "Wrong telemetry version")
     for k in ("window_start", "uid", "orig_h", "resp_h", "proto", "flow_start",
               "orig_ip_bytes", "resp_ip_bytes", "orig_pkts", "resp_pkts", "observed_duration",
               "established", "failed", "new_flow"):
@@ -138,6 +160,12 @@ def validate_labels(labels, manifest):
         require(r.get("start", 0) < r.get("end", 0), "Invalid label interval")
         require(manifest["start"] <= r["start"] < r["end"] <= manifest["end"], "Label outside capture")
         require(r.get("evidence"), "Labels require provenance/evidence")
+        for target in ("behavior", "relationship"):
+            if target + "_label" in r:
+                require(r[target + "_label"] in (0, 1), "Invalid A/B target label")
+            for interval in r.get(target + "_intervals", []):
+                require(r["start"] <= interval["start"] < interval["end"] <= r["end"], "A/B annotation outside label interval")
+                require(interval.get("evidence"), "A/B interval requires evidence")
         if r["label"] == 1:
             require(r.get("role") == "actor", "Victim-only labels are not compromised-actor positives")
             require(r.get("attack_family") and r.get("onset") in ("from_start", "later"), "Positive label requires family/onset")
@@ -147,6 +175,6 @@ def validate_labels(labels, manifest):
 
 def contract():
     return {"schema_version": VERSION, "schema_hash": SCHEMA_HASH, "window_seconds": WINDOW,
-            "traffic_features": FEATURES, "types": TYPES, "x_columns": X_NAMES,
+            "traffic_features": FEATURES, "types": TYPES, "services": SERVICES, "service_offset": SERVICE_OFFSET, "telemetry_version": TELEMETRY_VERSION, "x_columns": X_NAMES,
             "x_dimension": len(X_NAMES), "mask_offset": MASK_OFFSET,
             "log1p_columns": [FEATURES[i] for i in LOG_FEATURES]}

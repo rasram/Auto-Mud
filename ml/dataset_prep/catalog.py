@@ -15,7 +15,7 @@ def prepare(config_path, out):
     hashes = set()
     capture_hashes = set()
     sessions = defaultdict(set)
-    catalog = {"partitions": {p: [] for p in PARTITIONS}, "sources": [], "smoke": False, "synthetic": False}
+    catalog = {"schema_revision": 2, "calibration_mode": config.get("calibration_mode", "pooled"), "protocol": config.get("protocol", {}), "partitions": {p: [] for p in PARTITIONS}, "sources": [], "smoke": False, "synthetic": False}
     for entry in sources:
         base = config_path.parent
         manifest_path = (base / entry["manifest"]).resolve()
@@ -60,6 +60,7 @@ def prepare(config_path, out):
                 "capture_hashes": sorted(declared_hashes), "smoke": manifest.get("smoke", False),
                 "synthetic": manifest.get("synthetic", False),
                 "manifest_sha256": file_hash(manifest_path), "graph_sha256": file_hash(target),
+                "normal_context": entry.get("normal_context", "background"),
                 "labels_sha256": file_hash(base / entry["labels"]) if entry.get("labels") else None}
         catalog["sources"].append(item)
         for rule in rules:
@@ -85,12 +86,12 @@ def load_partition(catalog_path, name):
         path = catalog_path.parent / rule["path"]
         source = next(s for s in catalog["sources"] if s["run_id"] == rule["run_id"])
         require(file_hash(path) == source["graph_sha256"], "Graph file changed after preparation")
-        result.extend(g for g in read_jsonl(path) if rule["start"] <= g["window_start"] < rule["end"])
+        result.extend({**g, "normal_context": source.get("normal_context", "background")} for g in read_jsonl(path) if rule["start"] <= g["window_start"] < rule["end"])
     return result
 
 
 def readiness(catalog_path, stage1_only=False):
-    report = {"partitions": {}, "errors": [], "warnings": []}
+    report = {"synthetic": read_json(catalog_path).get("synthetic", False), "partitions": {}, "errors": [], "warnings": []}
     if read_json(catalog_path).get("smoke"):
         report["errors"].append("Synthetic/smoke data is not a production training corpus")
     if read_json(catalog_path).get("synthetic"):

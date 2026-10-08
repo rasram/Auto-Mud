@@ -1,5 +1,6 @@
 """Telemetry -> raw graph JSONL; graph construction never requires Neo4j."""
 from collections import Counter, defaultdict
+from ml.graph.context import extend_features, service_id, target_label
 import math
 import statistics
 
@@ -43,7 +44,7 @@ def features(records, previous_destinations):
               statistics.mean(durations) if durations else 0,
               statistics.median(durations) if durations else 0,
               math.log1p(txb) - math.log1p(rxb)]
-    mask = [True] * len(FEATURES)
+    mask = [True] * len(values)
     for idx, present in ((8, bool(destinations)), (10, bool(ports)), (11, n > 0),
                          (12, n > 0), (13, n > 0), (14, bool(outcomes)),
                          (15, bool(durations)), (16, bool(durations))):
@@ -68,11 +69,13 @@ def build_snapshots(telemetry, manifest, labels=()):
     inventory = sorted(manifest["inventory"], key=lambda d: d["device_id"])
     index = {d["device_id"]: i for i, d in enumerate(inventory)}
     history = defaultdict(set)
+    temporal = defaultdict(dict)
     edge_history = set()
     iterator = iter(telemetry)
     pending = next(iterator, None)
     last_window = -float("inf")
     for start in range(int(manifest["start"]), int(manifest["end"]), WINDOW):
+        index = {d["device_id"]:i for i,d in enumerate(inventory)}
         grouped = defaultdict(list)
         pairs = defaultdict(list)
         seen = set()
@@ -91,6 +94,10 @@ def build_snapshots(telemetry, manifest, labels=()):
                 grouped[resp].append((r, False))
             if orig and resp and orig != resp:
                 pairs[(orig, resp)].append(r)
+            elif orig:
+                pairs[(orig, service_id(r))].append(r)
+            elif resp:
+                pairs[(service_id(r), resp)].append(r)
             pending = next(iterator, None)
         nodes = []
         for d in inventory:
@@ -99,15 +106,26 @@ def build_snapshots(telemetry, manifest, labels=()):
             available = manifest["capture_complete"] and not any(
                 o["start"] < start + WINDOW and o["end"] > start and o.get("device_id", device) == device
                 for o in manifest.get("outages", []))
+            extra, extra_mask = extend_features(grouped[device], manifest, start, temporal[device], available)
+            values += extra; mask = mask[:18] + extra_mask
             y, details = label_window(labels, device, start)
             if manifest["normal"] and not labels:
                 y = 0
             nodes.append({"device_id": device, "device_type": d["device_type"], "features": values,
                           "feature_mask": mask if available else [False] * len(mask),
                           "active": bool(grouped[device]), "available": available,
-                          "label": y if available else -1, "label_details": details})
+                          "label": y if available else -1, "label_details": details,
+                          "behavior_label": target_label(labels,device,start,"behavior",y) if available else -1,
+                          "relationship_label": target_label(labels,device,start,"relationship",y) if available else -1})
             if available:
                 history[device].update(destinations)
+        for endpoint in sorted({d for pair in pairs for d in pair if d not in index}):
+            index[endpoint] = len(nodes)
+            nodes.append({"device_id":endpoint,"device_type":"external_service",
+                          "service_category":endpoint.split(":",1)[1],"features":[0.]*len(FEATURES),
+                          "feature_mask":[False]*len(FEATURES),"active":False,
+                          "available":manifest["capture_complete"],"label":-1,"label_details":None,
+                          "behavior_label":-1,"relationship_label":-1})
         edges = []
         for pair, rows in sorted(pairs.items()):
             if not all(nodes[index[d]]["available"] for d in pair):

@@ -16,6 +16,8 @@ def inspect_capture(manifest_path, telemetry_path, out, reference=None):
     telemetry = (r for r in read_jsonl(telemetry_path) if manifest["start"] <= r["window_start"] < manifest["end"])
     for g in build_snapshots(telemetry, diagnostic_manifest):
         for n in g["nodes"]:
+            if n["device_type"] == "external_service":
+                continue
             s = summaries[n["device_id"]]
             s["available_windows"] += n["available"]
             s["active_windows"] += n["active"] and n["available"]

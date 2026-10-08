@@ -504,7 +504,7 @@ Do not rerun the completed pipeline into its existing directory after generator 
 
 ## 20. Git/documentation boundary
 
-This checkpoint documentation commit preserves this document, its evidence snapshot, and the supporting local-setup/latest-results documents. The evidence lists current source hashes, but **documentation is not a substitute for committing the implementation**. At document creation, GPU/evaluation/v1/v2 source changes remained unstaged working-tree changes relative to `5ce0660`; they are outside this documentation commit.
+The first documentation checkpoint commit, `078cad7`, preserved this document, its evidence snapshot, and the supporting local-setup/latest-results documents. At that point, GPU/evaluation/v1/v2 implementation changes remained uncommitted relative to `5ce0660`. The follow-up implementation checkpoint commit now records the remaining model, schema, extraction, generation, evaluation, monitoring, export, test, and documentation changes. Together, these two commits preserve the documented source state. The companion evidence snapshot records source hashes at checkpoint creation; source files covered by those hashes were unchanged when the implementation was committed.
 
 Model weights, PCAPs, prepared datasets, Python environments, and the WSL virtual disk are not committed. They are local artifacts; the evidence snapshot makes the reported conclusions readable without them. Preserve/export source and artifacts separately before moving the experiment or deleting a distribution. The old worktree at `C:\Users\Jayan\.codex\worktrees\e9d6\Auto-Mud` is not the authoritative current implementation.
 

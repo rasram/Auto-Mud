@@ -1,5 +1,8 @@
 # Collecting the data and preparing training inputs
 
+Current local setup and v2 dataset/model requirements: [LOCAL_WSL.md](LOCAL_WSL.md).
+The local pipeline and monitoring command are documented there. Use fresh output directories.
+
 Commands below run from the repository root. Linux paths are examples: your Windows
 dataset paths are available in WSL under `/mnt/e/Projects_Archive/FYP/...`.
 

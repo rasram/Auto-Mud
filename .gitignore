@@ -108,3 +108,6 @@ data/gnn/
 data/collection/
 tmp/
 .linux-tools/
+
+# CUDA training environment
+.venv-gnn/

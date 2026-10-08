@@ -70,5 +70,5 @@
     }
   ],
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AutoMUD label v1"
+  "title": "AutoMUD label v2"
 }

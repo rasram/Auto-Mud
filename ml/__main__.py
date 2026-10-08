@@ -42,12 +42,14 @@ def main():
         s.add_argument("--epochs", type=int, default=100); s.add_argument("--patience", type=int, default=10)
         s.add_argument("--seed", type=int, default=42); s.add_argument("--batch-size", type=int, default=32)
         s.add_argument("--learning-rate", type=float, default=0.001)
+        s.add_argument("--device", default="auto", help="auto, cpu, cuda, or cuda:0")
         if command == "train-stage2":
             s.add_argument("--checkpoint", required=True)
         else:
             s.add_argument("--architecture", choices=("sage", "gcn", "mlp"), default="sage")
-    s = sub.add_parser("calibrate"); s.add_argument("--catalog", required=True); s.add_argument("--checkpoint", required=True); s.add_argument("--out", required=True); s.add_argument("--percentile", type=float, default=99)
-    s = sub.add_parser("evaluate"); s.add_argument("--catalog", required=True); s.add_argument("--checkpoint", required=True); s.add_argument("--out", required=True); s.add_argument("--partition", choices=("normal_test", "stage2_test"), default="stage2_test")
+            s.add_argument("--revision", choices=("legacy", "robust"), default="legacy")
+    s = sub.add_parser("calibrate"); s.add_argument("--device", default="auto"); s.add_argument("--catalog", required=True); s.add_argument("--checkpoint", required=True); s.add_argument("--out", required=True); s.add_argument("--percentile", type=float, default=99)
+    s = sub.add_parser("evaluate"); s.add_argument("--device", default="auto"); s.add_argument("--catalog", required=True); s.add_argument("--checkpoint", required=True); s.add_argument("--out", required=True); s.add_argument("--partition", choices=("normal_test", "stage2_test"), default="stage2_test")
     s = sub.add_parser("predict"); s.add_argument("--checkpoint", required=True); s.add_argument("--graphs", required=True); s.add_argument("--out", required=True)
     s = sub.add_parser("smoke"); s.add_argument("--out", required=True); s.add_argument("--epochs", type=int, default=3)
     args = p.parse_args()
@@ -113,9 +115,9 @@ def main():
         result = make_normal_config(args.normal_run, args.out)
     elif args.command.startswith("train-"):
         from ml.training.runtime import train_stage1, train_stage2, calibrate, evaluate
-        kw = dict(epochs=args.epochs, patience=args.patience, seed=args.seed, batch_size=args.batch_size, learning_rate=args.learning_rate)
+        kw = dict(epochs=args.epochs, patience=args.patience, seed=args.seed, batch_size=args.batch_size, learning_rate=args.learning_rate, device=args.device)
         if args.command == "train-stage1":
-            result = train_stage1(args.catalog, args.out, architecture=args.architecture, **kw)
+            result = train_stage1(args.catalog, args.out, architecture=args.architecture, revision=args.revision, **kw)
         elif args.command == "train-stage2":
             result = train_stage2(args.catalog, args.checkpoint, args.out, **kw)
         else:
@@ -124,18 +126,18 @@ def main():
             report = readiness(args.catalog)
             require(report["ready"], "Dataset not ready: " + "; ".join(report["errors"]))
             out = Path(args.out)
-            train_stage1(args.catalog, out / "stage1.pt", architecture=args.architecture, **kw)
-            calibrate(args.catalog, out / "stage1.pt", out / "calibrated.pt")
+            train_stage1(args.catalog, out / "stage1.pt", architecture=args.architecture, revision=args.revision, **kw)
+            calibrate(args.catalog, out / "stage1.pt", out / "calibrated.pt", device=args.device)
             train_stage2(args.catalog, out / "calibrated.pt", out / "model.pt", **kw)
-            evaluate(args.catalog, out / "model.pt", out / "normal-test.json", "normal_test")
-            evaluate(args.catalog, out / "model.pt", out / "attack-test.json")
+            evaluate(args.catalog, out / "model.pt", out / "normal-test.json", "normal_test", device=args.device)
+            evaluate(args.catalog, out / "model.pt", out / "attack-test.json", device=args.device)
             result = {"model": str(out / "model.pt")}
     elif args.command == "calibrate":
         from ml.training.runtime import calibrate
-        result = calibrate(args.catalog, args.checkpoint, args.out, args.percentile)
+        result = calibrate(args.catalog, args.checkpoint, args.out, args.percentile, device=args.device)
     elif args.command == "evaluate":
         from ml.training.runtime import evaluate
-        result = evaluate(args.catalog, args.checkpoint, args.out, args.partition)
+        result = evaluate(args.catalog, args.checkpoint, args.out, args.partition, device=args.device)
     elif args.command == "predict":
         from ml.training.runtime import Predictor
         predictor = Predictor(args.checkpoint)

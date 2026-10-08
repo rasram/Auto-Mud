@@ -74,6 +74,25 @@ def build_plan(topology, duration=86400, seed=1, profiles=None, scenario=None, a
                 "destination": topology["device_ip"][edge["dest"]], "proto": "tcp", "port": edge["port"],
                 "request_bytes": rng.randint(*edge["payload_bytes_range"]), "response_bytes": 64,
                 "duration": 0.1, "kind": "normal"})
+    # Normal activities include bursty uploads and periodic polling, across every device.
+    # These are explicit simulation assumptions, not measured UNSW applications.
+    for device in topology['devices']:
+        activity_rng = random.Random(child_seed(seed, 'activity:'+device))
+        service = activity_rng.choice((443,8080,8443,9090))
+        poll_period = activity_rng.uniform(25,120)
+        t = activity_rng.uniform(0,poll_period)
+        while t < duration:
+            events.append({'device_id':device,'offset':round(t,6),'destination':activity_rng.choice(cloud_ips),
+                'proto':'tcp','port':service,'request_bytes':activity_rng.randint(32,512),
+                'response_bytes':activity_rng.randint(64,4096),'duration':activity_rng.uniform(.02,.5),'kind':'normal_poll'})
+            t += max(1.,poll_period*activity_rng.uniform(.65,1.35))
+        for burst_start in range(60,duration,1800):
+            for i in range(activity_rng.randint(2,8)):
+                t = burst_start+i*activity_rng.uniform(1,5)
+                if t>=duration: break
+                events.append({'device_id':device,'offset':round(t,6),'destination':activity_rng.choice(cloud_ips),
+                    'proto':'tcp','port':service,'request_bytes':activity_rng.randint(8192,65536),
+                    'response_bytes':activity_rng.randint(128,16384),'duration':activity_rng.uniform(.1,2),'kind':'normal_upload'})
     attack_start = 0 if onset == "from_start" else 300
     if scenario:
         require(duration > attack_start, "Scenario too short for onset")
@@ -81,30 +100,53 @@ def build_plan(topology, duration=86400, seed=1, profiles=None, scenario=None, a
         events = [e for e in events if not (e["device_id"] == actor and onset == "from_start" and e["offset"] < 1)]
         rng = random.Random(child_seed(seed, f"scenario:{scenario}:{actor}"))
         targets = [topology["device_ip"][d] for d in topology["devices"] if d != actor]
-        interval = {"port_scan": 2, "lateral_connections": 5, "exfiltration": 2, "beaconing": 15}[scenario]
-        for i, t in enumerate(range(attack_start, duration, interval)):
-            dst = targets[i % len(targets)] if scenario in ("port_scan", "lateral_connections") else cloud_ips[-1]
-            # Matched benign transfers use approved normal services/relationships.
+        # Attack/control share background, device identity, services and parameter seed.
+        # No dedicated attack port or destination is reserved. Timing/volume differ.
+        service = rng.choice((443,8080,8443,9090))
+        variant = seed % 3
+        interval = {"port_scan":(1,3,7), "lateral_connections":(3,7,13),
+                    "exfiltration":(2,5,9), "beaconing":(11,19,31)}[scenario][variant]
+        t, i = float(attack_start), 0
+        while t < duration:
+            local = scenario in ("port_scan","lateral_connections") and not normal_control
+            dst = targets[i % len(targets)] if local else cloud_ips[rng.randrange(len(cloud_ips))]
+            port = rng.choice((22,80,443,8080,1883,20000+i%1000)) if scenario=="port_scan" and not normal_control else service
+            if scenario == "exfiltration":
+                request = rng.randint(8192,65536) if normal_control else rng.randint(32768,65536)
+                response = rng.randint(512,8192) if normal_control else rng.randint(32,256)
+            else:
+                request = rng.randint(32,256); response = rng.randint(64,512)
+            events.append({"device_id":actor,"offset":round(t,6),"destination":dst,
+                "proto":"tcp","port":port,"request_bytes":request,"response_bytes":response,
+                "duration":rng.uniform(.05,1.) if scenario=="exfiltration" else rng.uniform(.01,.1),
+                "kind":"normal_control" if normal_control else scenario,
+                "expect_failure":scenario=="port_scan" and not normal_control})
             if normal_control:
-                dst = cloud_ips[0]
-            port = 8080 if normal_control else (20000 + i % 1000 if scenario == "port_scan" else 9090)
-            events.append({"device_id": actor, "offset": float(t), "destination": dst,
-                "proto": "tcp", "port": port,
-                "request_bytes": 32768 if scenario == "exfiltration" else rng.randint(32, 128),
-                "response_bytes": 64, "duration": 0.2 if scenario == "exfiltration" else 0.02,
-                "kind": "normal_control" if normal_control else scenario,
-                "expect_failure": scenario == "port_scan" and not normal_control})
+                if scenario=="exfiltration": gap = rng.uniform(45,150)
+                else: gap = interval*rng.uniform(.3,2.0)
+            else:
+                gap = interval*rng.uniform(.97,1.03) if scenario=="beaconing" else interval*rng.uniform(.8,1.2)
+            t += max(.5,gap); i += 1
+    # A scan may reach an open lab service. Only unprovisioned ports must fail;
+    # otherwise the real collector would reject valid open-port observations.
+    served = {(s['proto'],s['port']) for d in topology['devices']
+              for s in (profiles['devices'][d] if profiles else fallback_profile())['services']}
+    served |= {('tcp',e['port']) for e in topology['edges']}
+    served |= {(e['proto'],e['port']) for e in events if e['kind']!='port_scan'}
+    for event in events:
+        if event['kind']=='port_scan':
+            event['expect_failure']=(event['proto'],event['port']) not in served
     events.sort(key=lambda e: (e["offset"], e["device_id"]))
-    session = f"{scenario or 'normal'}-{actor or 'household'}-{seed}-{onset}"
+    session = f"v2-{scenario or 'normal'}-{actor or 'household'}-{seed}-{onset}"
     return {"schema_version": "automud.collection.v1", "duration": duration, "seed": seed,
             "topology": topology, "events": events, "scenario": scenario, "actor": actor,
             "onset": onset, "normal_control": normal_control, "attack_start": attack_start,
             "session_id": session, "run_id": session + ("-control" if normal_control else "-attack" if scenario else ""),
             "calibrated": profiles is not None, "cloud_ips": cloud_ips,
-            "utc_phase": utc_phase,
+            "utc_phase": utc_phase, "scenario_design": "observable_v2",
             "service_endpoints": sorted({(s["proto"], s["port"]) for d in topology["devices"]
                                          for s in (profiles["devices"][d] if profiles else fallback_profile())["services"]}
-                                        | {("tcp", e["port"]) for e in topology["edges"]} | {("tcp", 8080), ("tcp", 9090)}),
+                                        | {("tcp", e["port"]) for e in topology["edges"]} | {(e["proto"],e["port"]) for e in events if not e.get("expect_failure")}),
             "limits": {"max_concurrent_per_device": 16, "max_request_bytes": 65536, "max_response_bytes": 65536}}
 
 
@@ -123,6 +165,22 @@ def label_intervals(plan, start):
         else:
             labels.append({"device_id": d, "start": start, "end": end, "label": 0,
                 "role": "normal", "evidence": plan["run_id"]})
+    victims = {}
+    for event in plan['events']:
+        if event.get('kind') not in FAMILIES: continue
+        target = next((d for d,ip in plan['topology']['device_ip'].items() if ip==event['destination']),None)
+        if target:
+            minute = int(event['offset']//60)*60
+            victims.setdefault(target,set()).add(minute)
+    for row in labels:
+        actor = row['label']==1
+        row['behavior_label'] = int(actor)
+        row['relationship_label'] = int(actor and plan['scenario'] in ('port_scan','lateral_connections'))
+        minutes = victims.get(row['device_id'],set())
+        if minutes:
+            row['behavior_intervals'] = [{'start':start+m,'end':min(end,start+m+60),'role':'victim',
+                                         'evidence':plan['run_id']} for m in sorted(minutes)]
+            row['affected_role'] = 'victim'
     return labels
 
 

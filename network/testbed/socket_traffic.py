@@ -35,7 +35,8 @@ class UDPResponder(asyncio.DatagramProtocol):
     def datagram_received(self, data, addr):
         if len(data) >= 4:
             wanted = min(struct.unpack("!I", data[:4])[0], 1400)
-            self.transport.sendto(b"R" * wanted, addr)
+            if wanted:
+                self.transport.sendto(b"R" * wanted, addr)
 
 
 async def serve(plan):
@@ -94,9 +95,10 @@ async def exchange(event):
             for i in range(parts):
                 tx, rx = min(1400, tx_left), min(1400, rx_left)
                 await loop.sock_sendto(sock, struct.pack("!I", rx) + b"N" * tx, (str(addr), event["port"]))
-                reply = await asyncio.wait_for(loop.sock_recv(sock, 2048), 2)
-                if len(reply) != rx:
-                    raise ValueError("UDP response length mismatch")
+                if rx:
+                    reply = await asyncio.wait_for(loop.sock_recv(sock, 2048), 2)
+                    if len(reply) != rx:
+                        raise ValueError("UDP response length mismatch")
                 tx_left -= tx
                 rx_left -= rx
                 await asyncio.sleep(event["duration"] / parts)
@@ -109,6 +111,7 @@ async def exchange(event):
 async def replay(plan, device, start):
     events = [e for e in plan["events"] if e["device_id"] == device]
     sem = asyncio.Semaphore(plan["limits"]["max_concurrent_per_device"])
+    debug = plan.get('debug_events',False)
     plan.clear()  # Each replay process retains only its own events.
     origin = time.monotonic() + (start - time.time())
     results = {"events": 0, "successful": 0, "expected_failures": 0, "unexpected_failures": 0, "late_events": 0}
@@ -117,6 +120,8 @@ async def replay(plan, device, start):
             lag = time.monotonic() - (origin + e["offset"])
             results["late_events"] += lag > 1
             results["events"] += 1
+            if debug:
+                print(json.dumps({'event':'start','offset':e['offset'],'proto':e['proto'],'port':e['port']}),flush=True)
             try:
                 await exchange(e)
                 results["successful"] += 1
@@ -124,7 +129,12 @@ async def replay(plan, device, start):
                     results["unexpected_failures"] += 1
             except (OSError, asyncio.TimeoutError, ValueError, asyncio.IncompleteReadError) as exc:
                 results["expected_failures" if e.get("expect_failure") else "unexpected_failures"] += 1
-                print(json.dumps({"offset": e["offset"], "kind": e["kind"], "error": str(exc)}), flush=True)
+                print(json.dumps({"offset": e["offset"], "kind": e["kind"],
+                    "proto":e["proto"],"port":e["port"],"request_bytes":e["request_bytes"],
+                    "response_bytes":e["response_bytes"],"error_type":type(exc).__name__,"error":str(exc)}), flush=True)
+            finally:
+                if debug:
+                    print(json.dumps({'event':'finish','offset':e['offset']}),flush=True)
     pending = set()
     for event in events:
         await asyncio.sleep(max(0, origin + event["offset"] - time.monotonic()))
