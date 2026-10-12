@@ -1,1 +1,1 @@
-"""Mininet household traffic and training-data collection."""
+"""Mininet household traffic generation and canonical observation collection."""

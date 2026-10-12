@@ -111,3 +111,12 @@ tmp/
 
 # CUDA training environment
 .venv-gnn/
+
+# Private GNN research, conversations, datasets and preserved development source.
+/_private/
+.venv-ml/
+.venv-ryu/
+
+# Small selected inference checkpoints are deliberately shareable.
+!/models/gnn/selected-a.pt
+!/models/gnn/frozen-b.pt

@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-from ml.schema import FEATURES, TYPES, SERVICES, LOG_FEATURES, SCHEMA_HASH, require
+from ml.schema import FEATURES, TYPES, SERVICES, LOG_FEATURES, SCHEMA_HASH, require, HISTORY_WINDOWS, TEMPORAL_FEATURES
 
 
 def transformed(node):
@@ -16,36 +16,6 @@ class Normalizer:
     def __init__(self, state=None):
         self.state = state
 
-    def fit(self, graphs, min_type_rows=100, scale_floor=False):
-        grouped = {"global": []}
-        for g in graphs:
-            require(g["schema_hash"] == SCHEMA_HASH, "Schema mismatch")
-            require(g["normal"], "Scaler may only fit clean Stage-1 training graphs")
-            for n in g["nodes"]:
-                if n["active"] and n["available"]:
-                    pair = (transformed(n), np.asarray(n["feature_mask"], bool))
-                    grouped["global"].append(pair)
-                    grouped.setdefault(n["device_type"], []).append(pair)
-        require(grouped["global"], "No active normal training observations")
-        stats = {}
-        for typ, rows in grouped.items():
-            if typ != "global" and len(rows) < min_type_rows:
-                continue
-            values = np.stack([r[0] for r in rows])
-            masks = np.stack([r[1] for r in rows])
-            count = masks.sum(0)
-            mean = (values * masks).sum(0) / np.maximum(count, 1)
-            std = np.sqrt((((values - mean) ** 2) * masks).sum(0) / np.maximum(count, 1))
-            # Unit scale for constant features: tiny eps would inflate novel values arbitrarily.
-            std[std < 1e-6] = 1.0
-            if scale_floor:
-                floors = np.full(len(FEATURES), .25)
-                floors[[8,11,12,13,14]] = .2
-                floors[17] = 1.
-                std = np.maximum(std,floors)
-            stats[typ] = {"mean": mean.tolist(), "std": std.tolist(), "count": count.tolist()}
-        self.state = {"schema_hash": SCHEMA_HASH, "stats": stats, "min_type_rows": min_type_rows, "scale_floor": scale_floor}
-        return self
 
     def node(self, node, window_start):
         require(self.state["schema_hash"] == SCHEMA_HASH, "Scaler schema mismatch")
@@ -60,6 +30,23 @@ class Normalizer:
         return x.astype(np.float32), normalized.astype(np.float32), mask
 
 
+def history_tensor(node, window_start, scaler):
+    output=np.zeros((HISTORY_WINDOWS,len(TEMPORAL_FEATURES)*2),dtype=np.float32)
+    history=node.get('temporal_history',[])
+    require(len(history)<=HISTORY_WINDOWS, 'Too many history windows')
+    for i,row in enumerate(history, HISTORY_WINDOWS-len(history)):
+        require(row['window_start']<window_start, 'Future/current window in temporal input')
+        require(row['window_start']==window_start-(HISTORY_WINDOWS-i)*60, 'Noncontiguous temporal history')
+        indices=[FEATURES.index(f) for f in TEMPORAL_FEATURES]
+        require(len(row['features'])==len(indices) and len(row['feature_mask'])==len(indices), 'Invalid compact history')
+        features=[0.]*len(FEATURES);valid=[False]*len(FEATURES)
+        for j,k in enumerate(indices): features[k]=row['features'][j];valid[k]=row['feature_mask'][j]
+        previous=dict(node,features=features,feature_mask=valid)
+        _,target,mask=scaler.node(previous,row['window_start'])
+        output[i]=np.r_[target[indices],mask[indices]]
+    return output
+
+
 def to_pyg(graph, scaler):
     import torch
     from torch_geometric.data import Data
@@ -71,6 +58,7 @@ def to_pyg(graph, scaler):
     edges = torch.tensor(adjacent, dtype=torch.long).t().contiguous() if adjacent else torch.empty((2, 0), dtype=torch.long)
     positive = torch.tensor(sorted(pairs), dtype=torch.long).t().contiguous() if pairs else torch.empty((2, 0), dtype=torch.long)
     return Data(x=torch.from_numpy(np.stack([r[0] for r in rows])), edge_index=edges,
+                temporal_history=torch.from_numpy(np.stack([history_tensor(n,graph["window_start"],scaler) for n in graph["nodes"]])),
                 positive_pairs=positive, target=torch.from_numpy(np.stack([r[1] for r in rows])),
                 feature_mask=torch.from_numpy(np.stack([r[2] for r in rows])),
                 available=torch.tensor([n["available"] for n in graph["nodes"]]),

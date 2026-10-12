@@ -1,154 +1,110 @@
-"""Run `python -m ml --help` from the repository root."""
+"""Inference and canonical extraction CLI for the selected teammate GNN package."""
 import argparse
 import json
 from pathlib import Path
-
-from ml.schema import read_json, read_jsonl, write_json, write_jsonl
+from ml.schema import read_json, read_jsonl, write_jsonl
 
 
 def main():
-    p = argparse.ArgumentParser(description="AutoMUD database-free graph learning")
-    sub = p.add_subparsers(dest="command", required=True)
-    s = sub.add_parser("schemas"); s.add_argument("--out", default="configs/gnn/schemas")
-    s = sub.add_parser("audit-datasets")
-    for arg in ("cic", "unsw-normal", "unsw-attack", "out"):
-        s.add_argument("--" + arg, required=True)
-    s.add_argument("--topology", default="network/testbed/topology.json")
-    s = sub.add_parser("unsw-attack-identities"); s.add_argument("--workbook", required=True)
-    s.add_argument("--out", required=True); s.add_argument("--existing", default="configs/gnn/unsw-identities.json")
-    s = sub.add_parser("extract"); s.add_argument("--pcap", nargs="+", required=True); s.add_argument("--out", required=True); s.add_argument("--zeek", default="zeek")
-    s = sub.add_parser("prepare"); s.add_argument("--config", required=True); s.add_argument("--out", required=True)
-    s = sub.add_parser("readiness"); s.add_argument("--catalog", required=True); s.add_argument("--out")
-    s.add_argument("--stage1-only", action="store_true")
-    s = sub.add_parser("calibrate-traffic"); s.add_argument("--sources", required=True); s.add_argument("--out", required=True)
-    s = sub.add_parser("public-manifest")
-    for arg in ("telemetry", "identities", "source", "run-id", "out"):
-        s.add_argument("--" + arg, required=True)
-    s.add_argument("--normal", action="store_true")
-    s = sub.add_parser("inspect-capture")
-    s.add_argument("--manifest", required=True); s.add_argument("--telemetry", required=True)
-    s.add_argument("--out", required=True); s.add_argument("--reference")
-    s = sub.add_parser("plan-normal"); s.add_argument("--topology", default="network/testbed/topology.json"); s.add_argument("--profiles"); s.add_argument("--days", type=float, default=7); s.add_argument("--seed", type=int, default=42); s.add_argument("--out", required=True)
-    s = sub.add_parser("plan-attacks"); s.add_argument("--topology", default="network/testbed/topology.json"); s.add_argument("--profiles"); s.add_argument("--out", required=True)
-    s = sub.add_parser("make-config")
-    for arg in ("normal-run", "matrix", "runs-root", "out"):
-        s.add_argument("--" + arg, required=True)
-    s = sub.add_parser("make-normal-config")
-    for arg in ("normal-run", "out"):
-        s.add_argument("--" + arg, required=True)
-    for command in ("train-stage1", "train-stage2", "train-all"):
-        s = sub.add_parser(command)
-        s.add_argument("--catalog", required=True); s.add_argument("--out", required=True)
-        s.add_argument("--epochs", type=int, default=100); s.add_argument("--patience", type=int, default=10)
-        s.add_argument("--seed", type=int, default=42); s.add_argument("--batch-size", type=int, default=32)
-        s.add_argument("--learning-rate", type=float, default=0.001)
-        s.add_argument("--device", default="auto", help="auto, cpu, cuda, or cuda:0")
-        if command == "train-stage2":
-            s.add_argument("--checkpoint", required=True)
-        else:
-            s.add_argument("--architecture", choices=("sage", "gcn", "mlp"), default="sage")
-            s.add_argument("--revision", choices=("legacy", "robust"), default="legacy")
-    s = sub.add_parser("calibrate"); s.add_argument("--device", default="auto"); s.add_argument("--catalog", required=True); s.add_argument("--checkpoint", required=True); s.add_argument("--out", required=True); s.add_argument("--percentile", type=float, default=99)
-    s = sub.add_parser("evaluate"); s.add_argument("--device", default="auto"); s.add_argument("--catalog", required=True); s.add_argument("--checkpoint", required=True); s.add_argument("--out", required=True); s.add_argument("--partition", choices=("normal_test", "stage2_test"), default="stage2_test")
-    s = sub.add_parser("predict"); s.add_argument("--checkpoint", required=True); s.add_argument("--graphs", required=True); s.add_argument("--out", required=True)
-    s = sub.add_parser("smoke"); s.add_argument("--out", required=True); s.add_argument("--epochs", type=int, default=3)
-    args = p.parse_args()
-    result = None
-    if args.command == "schemas":
-        from ml.contracts import export_schemas
-        export_schemas(args.out)
-        result = {"schemas": args.out}
-    elif args.command == "audit-datasets":
-        from ml.dataset_prep.inventory import audit
-        audit(args.cic, args.unsw_normal, args.unsw_attack, args.topology, args.out)
-        result = {"report": args.out}
-    elif args.command == "unsw-attack-identities":
-        from ml.dataset_prep.inventory import unsw_attack_identities
-        result = unsw_attack_identities(args.workbook, args.out, args.existing)
-    elif args.command == "extract":
-        from ml.dataset_prep.extract import extract
-        result = {"telemetry": extract(args.pcap, args.out, args.zeek)}
-    elif args.command == "prepare":
-        from ml.dataset_prep.catalog import prepare
-        prepare(args.config, args.out)
-        result = {"catalog": str(Path(args.out) / "catalog.json")}
-    elif args.command == "readiness":
-        from ml.dataset_prep.catalog import readiness
-        result = readiness(args.catalog, stage1_only=args.stage1_only)
+    parser = argparse.ArgumentParser(description=__doc__)
+    commands = parser.add_subparsers(dest='command', required=True)
+    load = commands.add_parser('check-model', help='Verify hashes and load the frozen models without scoring')
+    load.add_argument('--bundle', default='models/gnn')
+    load.add_argument('--device', default='cpu')
+    load.add_argument('--allow-candidate', action='store_true')
+    fixture = commands.add_parser('check-fixture', help='Check loading and outputs against the consumed reference fixture')
+    fixture.add_argument('--bundle', default='models/gnn')
+    fixture.add_argument('--fixture', default='fixtures/gnn')
+    fixture.add_argument('--device', default='cpu')
+    predict = commands.add_parser('predict', help='Score already-prepared v4 graphs; no fitting')
+    predict.add_argument('--bundle', default='models/gnn')
+    predict.add_argument('--device', default='cpu')
+    predict.add_argument('--graphs', required=True)
+    predict.add_argument('--out', required=True)
+    build = commands.add_parser('build-graphs', help='Convert canonical telemetry and inventory manifest to v4 graphs')
+    build.add_argument('--telemetry', required=True)
+    build.add_argument('--manifest', required=True)
+    build.add_argument('--out', required=True)
+    extract = commands.add_parser('extract', help='Extract canonical telemetry from PCAPs with the project Zeek policy')
+    extract.add_argument('--pcap', nargs='+', required=True)
+    extract.add_argument('--out', required=True)
+    extract.add_argument('--zeek', default='zeek')
+    service = commands.add_parser('serve', help='Run the stateful live GNN HTTP service')
+    service.add_argument('--config', default='configs/gnn/live/service.json')
+    export = commands.add_parser('export-bundle', help='Package a trained compatible checkpoint without fitting')
+    export.add_argument('--checkpoint', required=True)
+    export.add_argument('--frozen-b', default='models/gnn/frozen-b.pt')
+    export.add_argument('--out', required=True)
+    export.add_argument('--version', required=True)
+    export.add_argument('--results')
+    sample = commands.add_parser('sample-window', help='Write explicitly labeled engineering API example, not captured traffic')
+    sample.add_argument('--out', required=True)
+    submit = commands.add_parser('submit-window', help='Send one completed canonical window to the running service')
+    submit.add_argument('--request', required=True)
+    submit.add_argument('--url', default='http://127.0.0.1:8001')
+    submit.add_argument('--token-env', default='AUTOMUD_GNN_API_TOKEN')
+    submit.add_argument('--out')
+    acceptance = commands.add_parser('validate-live-capture', help='Verify real lab capture -> Zeek -> live API feature parity and swapping')
+    acceptance.add_argument('--capture-dir', required=True)
+    acceptance.add_argument('--out', required=True)
+    acceptance.add_argument('--zeek', default='/opt/zeek/bin/zeek')
+    bench = commands.add_parser('benchmark-live', help='Measure API/CPU throughput on synthetic engineering traffic')
+    bench.add_argument('--out', required=True)
+    bench.add_argument('--windows', type=int, default=60)
+    bench.add_argument('--devices', type=int, default=12)
+    args = parser.parse_args()
+    if args.command == 'benchmark-live':
+        from ml.live.benchmark import benchmark
+        print(json.dumps(benchmark(args.out, args.windows, args.devices), indent=2))
+    elif args.command == 'validate-live-capture':
+        from ml.live.acceptance import validate_capture
+        print(json.dumps(validate_capture(args.capture_dir, args.out, args.zeek), indent=2))
+    elif args.command == 'sample-window':
+        import time
+        from ml.live.examples import example_window
+        from ml.schema import write_json
+        if Path(args.out).exists():
+            parser.error('Output already exists; choose a new path')
+        write_json(args.out, example_window(int(time.time() // 60) * 60 - 60))
+    elif args.command == 'submit-window':
+        import os
+        from ml.live.client import Client
+        if args.out and Path(args.out).exists():
+            parser.error('Output already exists; choose a new path')
+        result = Client(args.url, os.environ.get(args.token_env)).submit(read_json(args.request))
         if args.out:
+            from ml.schema import write_json
             write_json(args.out, result)
-        print(json.dumps(result, indent=2))
-        raise SystemExit(0 if result["ready"] else 2)
-    elif args.command == "calibrate-traffic":
-        from ml.dataset_prep.traffic_profiles import calibrate_traffic
-        source_path = Path(args.sources).resolve()
-        sources = read_json(source_path)["sources"]
-        for source in sources:
-            for k in ("manifest", "telemetry"):
-                source[k] = str(source_path.parent / source[k])
-        profiles = calibrate_traffic(sources, args.out)
-        result = {"devices": len(profiles["devices"]), "profiles": args.out}
-    elif args.command == "public-manifest":
-        from ml.dataset_prep.public_manifest import make_manifest
-        result = make_manifest(args.telemetry, args.identities, args.source, args.run_id, args.out, args.normal)
-    elif args.command == "inspect-capture":
-        from ml.dataset_prep.quality import inspect_capture
-        report = inspect_capture(args.manifest, args.telemetry, args.out, args.reference)
-        result = {"report": args.out, "warnings": report["warnings"]}
-    elif args.command == "plan-normal":
-        from network.testbed.collection_plan import build_plan
-        plan = build_plan(read_json(args.topology), round(args.days * 86400), args.seed, read_json(args.profiles) if args.profiles else None)
-        if args.profiles:
-            from ml.schema import file_hash
-            plan["profiles_file"] = str(Path(args.profiles).resolve())
-            plan["profiles_sha256"] = file_hash(args.profiles)
-        write_json(args.out, plan)
-        result = {"events": len(plan["events"]), "calibrated": plan["calibrated"]}
-    elif args.command == "plan-attacks":
-        from network.testbed.collection_plan import write_matrix
-        result = {"plans": len(write_matrix(args.topology, args.out, args.profiles))}
-    elif args.command == "make-config":
-        from ml.dataset_prep.configure import make_config
-        result = make_config(args.normal_run, args.matrix, args.runs_root, args.out)
-    elif args.command == "make-normal-config":
-        from ml.dataset_prep.configure import make_normal_config
-        result = make_normal_config(args.normal_run, args.out)
-    elif args.command.startswith("train-"):
-        from ml.training.runtime import train_stage1, train_stage2, calibrate, evaluate
-        kw = dict(epochs=args.epochs, patience=args.patience, seed=args.seed, batch_size=args.batch_size, learning_rate=args.learning_rate, device=args.device)
-        if args.command == "train-stage1":
-            result = train_stage1(args.catalog, args.out, architecture=args.architecture, revision=args.revision, **kw)
-        elif args.command == "train-stage2":
-            result = train_stage2(args.catalog, args.checkpoint, args.out, **kw)
         else:
-            from ml.dataset_prep.catalog import readiness
-            from ml.schema import require
-            report = readiness(args.catalog)
-            require(report["ready"], "Dataset not ready: " + "; ".join(report["errors"]))
+            print(json.dumps(result, indent=2))
+    elif args.command == 'serve':
+        from ml.live.server import serve
+        serve(args.config)
+    elif args.command == 'export-bundle':
+        from ml.live.bundles import export_bundle
+        print(json.dumps(export_bundle(args.checkpoint, args.frozen_b, args.out, args.version, args.results), indent=2))
+    elif args.command == 'check-fixture':
+        from ml.verify_fixture import verify_fixture
+        print(json.dumps(verify_fixture(args.bundle, args.fixture, args.device), indent=2))
+    elif args.command in ('check-model', 'predict'):
+        from ml.inference import GNNBundle
+        model = GNNBundle(args.bundle, args.device, allow_candidate=getattr(args, 'allow_candidate', False))
+        if args.command == 'predict':
             out = Path(args.out)
-            train_stage1(args.catalog, out / "stage1.pt", architecture=args.architecture, revision=args.revision, **kw)
-            calibrate(args.catalog, out / "stage1.pt", out / "calibrated.pt", device=args.device)
-            train_stage2(args.catalog, out / "calibrated.pt", out / "model.pt", **kw)
-            evaluate(args.catalog, out / "model.pt", out / "normal-test.json", "normal_test", device=args.device)
-            evaluate(args.catalog, out / "model.pt", out / "attack-test.json", device=args.device)
-            result = {"model": str(out / "model.pt")}
-    elif args.command == "calibrate":
-        from ml.training.runtime import calibrate
-        result = calibrate(args.catalog, args.checkpoint, args.out, args.percentile, device=args.device)
-    elif args.command == "evaluate":
-        from ml.training.runtime import evaluate
-        result = evaluate(args.catalog, args.checkpoint, args.out, args.partition, device=args.device)
-    elif args.command == "predict":
-        from ml.training.runtime import Predictor
-        predictor = Predictor(args.checkpoint)
-        write_jsonl(args.out, (predictor.predict(g) for g in read_jsonl(args.graphs)))
-        result = {"predictions": args.out}
-    elif args.command == "smoke":
-        from ml.smoke import run
-        result = run(args.out, args.epochs)
-    if result is not None:
-        print(json.dumps(result, indent=2, allow_nan=False))
+            if out.exists():
+                parser.error('Output already exists; choose a new path')
+            write_jsonl(out, (model.score_graph(g) for g in read_jsonl(args.graphs)))
+        model.verify_inputs()
+        print(json.dumps(dict(status='ok', verified_files=len(model.inputs), command=args.command)))
+    elif args.command == 'build-graphs':
+        from ml.ab_targets.graphs import build_v4
+        if Path(args.out).exists():
+            parser.error('Output already exists; choose a new path')
+        write_jsonl(args.out, build_v4(read_jsonl(args.telemetry), read_json(args.manifest)))
+    else:
+        from ml.dataset_prep.extract import extract
+        print(extract(args.pcap, args.out, args.zeek))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

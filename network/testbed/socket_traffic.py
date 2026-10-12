@@ -14,13 +14,14 @@ MAX_BYTES = 65536
 
 async def tcp_server(reader, writer):
     try:
-        raw = await asyncio.wait_for(reader.readexactly(HEADER.size), 15)
-        request, response = HEADER.unpack(raw)
-        if request > MAX_BYTES or response > MAX_BYTES:
-            return
-        await asyncio.wait_for(reader.readexactly(request), 20)
-        writer.write(b"R" * response)
-        await writer.drain()
+        while True:
+            # Measured persistent streams may be idle between minute intervals.
+            raw = await asyncio.wait_for(reader.readexactly(HEADER.size), 3700)
+            request, response = HEADER.unpack(raw)
+            if request > MAX_BYTES or response > MAX_BYTES: return
+            await asyncio.wait_for(reader.readexactly(request), 65)
+            writer.write(b"R" * response)
+            await writer.drain()
     except (asyncio.TimeoutError, asyncio.IncompleteReadError, ConnectionError):
         pass
     finally:
@@ -39,16 +40,19 @@ class UDPResponder(asyncio.DatagramProtocol):
                 self.transport.sendto(b"R" * wanted, addr)
 
 
-async def serve(plan):
+async def serve(plan,bind_ips=None):
     endpoints = set(tuple(e) for e in plan.get("service_endpoints", []))
     endpoints.update((e["proto"], int(e["port"])) for e in plan["events"] if not e.get("expect_failure"))
+    if 'service_bindings' in plan:
+        endpoints={(proto,port,ip) for ip,proto,port in plan['service_bindings'] if bind_ips is None or ip in bind_ips}
+    else: endpoints={(proto,port,'0.0.0.0') for proto,port in endpoints}
     servers, transports = [], []
     loop = asyncio.get_running_loop()
-    for proto, port in endpoints:
+    for proto, port,ip in endpoints:
         if proto == "tcp":
-            servers.append(await asyncio.start_server(tcp_server, "0.0.0.0", port))
+            servers.append(await asyncio.start_server(tcp_server, ip, port))
         elif proto == "udp":
-            transport, _ = await loop.create_datagram_endpoint(UDPResponder, local_addr=("0.0.0.0", port))
+            transport, _ = await loop.create_datagram_endpoint(UDPResponder, local_addr=(ip, port))
             transports.append(transport)
     print(json.dumps({"ready": True, "services": len(endpoints)}), flush=True)
     try:
@@ -68,48 +72,51 @@ async def exchange(event):
     if not (0 <= request <= MAX_BYTES and 0 <= response <= MAX_BYTES):
         raise ValueError("Traffic size exceeds collection bounds")
     if event["proto"] == "tcp":
-        reader, writer = await asyncio.wait_for(asyncio.open_connection(str(addr), event["port"]), 2)
+        options={'local_addr':(event['source_ip'],0)} if event.get('source_ip') else {}
+        reader, writer = await asyncio.wait_for(asyncio.open_connection(str(addr), event["port"],**options), 2)
         try:
-            writer.write(HEADER.pack(request, response))
-            parts = max(1, min(20, request // 128))
-            left = request
-            for i in range(parts):
-                n = left // (parts - i)
-                writer.write(b"N" * n)
-                await writer.drain()
-                left -= n
-                await asyncio.sleep(event["duration"] / parts)
-            if response:
-                await asyncio.wait_for(reader.readexactly(response), 15)
+            origin=time.monotonic()
+            segments=event.get('segments',[dict(offset=0,request_bytes=request,response_bytes=response,duration=event['duration'])])
+            for segment in segments:
+                await asyncio.sleep(max(0,origin+segment['offset']-time.monotonic()))
+                request,response=segment['request_bytes'],segment['response_bytes']
+                if not(0<=request<=MAX_BYTES and 0<=response<=MAX_BYTES): raise ValueError('Invalid stream segment')
+                writer.write(HEADER.pack(request,response))
+                parts=max(1,min(20,request//128));left=request
+                for i in range(parts):
+                    n=left//(parts-i);writer.write(b'N'*n);await writer.drain();left-=n
+                    await asyncio.sleep(segment['duration']/parts)
+                if response: await asyncio.wait_for(reader.readexactly(response),15)
         finally:
             writer.close()
             await writer.wait_closed()
     elif event["proto"] == "udp":
-        # Datagram sizes stay below MTU; the remainder is sent over subsequent datagrams.
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.setblocking(False)
-        loop = asyncio.get_running_loop()
+        # One socket preserves the source port across a measured UDP stream.
+        sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM);sock.setblocking(False)
+        if event.get('source_ip'):sock.bind((event['source_ip'],0))
+        loop=asyncio.get_running_loop();origin=time.monotonic()
         try:
-            parts = max(1, (max(request, response) + 1399) // 1400)
-            tx_left, rx_left = request, response
-            for i in range(parts):
-                tx, rx = min(1400, tx_left), min(1400, rx_left)
-                await loop.sock_sendto(sock, struct.pack("!I", rx) + b"N" * tx, (str(addr), event["port"]))
-                if rx:
-                    reply = await asyncio.wait_for(loop.sock_recv(sock, 2048), 2)
-                    if len(reply) != rx:
-                        raise ValueError("UDP response length mismatch")
-                tx_left -= tx
-                rx_left -= rx
-                await asyncio.sleep(event["duration"] / parts)
-        finally:
-            sock.close()
+            segments=event.get('segments',[dict(offset=0,request_bytes=request,response_bytes=response,duration=event['duration'])])
+            for segment in segments:
+                await asyncio.sleep(max(0,origin+segment['offset']-time.monotonic()))
+                tx_left,rx_left=segment['request_bytes'],segment['response_bytes']
+                if not(0<=tx_left<=MAX_BYTES and 0<=rx_left<=MAX_BYTES):raise ValueError('Invalid UDP stream segment')
+                parts=max(1,(max(tx_left,rx_left)+1399)//1400)
+                for i in range(parts):
+                    tx,rx=min(1400,tx_left),min(1400,rx_left)
+                    await loop.sock_sendto(sock,struct.pack('!I',rx)+b'N'*tx,(str(addr),event['port']))
+                    if rx:
+                        reply=await asyncio.wait_for(loop.sock_recv(sock,2048),2)
+                        if len(reply)!=rx:raise ValueError('UDP response length mismatch')
+                    tx_left-=tx;rx_left-=rx
+                    await asyncio.sleep(segment['duration']/parts)
+        finally:sock.close()
     else:
         raise ValueError("The normal collection transport supports TCP and UDP")
 
 
 async def replay(plan, device, start):
-    events = [e for e in plan["events"] if e["device_id"] == device]
+    events = [e for e in plan["events"] if e["device_id"] == device or device=='cloud' and e['device_id'].startswith('cloud-')]
     sem = asyncio.Semaphore(plan["limits"]["max_concurrent_per_device"])
     debug = plan.get('debug_events',False)
     plan.clear()  # Each replay process retains only its own events.
@@ -156,12 +163,15 @@ def main():
     parser.add_argument("--plan", required=True)
     parser.add_argument("--device")
     parser.add_argument("--start", type=float)
+    parser.add_argument("--bind-ips",nargs="+")
     args = parser.parse_args()
     plan = json.loads(Path(args.plan).read_text())
     if args.mode == "serve":
-        if "service_endpoints" in plan:
+        if 'service_bindings' in plan:
+            plan={'service_bindings':plan['service_bindings'],'events':[]}
+        elif "service_endpoints" in plan:
             plan = {"service_endpoints": plan["service_endpoints"], "events": []}
-        asyncio.run(serve(plan))
+        asyncio.run(serve(plan,args.bind_ips))
     else:
         if args.device is None or args.start is None:
             parser.error("replay needs --device and --start")

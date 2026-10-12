@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:automud:live-window:v1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "observation_kind", "run_id", "session_id", "sensor_id", "inventory_version", "window_start", "window_end", "watermark", "inventory", "health", "telemetry"],
+  "properties": {
+    "schema_version": {"const": "automud.live-window.v1"},
+    "observation_kind": {"enum": ["live", "engineering"]},
+    "run_id": {"$ref": "#/$defs/id"}, "session_id": {"$ref": "#/$defs/id"}, "sensor_id": {"$ref": "#/$defs/id"}, "inventory_version": {"$ref": "#/$defs/id"},
+    "window_start": {"type": "integer", "minimum": 0, "multipleOf": 60},
+    "window_end": {"type": "integer", "minimum": 60, "multipleOf": 60},
+    "watermark": {"type": "number", "minimum": 0},
+    "inventory": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"$ref": "#/$defs/device"}},
+    "health": {
+      "type": "object", "additionalProperties": false,
+      "required": ["complete", "sensor_healthy", "clock_synchronized", "capture_drops", "unavailable_device_ids"],
+      "properties": {
+        "complete": {"type": "boolean"}, "sensor_healthy": {"type": "boolean"}, "clock_synchronized": {"type": "boolean"},
+        "capture_drops": {"type": ["integer", "null"], "minimum": 0},
+        "unavailable_device_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}
+      }
+    },
+    "telemetry": {"type": "array", "maxItems": 5000, "items": {"$ref": "#/$defs/row"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9_.:-]+$"},
+    "device": {
+      "type": "object", "additionalProperties": false, "required": ["device_id", "device_type", "addresses"],
+      "properties": {
+        "device_id": {"$ref": "#/$defs/id"}, "device_type": {"type": "string"},
+        "mac": {"type": "string", "pattern": "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$"},
+        "addresses": {"type": "array", "maxItems": 8, "items": {
+          "type": "object", "additionalProperties": false, "required": ["ip", "start", "end"],
+          "properties": {"ip": {"type": "string"}, "start": {"type": "integer", "minimum": 0}, "end": {"type": ["integer", "null"], "minimum": 0}}
+        }}
+      }
+    },
+    "row": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "window_start", "uid", "orig_h", "resp_h", "proto", "flow_start", "orig_ip_bytes", "resp_ip_bytes", "orig_pkts", "resp_pkts", "observed_duration", "established", "failed", "new_flow"],
+      "properties": {
+        "schema_version": {"enum": ["automud.graph.v1", "automud.graph.v2", "automud.graph.v3"]},
+        "window_start": {"type": "integer", "minimum": 0, "multipleOf": 60}, "uid": {"type": "string", "minLength": 1, "maxLength": 128},
+        "orig_h": {"type": "string"}, "resp_h": {"type": "string"},
+        "orig_p": {"type": ["integer", "null"], "minimum": 0, "maximum": 65535}, "resp_p": {"type": ["integer", "null"], "minimum": 0, "maximum": 65535},
+        "proto": {"type": "string", "minLength": 1, "maxLength": 32}, "flow_start": {"type": "number", "minimum": 0},
+        "orig_ip_bytes": {"type": "integer", "minimum": 0}, "resp_ip_bytes": {"type": "integer", "minimum": 0},
+        "orig_pkts": {"type": "integer", "minimum": 0}, "resp_pkts": {"type": "integer", "minimum": 0},
+        "observed_duration": {"type": "number", "minimum": 0}, "established": {"type": "boolean"}, "failed": {"type": "boolean"}, "new_flow": {"type": "boolean"},
+        "tcp_syn_observed": {"type": "boolean"},
+        "orig_mac": {"type": "string"}, "resp_mac": {"type": "string"}
+      }
+    }
+  }
+}

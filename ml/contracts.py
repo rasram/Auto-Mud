@@ -1,5 +1,5 @@
 """Export JSON Schema alongside the ordered tensor-column contract."""
-from ml.schema import VERSION, TELEMETRY_VERSION, FEATURES, TYPES, contract, write_json
+from ml.schema import VERSION, TELEMETRY_VERSION, FEATURES, TYPES, contract, write_json, COMPATIBLE_TELEMETRY, HISTORY_WINDOWS, TEMPORAL_FEATURES
 from pathlib import Path
 
 
@@ -18,15 +18,16 @@ def export_schemas(directory):
     lease = obj({"ip": string, "start": number, "end": number})
     device = obj({"device_id": string, "device_type": {"enum": list(TYPES)}, "mac": string,
                   "addresses": {"type": "array", "items": lease}}, ["device_id", "device_type", "addresses"])
-    manifest = obj({"schema_version": {"enum": [VERSION, TELEMETRY_VERSION]}, "run_id": string, "source": string, "session_id": string,
+    manifest = obj({"schema_version": {"enum": list(COMPATIBLE_TELEMETRY)}, "run_id": string, "source": string, "session_id": string,
         "start": minute, "end": minute, "normal": boolean, "capture_complete": boolean,
         "replay_speed": {"type": "number", "exclusiveMinimum": 0},
         "inventory": {"type": "array", "minItems": 1, "items": device}, "capture_drops": integer},
         ["schema_version", "run_id", "source", "session_id", "start", "end", "normal", "capture_complete", "replay_speed", "inventory"])
-    telemetry = obj({"schema_version": {"enum": [VERSION, TELEMETRY_VERSION]}, "window_start": minute, "uid": string,
+    telemetry = obj({"schema_version": {"enum": list(COMPATIBLE_TELEMETRY)}, "window_start": minute, "uid": string,
         "orig_h": string, "resp_h": string, "orig_p": integer, "resp_p": integer, "proto": string,
         "flow_start": number, "orig_ip_bytes": integer, "resp_ip_bytes": integer, "orig_pkts": integer,
         "resp_pkts": integer, "observed_duration": positive, "established": boolean, "failed": boolean, "new_flow": boolean})
+    telemetry['properties']['tcp_syn_observed']=boolean
     label = obj({"device_id": string, "start": number, "end": number, "label": {"enum": [0, 1]},
         "role": {"enum": ["actor", "normal"]}, "evidence": string, "attack_family": string,
         "onset": {"enum": ["from_start", "later"]}}, ["device_id", "start", "end", "label", "role", "evidence"])
@@ -36,6 +37,9 @@ def export_schemas(directory):
     mask = {"type": "array", "minItems": len(FEATURES), "maxItems": len(FEATURES), "items": boolean}
     node = obj({"device_id": string, "device_type": {"enum": list(TYPES)}, "features": vector,
                 "feature_mask": mask, "active": boolean, "available": boolean, "label": {"enum": [-1, 0, 1]}})
+    node['properties']['temporal_history']={'type':'array','maxItems':HISTORY_WINDOWS,'items':obj({
+        'window_start':minute,'features':{'type':'array','minItems':len(TEMPORAL_FEATURES),'maxItems':len(TEMPORAL_FEATURES),'items':number},
+        'feature_mask':{'type':'array','minItems':len(TEMPORAL_FEATURES),'maxItems':len(TEMPORAL_FEATURES),'items':boolean}})}
     edge = obj({"source": integer, "target": integer, "ip_bytes": integer, "packets": integer,
                 "flow_count": integer, "new_edge": boolean, "confirmed": boolean, "protocols": {"type": "object"},
                 "ports": {"type": "array", "items": string}})
@@ -44,6 +48,6 @@ def export_schemas(directory):
                  "nodes": {"type": "array", "items": node, "minItems": 1}, "edges": {"type": "array", "items": edge}})
     for name, schema in {"manifest": manifest, "telemetry": telemetry, "label": label, "graph": graph}.items():
         schema["$schema"] = "https://json-schema.org/draft/2020-12/schema"
-        schema["title"] = f"AutoMUD {name} v2"
+        schema["title"] = f"AutoMUD {name} v3"
         write_json(Path(directory) / f"{name}.schema.json", schema)
     write_json(Path(directory) / "features.json", contract())

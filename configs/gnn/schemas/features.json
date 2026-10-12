@@ -1,6 +1,6 @@
 {
-  "schema_version": "automud.graph.v2",
-  "schema_hash": "db5f950d862acc97af6bd8c39026dd065ec276d1eb10d4c0d3cdb43e54837951",
+  "schema_version": "automud.graph.v3",
+  "schema_hash": "ff84df323e51f5e4b08bdca25563c74082098ff19971e987fc84c0266cde1f2c",
   "window_seconds": 60,
   "traffic_features": [
     "tx_ip_bytes",
@@ -40,7 +40,13 @@
     "rolling_flows_mean_5m",
     "log_tx_change_5m",
     "log_tx_change_15m",
-    "rolling_gap_cv_15m"
+    "rolling_gap_cv_15m",
+    "stream_count_1h",
+    "stream_max_starts_1h",
+    "stream_min_gap_cv_1h",
+    "stream_periodic_fraction_1h",
+    "stream_max_age_seconds_1h",
+    "stream_top_start_fraction_1h"
   ],
   "types": [
     "hub",
@@ -66,7 +72,7 @@
     "other_tcp",
     "other_udp"
   ],
-  "service_offset": 53,
+  "service_offset": 59,
   "telemetry_version": "automud.graph.v1",
   "x_columns": [
     "tx_ip_bytes",
@@ -107,6 +113,12 @@
     "log_tx_change_5m",
     "log_tx_change_15m",
     "rolling_gap_cv_15m",
+    "stream_count_1h",
+    "stream_max_starts_1h",
+    "stream_min_gap_cv_1h",
+    "stream_periodic_fraction_1h",
+    "stream_max_age_seconds_1h",
+    "stream_top_start_fraction_1h",
     "time_sin",
     "time_cos",
     "active",
@@ -167,10 +179,16 @@
     "valid_rolling_flows_mean_5m",
     "valid_log_tx_change_5m",
     "valid_log_tx_change_15m",
-    "valid_rolling_gap_cv_15m"
+    "valid_rolling_gap_cv_15m",
+    "valid_stream_count_1h",
+    "valid_stream_max_starts_1h",
+    "valid_stream_min_gap_cv_1h",
+    "valid_stream_periodic_fraction_1h",
+    "valid_stream_max_age_seconds_1h",
+    "valid_stream_top_start_fraction_1h"
   ],
-  "x_dimension": 99,
-  "mask_offset": 61,
+  "x_dimension": 111,
+  "mask_offset": 67,
   "log1p_columns": [
     "tx_ip_bytes",
     "rx_ip_bytes",
@@ -193,6 +211,21 @@
     "flow_burst_max_10s",
     "rolling_tx_mean_5m",
     "rolling_tx_mean_15m",
-    "rolling_flows_mean_5m"
-  ]
+    "rolling_flows_mean_5m",
+    "stream_count_1h",
+    "stream_max_starts_1h",
+    "stream_max_age_seconds_1h"
+  ],
+  "history_windows": 15,
+  "history_features": [
+    "tx_ip_bytes",
+    "rx_ip_bytes",
+    "active_flows",
+    "initiated_flows",
+    "external_tx_ip_bytes",
+    "external_rx_ip_bytes",
+    "flow_gap_mean",
+    "flow_gap_cv"
+  ],
+  "history_semantics": "Previous complete windows only; reset at outage/session boundary"
 }

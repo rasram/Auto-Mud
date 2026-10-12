@@ -50,14 +50,12 @@ pipeline. Attack traffic is added separately by the network attack tooling.
 
 Methodology: Stage 1, step 6.
 
-## GNN training collection
+## GNN pipeline observation
 
-Use the new collection path described in [the GNN collection runbook](../../docs/gnn/COLLECTION.md).
+See [the current pipeline handoff](../../docs/gnn/LIVE_PIPELINE_HANDOFF_20261012.md).
 `collection_plan.py` produces seeded normal/scenario plans; `socket_traffic.py`
 implements bidirectional lab exchanges; `collect.py` runs an isolated household
 with a common clock, local cloud endpoints, OVS mirror, labels, and health metadata.
-`virtual_capture.py` renders those same plans to a fast synthetic PCAP with a
-seven-day packet timestamp timeline. It is suitable for rapid model development
-and remains explicitly identified as simulated data; validate against real captures.
-The older Scapy replay is diagnostic and must not supply production ML training.
-See [the comparison](../../docs/gnn/TRAFFIC_GENERATION.md) for concrete differences.
+These collectors use standalone OVS. The live launcher still needs a
+controller-managed switch, genuine live telemetry and the ML streaming wrapper.
+Historical synthetic/replay study runners have been moved into the private archive.

@@ -1,0 +1,9 @@
+# Qualified inference/API top-level versions on Ubuntu 24.04, Python 3.12.3.
+# Install torch from the official CPU wheel index first; see Linux setup.
+# CUDA-local suffix is omitted so the same upstream version can select CPU wheels.
+torch==2.14.1
+torch-geometric==2.8.0.post1
+numpy==2.5.3
+jsonschema==4.26.0
+scapy==2.8.0
+pytest==9.1.1

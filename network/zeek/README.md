@@ -12,4 +12,4 @@ Load `automud-window.zeek` to emit `automud-window.log` in JSON. It accounts for
 IP packets in UTC minute windows and preserves long-flow timing. Run the same
 policy on public PCAPs using `python -m ml extract`. Ordinary conn.log totals are
 not interchangeable with interval telemetry. See [the schema](../../docs/gnn/SCHEMA.md)
-and [collection commands](../../docs/gnn/COLLECTION.md).
+and [the live pipeline handoff](../../docs/gnn/LIVE_PIPELINE_HANDOFF_20261012.md).

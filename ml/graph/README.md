@@ -1,14 +1,7 @@
-# ml/graph/
+# Causal graph construction
 
-**Owner:** Jayan Subramanian
-
-Builds device communication graphs directly from canonical interval telemetry;
-Neo4j is not required. See [the schema](../../docs/gnn/SCHEMA.md).
-
-The original persistence proposal described the following behavior:
-
-- Nodes are devices.
-- Edges are observed communication flows, with byte, protocol, and timing attributes.
-- The graph updates every 60 seconds and should reflect real-time topology changes.
-
-Methodology: Stage 2, step 10. Feeds **Objective 2**.
+`build.py` and `context.py` construct minute graphs from canonical telemetry.
+`ml.ab_targets.graphs.build_v4` adds the receiver features required by the selected
+Head A and preserves the v3 projection required by frozen Head B.
+Use real inventory bindings, completed 60-second windows and strictly prior history.
+`ml.live.graphs.StreamingGraph` supplies rolling state and observation health across windows; `ml.live.engine.LiveEngine` owns persistence and deduplication.

@@ -26,6 +26,7 @@ export {
         observed_duration: double &log &default=0.0;
         established: bool &log &default=F;
         failed: bool &log &default=F;
+        tcp_syn_observed: bool &log &default=F;
         new_flow: bool &log &default=F;
         orig_mac: string &log &optional;
         resp_mac: string &log &optional;
@@ -36,6 +37,7 @@ global rows: table[string] of Info;
 global current_window: double = -1.0;
 global established_uids: table[string] of double;
 global rejected_uids: table[string] of double;
+global attempted_uids: set[string];
 global pending_cleanup: set[string];
 
 function flush_window()
@@ -46,7 +48,8 @@ function flush_window()
         r$established = uid in established_uids && established_uids[uid] < current_window + 60.0;
         # A reset after establishment is not a failed handshake. Three seconds
         # without establishment is an observable timeout, not future conn.log state.
-        r$failed = r$proto == "tcp" && ! r$established &&
+        r$tcp_syn_observed = uid in attempted_uids;
+        r$failed = r$proto == "tcp" && r$tcp_syn_observed && ! r$established &&
                     ((uid in rejected_uids && rejected_uids[uid] < current_window + 60.0) || current_window + 60.0 - r$flow_start >= 3.0);
         Log::write(LOG, r);
         }
@@ -55,6 +58,7 @@ function flush_window()
         {
         delete established_uids[uid];
         delete rejected_uids[uid];
+        delete attempted_uids[uid];
         }
     pending_cleanup = set();
     }
@@ -82,6 +86,7 @@ event connection_state_remove(c: connection)
         {
         delete established_uids[c$uid];
         delete rejected_uids[c$uid];
+        delete attempted_uids[c$uid];
         }
     }
 
@@ -129,6 +134,10 @@ event new_packet(c: connection, p: pkt_hdr)
         rows[c$uid] = r;
         }
     local orig = T;
+    # Only a captured SYN without ACK establishes that a handshake was attempted.
+    # A midstream capture cannot turn an absent handshake into a failed attempt.
+    if ( p?$tcp && p$tcp$flags % 4 >= 2 && p$tcp$flags % 32 < 16 )
+        add attempted_uids[c$uid];
     local bytes: count = 0;
     if ( p?$ip )
         {

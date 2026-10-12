@@ -1,0 +1,24 @@
+{
+  "schema_version": "automud.gnn-fixture.v1",
+  "purpose": "Load and inference reproduction only; not an accuracy benchmark",
+  "already_evaluated": true,
+  "run_id": "context-final-v3-port_scan-AmazonEcho_44650d56ccd3_flows-601-from_start-attack",
+  "graphs": 20,
+  "records": 394,
+  "score_absolute_tolerance": 0.0001,
+  "expected_origin": "Saved original evaluation predictions; CUDA",
+  "a_checkpoint": "4a233d667d8ec81d21891845c95a27948e5283f105a2ecce93b64d88245e7698",
+  "b_checkpoint": "a996d926c634d4d4f3acc326ab748c962ea9ced561472f6c0d2717a9d4c00f7d",
+  "files": [
+    {
+      "path": "graphs.jsonl",
+      "bytes": 1072372,
+      "sha256": "700e6b3ce36ff54d888badc86541b60404448a83a009cd9c08b06f18c4f6b654"
+    },
+    {
+      "path": "expected.jsonl",
+      "bytes": 100803,
+      "sha256": "5249f8f40c091a8a4109ecb2ed07e155f81f2695b0a8d6158ee95a6579f75ba3"
+    }
+  ]
+}

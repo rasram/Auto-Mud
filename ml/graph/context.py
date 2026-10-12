@@ -13,8 +13,8 @@ def service_id(row):
 def extend_features(records, manifest, start, state, available):
     history, starts = state.setdefault('windows', deque()), state.setdefault('starts', deque())
     if not available:
-        history.clear(); starts.clear()
-        return [0.] * 20, [False] * 20
+        history.clear(); starts.clear(); state.setdefault("streams",{}).clear()
+        return [0.] * 26, [False] * 26
     while history and history[0][0] < start - 900: history.popleft()
     while starts and starts[0] < start - 900: starts.popleft()
     local_tx = external_tx = local_rx = external_rx = external = initiated = tx = 0
@@ -59,6 +59,28 @@ def extend_features(records, manifest, start, state, available):
     mask[10]=mask[12]=bool(gaps); mask[11]=len(gaps)>1
     mask[14]=mask[16]=mask[17]=bool(recent)
     mask[15]=mask[18]=bool(history); mask[19]=len(rolling_gaps)>1
+    streams=state.setdefault('streams',{})
+    for key in list(streams):
+        while streams[key] and streams[key][0]<start-3600: streams[key].popleft()
+        if not streams[key]: del streams[key]
+    for r,originator in records:
+        if originator and r['new_flow']:
+            # Peer identity only keys causal history; it never becomes a numerical ID input.
+            key=(r['resp_h'],r['proto'],r.get('resp_p'))
+            streams.setdefault(key,deque()).append(r['flow_start'])
+    # UID rows within a Zeek minute are unordered; eviction requires sorted starts.
+    for key in streams: streams[key]=deque(sorted(streams[key]))
+    counts=[len(v) for v in streams.values()]
+    eligible=[]
+    for v in streams.values():
+        ordered=sorted(v);g=[b-a for a,b in zip(ordered,ordered[1:]) if b>a]
+        if len(g)>=4 and statistics.mean(g)>0:
+            eligible.append(statistics.pstdev(g)/statistics.mean(g))
+    values += [len(streams),max(counts,default=0),min(eligible,default=0.),
+               sum(cv<.1 for cv in eligible)/len(eligible) if eligible else 0.,
+               max((start+60-min(v) for v in streams.values()),default=0.),
+               max(counts,default=0)/sum(counts) if counts else 0.]
+    mask += [True,True,bool(eligible),bool(eligible),bool(counts),bool(counts)]
     history.append((start,tx,n)); starts.extend(current)
     return values,mask
 

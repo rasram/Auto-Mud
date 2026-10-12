@@ -3,6 +3,7 @@
   "properties": {
     "schema_version": {
       "enum": [
+        "automud.graph.v3",
         "automud.graph.v2",
         "automud.graph.v1"
       ]
@@ -66,6 +67,9 @@
     },
     "new_flow": {
       "type": "boolean"
+    },
+    "tcp_syn_observed": {
+      "type": "boolean"
     }
   },
   "required": [
@@ -89,5 +93,5 @@
   ],
   "additionalProperties": true,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AutoMUD telemetry v2"
+  "title": "AutoMUD telemetry v3"
 }

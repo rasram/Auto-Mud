@@ -3,6 +3,7 @@
   "properties": {
     "schema_version": {
       "enum": [
+        "automud.graph.v3",
         "automud.graph.v2",
         "automud.graph.v1"
       ]
@@ -119,5 +120,5 @@
   ],
   "additionalProperties": true,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AutoMUD manifest v2"
+  "title": "AutoMUD manifest v3"
 }

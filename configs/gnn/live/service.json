@@ -1,0 +1,13 @@
+{
+  "project_root": "../../..",
+  "host": "127.0.0.1", "port": 8001,
+  "bundle": "models/gnn", "allowed_bundle_roots": ["models"],
+  "device": "cpu", "torch_threads": 1,
+  "state_file": "tmp/gnn-live/state.json",
+  "admin_token_env": "AUTOMUD_GNN_ADMIN_TOKEN",
+  "api_token_env": "AUTOMUD_GNN_API_TOKEN",
+  "max_connections": 8, "request_timeout_seconds": 15,
+  "max_request_bytes": 4194304, "max_state_bytes": 16777216,
+  "max_streams": 8, "max_peers_per_device": 4096,
+  "dedup_windows": 8, "future_skew_seconds": 2, "stale_after_seconds": 180
+}

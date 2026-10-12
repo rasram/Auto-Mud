@@ -2,7 +2,7 @@
   "type": "object",
   "properties": {
     "schema_version": {
-      "const": "automud.graph.v2"
+      "const": "automud.graph.v3"
     },
     "schema_hash": {
       "type": "string",
@@ -57,16 +57,16 @@
           },
           "features": {
             "type": "array",
-            "minItems": 38,
-            "maxItems": 38,
+            "minItems": 44,
+            "maxItems": 44,
             "items": {
               "type": "number"
             }
           },
           "feature_mask": {
             "type": "array",
-            "minItems": 38,
-            "maxItems": 38,
+            "minItems": 44,
+            "maxItems": 44,
             "items": {
               "type": "boolean"
             }
@@ -83,6 +83,41 @@
               0,
               1
             ]
+          },
+          "temporal_history": {
+            "type": "array",
+            "maxItems": 15,
+            "items": {
+              "type": "object",
+              "properties": {
+                "window_start": {
+                  "type": "integer",
+                  "multipleOf": 60
+                },
+                "features": {
+                  "type": "array",
+                  "minItems": 8,
+                  "maxItems": 8,
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "feature_mask": {
+                  "type": "array",
+                  "minItems": 8,
+                  "maxItems": 8,
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "required": [
+                "window_start",
+                "features",
+                "feature_mask"
+              ],
+              "additionalProperties": true
+            }
           }
         },
         "required": [
@@ -169,5 +204,5 @@
   ],
   "additionalProperties": true,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AutoMUD graph v2"
+  "title": "AutoMUD graph v3"
 }

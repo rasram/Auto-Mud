@@ -1,11 +1,7 @@
-# ml/dataset_prep/
+# Runtime telemetry and tensor utilities
 
-**Owner:** Jayan Subramanian
-
-Canonical Zeek extraction, dataset inventory, reviewed public identity manifests,
-generator calibration, capture inspection, graph preparation, explicit split
-catalogs, and training-only normalization live here. Public aggregate feature CSVs
-are audited rather than silently mapped into incompatible graph features.
-
-See [collection commands and exact public files](../../docs/gnn/COLLECTION.md)
-and [input contracts](../../docs/gnn/SCHEMA.md).
+`extract.py` applies the project Zeek policy to PCAPs. `tensors.py` supplies the
+saved v3 normalization/tensor conversion required by frozen B. `sequences.py`
+provides traffic-sequence utilities still used by the shared Mininet generator.
+The selected model never fits normalization or thresholds at inference time.
+Full training/evaluation datasets are not needed for live operation.

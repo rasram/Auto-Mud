@@ -1,0 +1,207 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "automud.graph.v4"
+    },
+    "schema_hash": {
+      "const": "3adbd68b71fc139425caf8e1538285dff1fec91ea246ebbe85bbed6c6c43ed80"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "normal": {
+      "type": "boolean"
+    },
+    "window_start": {
+      "type": "integer",
+      "multipleOf": 60
+    },
+    "window_seconds": {
+      "const": 60
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "device_type": {
+            "enum": [
+              "hub",
+              "speaker",
+              "light",
+              "plug",
+              "camera",
+              "doorbell",
+              "motion_sensor",
+              "printer",
+              "environmental_sensor",
+              "scale",
+              "unknown",
+              "external_service"
+            ]
+          },
+          "features": {
+            "type": "array",
+            "minItems": 50,
+            "maxItems": 50,
+            "items": {
+              "type": "number"
+            }
+          },
+          "feature_mask": {
+            "type": "array",
+            "minItems": 50,
+            "maxItems": 50,
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "label": {
+            "enum": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "temporal_history": {
+            "type": "array",
+            "maxItems": 15,
+            "items": {
+              "type": "object",
+              "properties": {
+                "window_start": {
+                  "type": "integer",
+                  "multipleOf": 60
+                },
+                "features": {
+                  "type": "array",
+                  "minItems": 12,
+                  "maxItems": 12,
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "feature_mask": {
+                  "type": "array",
+                  "minItems": 12,
+                  "maxItems": 12,
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "required": [
+                "window_start",
+                "features",
+                "feature_mask"
+              ],
+              "additionalProperties": true
+            }
+          }
+        },
+        "required": [
+          "device_id",
+          "device_type",
+          "features",
+          "feature_mask",
+          "active",
+          "available",
+          "label"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 1
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "target": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "ip_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "packets": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "flow_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "new_edge": {
+            "type": "boolean"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "protocols": {
+            "type": "object"
+          },
+          "ports": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "source",
+          "target",
+          "ip_bytes",
+          "packets",
+          "flow_count",
+          "new_edge",
+          "confirmed",
+          "protocols",
+          "ports"
+        ],
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "schema_hash",
+    "run_id",
+    "session_id",
+    "source",
+    "normal",
+    "window_start",
+    "window_seconds",
+    "nodes",
+    "edges"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AutoMUD graph v4"
+}

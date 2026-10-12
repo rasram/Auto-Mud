@@ -1,0 +1,14 @@
+{
+  "schema_version": "automud.gnn-runtime.v1",
+  "python": "3.12.3",
+  "platform": "Linux-6.6.87.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "torch-geometric": "2.8.0.post1",
+    "numpy": "2.5.3",
+    "jsonschema": "4.26.0",
+    "scapy": "2.8.0",
+    "pytest": "9.1.1"
+  },
+  "qualification": "Existing Linux/WSL runtime; CPU model/API tests. Native-host install must run the same acceptance tests."
+}

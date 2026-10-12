@@ -5,8 +5,11 @@ import json
 import math
 from pathlib import Path
 
-VERSION = "automud.graph.v2"
+VERSION = "automud.graph.v3"
 TELEMETRY_VERSION = "automud.graph.v1"
+COMPATIBLE_TELEMETRY = (VERSION, "automud.graph.v2", TELEMETRY_VERSION)
+HISTORY_WINDOWS = 15
+TEMPORAL_FEATURES = ("tx_ip_bytes","rx_ip_bytes","active_flows","initiated_flows","external_tx_ip_bytes","external_rx_ip_bytes","flow_gap_mean","flow_gap_cv")
 WINDOW = 60
 FEATURES = (
     "tx_ip_bytes", "rx_ip_bytes", "tx_packets", "rx_packets", "active_flows",
@@ -23,6 +26,8 @@ FEATURES += (
     "rolling_tx_mean_5m", "rolling_tx_mean_15m", "rolling_flows_mean_5m",
     "log_tx_change_5m", "log_tx_change_15m", "rolling_gap_cv_15m",
 )
+FEATURES += ("stream_count_1h", "stream_max_starts_1h", "stream_min_gap_cv_1h",
+             "stream_periodic_fraction_1h", "stream_max_age_seconds_1h", "stream_top_start_fraction_1h")
 SERVICES = ("dns", "web", "tls", "ntp", "discovery", "messaging", "other_tcp", "other_udp")
 def service_category(proto, port):
     if port == 53: return "dns"
@@ -35,13 +40,14 @@ def service_category(proto, port):
 
 TYPES = ("hub", "speaker", "light", "plug", "camera", "doorbell", "motion_sensor",
          "printer", "environmental_sensor", "scale", "unknown", "external_service")
-LOG_FEATURES = tuple(FEATURES.index(name) for name in FEATURES if name in FEATURES[:8] + ("unique_destination_ports", "mean_observed_flow_duration", "median_observed_flow_duration", "local_tx_ip_bytes", "external_tx_ip_bytes", "local_rx_ip_bytes", "external_rx_ip_bytes", "tx_bytes_per_initiated_flow", "flow_gap_mean", "flow_gap_min", "flow_burst_max_10s", "rolling_tx_mean_5m", "rolling_tx_mean_15m", "rolling_flows_mean_5m"))
+LOG_FEATURES = tuple(FEATURES.index(name) for name in FEATURES if name in FEATURES[:8] + ("unique_destination_ports", "mean_observed_flow_duration", "median_observed_flow_duration", "local_tx_ip_bytes", "external_tx_ip_bytes", "local_rx_ip_bytes", "external_rx_ip_bytes", "tx_bytes_per_initiated_flow", "flow_gap_mean", "flow_gap_min", "flow_burst_max_10s", "rolling_tx_mean_5m", "rolling_tx_mean_15m", "rolling_flows_mean_5m", "stream_count_1h", "stream_max_starts_1h", "stream_max_age_seconds_1h"))
 HISTORY_FEATURE = FEATURES.index("new_destination_fraction")
 X_NAMES = FEATURES + ("time_sin", "time_cos", "active") + tuple("type_" + t for t in TYPES) + tuple("service_" + s for s in SERVICES) + tuple("valid_" + f for f in FEATURES)
 SERVICE_OFFSET = len(FEATURES) + 3 + len(TYPES)
 MASK_OFFSET = SERVICE_OFFSET + len(SERVICES)
 SCHEMA_HASH = hashlib.sha256(json.dumps({"version": VERSION, "features": X_NAMES,
-    "window": WINDOW, "log_features": LOG_FEATURES}, sort_keys=True).encode()).hexdigest()
+    "window": WINDOW, "log_features": LOG_FEATURES, "history_features":TEMPORAL_FEATURES, "history_windows":HISTORY_WINDOWS,
+    "tcp_outcome_rule":"observed_syn_or_established"}, sort_keys=True).encode()).hexdigest()
 
 
 def read_json(path):
@@ -88,7 +94,7 @@ def require(condition, message):
 
 
 def validate_manifest(m, training=False):
-    require(m.get("schema_version") in (VERSION, TELEMETRY_VERSION), "Wrong manifest schema_version")
+    require(m.get("schema_version") in COMPATIBLE_TELEMETRY, "Wrong manifest schema_version")
     for key in ("run_id", "source", "session_id", "inventory", "start", "end", "normal", "capture_complete", "replay_speed"):
         require(key in m, f"Manifest missing {key}")
     require(m["end"] > m["start"], "Capture end must follow start")
@@ -127,7 +133,7 @@ def resolve_device(m, ip, mac, ts):
 
 
 def validate_telemetry(r):
-    require(r.get("schema_version") in (VERSION, TELEMETRY_VERSION), "Wrong telemetry version")
+    require(r.get("schema_version") in COMPATIBLE_TELEMETRY, "Wrong telemetry version")
     for k in ("window_start", "uid", "orig_h", "resp_h", "proto", "flow_start",
               "orig_ip_bytes", "resp_ip_bytes", "orig_pkts", "resp_pkts", "observed_duration",
               "established", "failed", "new_flow"):
@@ -149,6 +155,9 @@ def validate_telemetry(r):
     for k in ("established", "failed", "new_flow"):
         require(isinstance(r[k], bool), f"{k} must be boolean")
     require(not (r["failed"] and r["established"]), "Established flow marked failed")
+    if 'tcp_syn_observed' in r:
+        require(isinstance(r['tcp_syn_observed'],bool),'Invalid TCP SYN observation flag')
+        require(not r['failed'] or r['tcp_syn_observed'],'A failed attempt needs an observed SYN')
     return r
 
 
@@ -177,4 +186,4 @@ def contract():
     return {"schema_version": VERSION, "schema_hash": SCHEMA_HASH, "window_seconds": WINDOW,
             "traffic_features": FEATURES, "types": TYPES, "services": SERVICES, "service_offset": SERVICE_OFFSET, "telemetry_version": TELEMETRY_VERSION, "x_columns": X_NAMES,
             "x_dimension": len(X_NAMES), "mask_offset": MASK_OFFSET,
-            "log1p_columns": [FEATURES[i] for i in LOG_FEATURES]}
+            "log1p_columns": [FEATURES[i] for i in LOG_FEATURES], "history_windows":HISTORY_WINDOWS, "history_features":TEMPORAL_FEATURES, "history_semantics":"Previous complete windows only; reset at outage/session boundary"}

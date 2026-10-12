@@ -19,7 +19,7 @@ FAMILIES = ("port_scan", "lateral_connections", "exfiltration", "beaconing")
 
 
 def inventory(topology, start, end):
-    return [{"device_id": d, "device_type": DEVICE_TYPES.get(d.split("_")[0], "unknown"),
+    return [{"device_id": d, "device_type": topology.get('device_types',{}).get(d,DEVICE_TYPES.get(d.split("_")[0], "unknown")),
              "mac": f"02:00:00:00:00:{i:02x}",
              "addresses": [{"ip": topology["device_ip"][d], "start": start, "end": end}]}
             for i, d in enumerate(topology["devices"], 1)]
@@ -40,19 +40,26 @@ def fallback_profile():
 
 
 def build_plan(topology, duration=86400, seed=1, profiles=None, scenario=None, actor=None,
-               onset="from_start", normal_control=False, utc_phase=0):
+               onset="from_start", normal_control=False, utc_phase=0, stress=False, authored_relationships=True, background=True):
     require(duration > 0 and duration % 60 == 0, "Duration must be a positive whole number of minutes")
     require(scenario is None or scenario in FAMILIES, "Unknown scenario")
     require(onset in ("from_start", "later"), "Unknown onset mode")
     if scenario:
         require(actor in topology["devices"], "Scenario actor must be an inventoried device")
     if profiles:
-        require(profiles.get("schema_version") == "automud.generator.v1", "Recalibrate profiles using ml calibrate-traffic")
+        require(profiles.get("schema_version") in ("automud.generator.v1", "automud.generator.v2"), "Recalibrate profiles using ml calibrate-traffic")
     events = []
-    cloud_ips = [f"10.0.0.{i}" for i in range(100, 116)]
-    for device in topology["devices"]:
+    slots=16
+    if profiles and profiles['schema_version']=='automud.generator.v2':
+        slots=max(slots,max((r['peer_slot']+1 for p in profiles['devices'].values() for b in p['blocks'] for r in b['events']),default=0))
+    cloud_ips = [f"10.0.0.{i}" for i in range(100, 100+slots)]
+    for device in (topology["devices"] if background else []):
         rng = random.Random(child_seed(seed, device))
         profile = profiles["devices"][device] if profiles else fallback_profile()
+        if profiles and profiles['schema_version']=='automud.generator.v2':
+            from ml.dataset_prep.sequences import sequence_events
+            events.extend(sequence_events(device,profile,profiles,duration,rng,cloud_ips,topology['device_ip'][device]))
+            continue
         t = rng.uniform(1, 5)
         while t < duration:
             service = rng.choices(profile["services"], weights=[s["weight"] for s in profile["services"]])[0]
@@ -63,7 +70,7 @@ def build_plan(topology, duration=86400, seed=1, profiles=None, scenario=None, a
                 "duration": min(10.0, max(0.01, float(rng.choice(profile["duration_seconds"])))), "kind": "normal"})
             weight = max(0.05, profile["hour_weights"][int((t + utc_phase) // 3600) % 24])
             t += max(1.0, float(rng.choice(profile["flow_gap_seconds"]))) / weight
-    for i, edge in enumerate(topology["edges"]):
+    for i, edge in enumerate(topology["edges"] if authored_relationships else []):
         rng = random.Random(child_seed(seed, f"edge:{i}"))
         t = 0
         while edge["avg_events_per_hour"] > 0:
@@ -76,7 +83,7 @@ def build_plan(topology, duration=86400, seed=1, profiles=None, scenario=None, a
                 "duration": 0.1, "kind": "normal"})
     # Normal activities include bursty uploads and periodic polling, across every device.
     # These are explicit simulation assumptions, not measured UNSW applications.
-    for device in topology['devices']:
+    for device in (topology['devices'] if stress else []):
         activity_rng = random.Random(child_seed(seed, 'activity:'+device))
         service = activity_rng.choice((443,8080,8443,9090))
         poll_period = activity_rng.uniform(25,120)
@@ -106,10 +113,11 @@ def build_plan(topology, duration=86400, seed=1, profiles=None, scenario=None, a
         variant = seed % 3
         interval = {"port_scan":(1,3,7), "lateral_connections":(3,7,13),
                     "exfiltration":(2,5,9), "beaconing":(11,19,31)}[scenario][variant]
+        persistent_peer = rng.choice(cloud_ips)
         t, i = float(attack_start), 0
         while t < duration:
             local = scenario in ("port_scan","lateral_connections") and not normal_control
-            dst = targets[i % len(targets)] if local else cloud_ips[rng.randrange(len(cloud_ips))]
+            dst = targets[i % len(targets)] if local else persistent_peer if scenario=="beaconing" else cloud_ips[rng.randrange(len(cloud_ips))]
             port = rng.choice((22,80,443,8080,1883,20000+i%1000)) if scenario=="port_scan" and not normal_control else service
             if scenario == "exfiltration":
                 request = rng.randint(8192,65536) if normal_control else rng.randint(32768,65536)
@@ -123,31 +131,35 @@ def build_plan(topology, duration=86400, seed=1, profiles=None, scenario=None, a
                 "expect_failure":scenario=="port_scan" and not normal_control})
             if normal_control:
                 if scenario=="exfiltration": gap = rng.uniform(45,150)
+                elif scenario=="beaconing": gap = interval*rng.uniform(.97,1.03)
                 else: gap = interval*rng.uniform(.3,2.0)
             else:
                 gap = interval*rng.uniform(.97,1.03) if scenario=="beaconing" else interval*rng.uniform(.8,1.2)
             t += max(.5,gap); i += 1
     # A scan may reach an open lab service. Only unprovisioned ports must fail;
     # otherwise the real collector would reject valid open-port observations.
-    served = {(s['proto'],s['port']) for d in topology['devices']
-              for s in (profiles['devices'][d] if profiles else fallback_profile())['services']}
-    served |= {('tcp',e['port']) for e in topology['edges']}
-    served |= {(e['proto'],e['port']) for e in events if e['kind']!='port_scan'}
+    bindings={(e['destination'],e['proto'],e['port']) for e in events
+              if e['kind']!='port_scan' and not e.get('expect_failure')}
     for event in events:
         if event['kind']=='port_scan':
-            event['expect_failure']=(event['proto'],event['port']) not in served
+            event['expect_failure']=(event['destination'],event['proto'],event['port']) not in bindings
+    unsupported_failures=[e for e in events if e['kind']=='normal_measured' and e.get('expect_failure')
+                          and (e['destination'],e['proto'],e['port']) in bindings]
     events.sort(key=lambda e: (e["offset"], e["device_id"]))
-    session = f"v2-{scenario or 'normal'}-{actor or 'household'}-{seed}-{onset}"
+    session = f"v3-{scenario or 'normal'}-{actor or 'household'}-{seed}-{onset}"
     return {"schema_version": "automud.collection.v1", "duration": duration, "seed": seed,
             "topology": topology, "events": events, "scenario": scenario, "actor": actor,
             "onset": onset, "normal_control": normal_control, "attack_start": attack_start,
             "session_id": session, "run_id": session + ("-control" if normal_control else "-attack" if scenario else ""),
-            "calibrated": profiles is not None, "cloud_ips": cloud_ips,
-            "utc_phase": utc_phase, "scenario_design": "observable_v2",
+            "calibrated": profiles is not None and profiles.get('reference_qc_complete',True), "cloud_ips": cloud_ips,
+            "utc_phase": utc_phase, "scenario_design": "sequence_v3", "stress":stress, "authored_relationships":authored_relationships, "background":background,
+            "scenario_limitations":["Engineering attacks, not public malware replay", "Regular polling can be observably identical to beaconing; report this hard control"],
+            "service_bindings":sorted(bindings),
+            "unrepresentable_static_failures":len(unsupported_failures),
             "service_endpoints": sorted({(s["proto"], s["port"]) for d in topology["devices"]
                                          for s in (profiles["devices"][d] if profiles else fallback_profile())["services"]}
                                         | {("tcp", e["port"]) for e in topology["edges"]} | {(e["proto"],e["port"]) for e in events if not e.get("expect_failure")}),
-            "limits": {"max_concurrent_per_device": 16, "max_request_bytes": 65536, "max_response_bytes": 65536}}
+            "limits": {"max_concurrent_per_device": 16, "max_request_bytes": 65536, "max_response_bytes": 65536, "drain_seconds": 45}}
 
 
 def label_intervals(plan, start):

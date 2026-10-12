@@ -1,0 +1,61 @@
+{
+  "schema_version": "automud.gnn-results.v1",
+  "model": "New 2 native-clock/context A with original frozen B",
+  "evaluation_date": "2026-10-11",
+  "scenario_captures": 480,
+  "standalone_normal_captures": 100,
+  "graphs": 11600,
+  "primary_observations": 92511,
+  "primary": {
+    "head_a": {
+      "population": 92511,
+      "population_positives": 21077,
+      "support": 92511,
+      "unscored": 0,
+      "coverage": 1.0,
+      "positives": 21077,
+      "true_positive": 18937,
+      "false_positive": 3772,
+      "true_negative": 67662,
+      "false_negative": 2140,
+      "accuracy": 0.936094086108679,
+      "balanced_accuracy": 0.922831768472079,
+      "precision": 0.8338984543573033,
+      "recall": 0.8984675238411539,
+      "f1": 0.8649796738683597,
+      "false_positive_rate": 0.05280398689699583,
+      "population_recall": 0.8984675238411539,
+      "population_f1": 0.8649796738683597,
+      "pr_auc": 0.9154559600533885,
+      "roc_auc": 0.9741357205839404
+    },
+    "head_b": {
+      "population": 92511,
+      "population_positives": 2100,
+      "support": 88819,
+      "unscored": 3692,
+      "coverage": 0.9600912323939855,
+      "positives": 2100,
+      "true_positive": 2094,
+      "false_positive": 8,
+      "true_negative": 86711,
+      "false_negative": 6,
+      "accuracy": 0.9998423760681836,
+      "balanced_accuracy": 0.9985253025782783,
+      "precision": 0.9961941008563273,
+      "recall": 0.9971428571428571,
+      "f1": 0.9966682532127559,
+      "false_positive_rate": 9.225198630058003E-05,
+      "population_recall": 0.9971428571428571,
+      "population_f1": 0.9966682532127559,
+      "pr_auc": 0.9995140408930778,
+      "roc_auc": 0.999986063360641
+    }
+  },
+  "production_ready": false,
+  "limitations": [
+    "Results apply to the saved evaluation population, not untested live traffic.",
+    "Head A exceeds the 5% false-positive cap and falls below 90% recall.",
+    "Head C is untrained; live SDN integration remains to be completed."
+  ]
+}

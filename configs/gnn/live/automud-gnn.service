@@ -1,0 +1,21 @@
+[Unit]
+Description=AutoMUD frozen GNN evidence service
+After=network.target
+
+[Service]
+Type=simple
+User=automud
+Group=automud
+WorkingDirectory=/opt/automud/Auto-Mud
+EnvironmentFile=-/etc/automud/gnn.env
+ExecStart=/opt/automud/Auto-Mud/.venv-ml/bin/python -m ml serve --config configs/gnn/live/service.json
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/automud/Auto-Mud/tmp/gnn-live
+
+[Install]
+WantedBy=multi-user.target

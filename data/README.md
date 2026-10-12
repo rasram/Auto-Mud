@@ -2,6 +2,11 @@
 
 **Owner:** Shared (all members)
 
+Selected GNN deployment files are under `models/gnn/` and the small installation
+test is under `fixtures/gnn/`. Full GNN research datasets and previous model
+artifacts are private and unnecessary for the live pipeline. Shared UNSW/MUD
+profiles and testbed inputs remain here for the other pipeline components.
+
 The directory structure is committed, but large files (PCAPs, CSVs, Zeek logs, model weights, archives) are git-ignored. See `.gitignore`. Each subdirectory's README should note where its data comes from so teammates can reproduce it locally.
 
 | Subdirectory | Contents |

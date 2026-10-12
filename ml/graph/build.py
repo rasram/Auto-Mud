@@ -1,11 +1,11 @@
 """Telemetry -> raw graph JSONL; graph construction never requires Neo4j."""
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, deque
 from ml.graph.context import extend_features, service_id, target_label
 import math
 import statistics
 
 from ml.schema import (FEATURES, VERSION, WINDOW, SCHEMA_HASH, resolve_device,
-                       validate_manifest, validate_telemetry, validate_labels, require)
+                       validate_manifest, validate_telemetry, validate_labels, require, HISTORY_WINDOWS, TEMPORAL_FEATURES)
 
 
 def entropy(values):
@@ -70,6 +70,7 @@ def build_snapshots(telemetry, manifest, labels=()):
     index = {d["device_id"]: i for i, d in enumerate(inventory)}
     history = defaultdict(set)
     temporal = defaultdict(dict)
+    past = defaultdict(lambda:deque(maxlen=HISTORY_WINDOWS))
     edge_history = set()
     iterator = iter(telemetry)
     pending = next(iterator, None)
@@ -108,12 +109,17 @@ def build_snapshots(telemetry, manifest, labels=()):
                 for o in manifest.get("outages", []))
             extra, extra_mask = extend_features(grouped[device], manifest, start, temporal[device], available)
             values += extra; mask = mask[:18] + extra_mask
+            if not available: past[device].clear()
+            temporal_history=list(past[device])
+            if available:
+                past[device].append({'features':[values[FEATURES.index(f)] for f in TEMPORAL_FEATURES],'feature_mask':[mask[FEATURES.index(f)] for f in TEMPORAL_FEATURES],
+                                     'window_start':start,'available':True,'active':bool(grouped[device])})
             y, details = label_window(labels, device, start)
             if manifest["normal"] and not labels:
                 y = 0
             nodes.append({"device_id": device, "device_type": d["device_type"], "features": values,
                           "feature_mask": mask if available else [False] * len(mask),
-                          "active": bool(grouped[device]), "available": available,
+                          "active": bool(grouped[device]), "available": available, "temporal_history":temporal_history,
                           "label": y if available else -1, "label_details": details,
                           "behavior_label": target_label(labels,device,start,"behavior",y) if available else -1,
                           "relationship_label": target_label(labels,device,start,"relationship",y) if available else -1})

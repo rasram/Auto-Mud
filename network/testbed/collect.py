@@ -17,12 +17,23 @@ from network.testbed.collection_plan import inventory, label_intervals, build_pl
 
 
 def collect(plan_path, out, smoke=False):
-    from mininet.net import Mininet
+    try:
+        from mininet.net import Mininet
+    except ModuleNotFoundError as exc:
+        if exc.name != "mininet":
+            raise
+        # Ubuntu's apt-installed Mininet is outside an isolated Python venv.
+        distro_packages = Path("/usr/lib/python3/dist-packages")
+        if not distro_packages.is_dir():
+            raise
+        sys.path.append(str(distro_packages))
+        from mininet.net import Mininet
     from mininet.node import OVSBridge
     plan_path, out = Path(plan_path).resolve(), Path(out).resolve()
     plan = read_json(plan_path)
     require(plan.get("schema_version") == "automud.collection.v1", "Unknown collection plan")
     require(plan["calibrated"] or smoke, "Uncalibrated traffic is only permitted with --smoke")
+    require(not plan.get("unrepresentable_static_failures"), "Reference has time-varying failures on open destinations: static responders cannot reproduce them faithfully")
     require(not out.exists(), "Use a new output directory; captures must not be overwritten")
     existing = subprocess.run(["ovs-vsctl", "br-exists", "s1"], capture_output=True)
     require(existing.returncode != 0, "An s1 bridge already exists; stop the previous testbed first")
@@ -58,11 +69,25 @@ def collect(plan_path, out, smoke=False):
         subprocess.run(["ovs-vsctl", "--", "--id=@p", "get", "Port", mirror_port,
             "--", "--id=@m", "create", "Mirror", "name=automud", "select-all=true", "output-port=@p",
             "--", "set", "Bridge", "s1", "mirrors=@m"], check=True, capture_output=True)
+        start = int(math.ceil((time.time() + 120) / 60) * 60)
+        profiles = None
+        if plan.get("profiles_file"):
+            require(file_hash(plan["profiles_file"]) == plan["profiles_sha256"], "Calibration profile changed after plan generation")
+            profiles = read_json(plan["profiles_file"])
+        require(profiles is not None or smoke, "Calibrated collection requires a referenced profile file")
+        # Reconstruct with the same seed against the actual common UTC phase.
+        # This prevents a noon start from replaying the midnight activity weights.
+        plan = {**plan, **build_plan(topology, plan["duration"], plan["seed"], profiles,
+            plan["scenario"], plan["actor"], plan["onset"], plan["normal_control"], start % 86400, plan.get("stress",False), plan.get("authored_relationships",True))}
+        executed_plan = out / "executed-plan.json"
+        write_json(executed_plan, plan)
+        require(not plan.get('unrepresentable_static_failures'), 'Actual plan needs time-varying responder failures; static reproduction is unsupported')
         for h in [*hosts.values(), cloud]:
             log_path = logs / f"{h.name}-server.log"
             handle = log_path.open("w")
             handles.append(handle)
-            p = h.popen([sys.executable, "-u", str(transport), "serve", "--plan", str(plan_path)], stdout=handle, stderr=subprocess.STDOUT)
+            bind_ips=plan['cloud_ips'] if h==cloud else [h.IP()]
+            p = h.popen([sys.executable, "-u", str(transport), "serve", "--plan", str(executed_plan),'--bind-ips',*bind_ips], stdout=handle, stderr=subprocess.STDOUT)
             server_processes.append(p)
         deadline = time.monotonic() + 30
         while time.monotonic() < deadline:
@@ -78,18 +103,6 @@ def collect(plan_path, out, smoke=False):
                                 "-w", str(out / "capture.pcap")], stdout=subprocess.DEVNULL, stderr=cap_handle)
         time.sleep(1)
         require(capture.poll() is None, "tcpdump did not start")
-        start = int(math.ceil((time.time() + 90) / 60) * 60)
-        profiles = None
-        if plan.get("profiles_file"):
-            require(file_hash(plan["profiles_file"]) == plan["profiles_sha256"], "Calibration profile changed after plan generation")
-            profiles = read_json(plan["profiles_file"])
-        require(profiles is not None or smoke, "Calibrated collection requires a referenced profile file")
-        # Reconstruct with the same seed against the actual common UTC phase.
-        # This prevents a noon start from replaying the midnight activity weights.
-        plan = {**plan, **build_plan(topology, plan["duration"], plan["seed"], profiles,
-            plan["scenario"], plan["actor"], plan["onset"], plan["normal_control"], start % 86400)}
-        executed_plan = out / "executed-plan.json"
-        write_json(executed_plan, plan)
         require(time.time() < start - 5, "Plan generation missed its common start; rerun after reducing load")
         end = start + plan["duration"]
         manifest = {"schema_version": VERSION, "run_id": plan["run_id"], "session_id": plan["session_id"],
@@ -106,7 +119,12 @@ def collect(plan_path, out, smoke=False):
             p = h.popen([sys.executable, "-u", str(transport), "replay", "--plan", str(executed_plan), "--device", d,
                         "--start", str(start)], stdout=handle, stderr=subprocess.STDOUT)
             agents.append(p)
-        while time.time() < end + 20:
+        if any(e['device_id'].startswith('cloud-') for e in plan['events']):
+            handle=(logs/'cloud-agent.log').open('w');handles.append(handle)
+            p=cloud.popen([sys.executable,'-u',str(transport),'replay','--plan',str(executed_plan),
+                          '--device','cloud','--start',str(start)],stdout=handle,stderr=subprocess.STDOUT)
+            agents.append(p)
+        while time.time() < end + plan["limits"].get("drain_seconds",45):
             require(capture.poll() is None and all(p.poll() is None for p in server_processes), "Capture/responder stopped early")
             require(all(p.poll() in (None, 0) for p in agents), "Traffic agent failed or missed deadlines; inspect logs")
             if time.time() >= end and all(p.poll() == 0 for p in agents):

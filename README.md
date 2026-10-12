@@ -6,7 +6,17 @@ Team A12, Amrita School of Artificial Intelligence, Coimbatore. Supervisor: Mr. 
 
 > A system that silently watches every device on a home network, automatically learns what "normal" looks like for each device, builds a live map of how devices relate to each other, and automatically isolates any device that starts behaving suspiciously — with no human writing rules or profiles.
 
-For the full motivation, literature review, research gaps, methodology, tool rationale, and timeline, see **[`docs/AutoMUD_Project_Context.md`](docs/AutoMUD_Project_Context.md)**. It is the source of truth for scope and architecture.
+For current implemented GNN behavior and pipeline ownership, use the shared setup/API/handoff guides below. Earlier methodology descriptions are background proposals and do not establish implementation or measured performance.
+
+For the current **GNN-only teammate package**, use
+[the selected model guide](docs/gnn/README.md),
+[Linux setup](docs/gnn/LINUX_PIPELINE_SETUP_20261012.md), and
+[pipeline handoff](docs/gnn/LIVE_PIPELINE_HANDOFF_20261012.md).
+The selected native-clock/context A and frozen B checkpoints, their results and
+a small loading/output fixture are shareable; full research datasets and old
+development artifacts are private. The current GNN emits separate A/B scores,
+not a [0,1] compromise probability. The stateful GNN HTTP service is supplied; sensor finalization, MUD/Decision Engine/Ryu integration and full-pipeline acceptance remain teammate work.
+Earlier architecture/training descriptions below are project background.
 
 ---
 
@@ -22,9 +32,9 @@ For the full motivation, literature review, research gaps, methodology, tool rat
 
 | Stage | What happens | Where in repo |
 |---|---|---|
-| **0. Offline Foundation** | UNSW PCAPs replayed through Zeek → per-device features → robust-statistics profile engine produces frozen MUD-like JSON profiles → compared against MUDgee ground truth. GraphSAGE trained on UNSW + N-BaIoT + CICIoT2023 graph snapshots, weights frozen. | `network/zeek/`, `profiling/`, `ml/`, `data/` |
+| **0. Offline Foundation** | Zeek metadata supports the separate MUD/profile engine. The selected GNN's frozen A/B checkpoints and saved calibration are supplied in `models/gnn/`; research datasets are private. | `network/zeek/`, `profiling/`, `ml/`, `models/gnn/` |
 | **1. Live Testbed** | Mininet + Open vSwitch virtual home network (8–10 device types), per-device traffic generators, OVS traffic mirrored to Zeek. | `network/testbed/`, `network/zeek/`, `profiling/traffic_gen/` |
-| **2. Live Detection Loop** | Every 60s: frozen profile engine → deviation scores; Neo4j graph update; frozen GraphSAGE → per-device anomaly score [0.0–1.0]. | `integration/orchestrator/`, `profiling/profile_engine/`, `ml/graph/`, `ml/model/` |
+| **2. Live Detection Loop** | Completed 60s telemetry feeds the MUD engine and ML-owned graph/history construction; frozen GNN emits separate behavioral A and relationship B scores/flags. Neo4j is optional observation storage. The GNN service is supplied; full pipeline integration remains to be built. | `integration/orchestrator/`, `profiling/profile_engine/`, `ml/`, `models/gnn/` |
 | **3. Decision & Response** | Threshold Decision Engine picks a tier (alert / rate-limit / VLAN isolate / full block) → Ryu pushes OpenFlow rules to OVS; LLM module writes a plain-English alert; both go to the web dashboard. | `integration/decision_engine/`, `network/sdn/`, `integration/explanation/`, `dashboard/` |
 | **4. Evaluation** | Four attack scenarios injected; compared against Suricata, a flow-only ablation, and a Wang 2023 replication; poisoned-baseline stress test. | `network/attacks/`, `integration/evaluation/` |
 
@@ -47,8 +57,10 @@ network/          Mininet/OVS testbed, Zeek sensor, attack simulation, Ryu SDN e
   testbed/  zeek/  attacks/  sdn/
 profiling/        Feature extraction, traffic generators, profile engine, ground-truth validation
   features/  traffic_gen/  profile_engine/  validation/
-ml/               Graph construction, dataset prep, GraphSAGE model, training
-  graph/  dataset_prep/  model/  training/
+ml/               Selected frozen inference, graph construction and telemetry/tensor utilities
+  graph/  dataset_prep/  model/  ab_targets/  live/
+models/gnn/       Selected A/B checkpoints, integrity manifest and model results
+fixtures/gnn/     Small consumed model-loading/output reproduction test
 integration/      Live-loop orchestration, decision engine, LLM explanations, evaluation framework
   orchestrator/  decision_engine/  explanation/  evaluation/
 dashboard/        Web dashboard

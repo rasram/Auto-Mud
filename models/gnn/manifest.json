@@ -1,0 +1,28 @@
+{
+  "schema_version": "automud.gnn-bundle.v1",
+  "input_schema": "automud.graph.v4",
+  "output_schema": "automud.gnn-evidence.v1",
+  "selected_variant": "widened_native_mask30",
+  "clock_mode": "native_source",
+  "feature_mask_probability": 0.3,
+  "precision_recipe": "prior_context_residual",
+  "clean_calibration_tail": 0.05,
+  "head_c_trained": false,
+  "files": [
+    {
+      "path": "selected-a.pt",
+      "bytes": 609488,
+      "sha256": "4a233d667d8ec81d21891845c95a27948e5283f105a2ecce93b64d88245e7698"
+    },
+    {
+      "path": "frozen-b.pt",
+      "bytes": 261301,
+      "sha256": "a996d926c634d4d4f3acc326ab748c962ea9ced561472f6c0d2717a9d4c00f7d"
+    },
+    {
+      "path": "results.json",
+      "bytes": 2051,
+      "sha256": "8e7e478616e6433a87360501dca2464c7f46ddb1d79d569fe7c45da5f0cb6d3c"
+    }
+  ]
+}

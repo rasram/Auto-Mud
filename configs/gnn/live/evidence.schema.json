@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:automud:gnn-evidence:v1",
+  "type": "object",
+  "required": ["schema_version", "observation_kind", "run_id", "session_id", "sensor_id", "inventory_version", "window_start", "window_end", "observation_id", "model", "provenance", "devices", "health", "state", "head_c_trained", "enforcement_action"],
+  "properties": {
+    "schema_version": {"const": "automud.gnn-evidence.v1"},
+    "observation_kind": {"enum": ["live", "engineering"]},
+    "run_id": {"type": "string"}, "session_id": {"type": "string"}, "sensor_id": {"type": "string"}, "inventory_version": {"type": "string"},
+    "window_start": {"type": "integer", "multipleOf": 60}, "window_end": {"type": "integer", "multipleOf": 60},
+    "observation_id": {"$ref": "#/$defs/hash"}, "head_c_trained": {"const": false}, "enforcement_action": {"type": "null"},
+    "model": {"type": "object", "required": ["bundle_id", "bundle_version", "a_checkpoint", "b_checkpoint"], "properties": {"bundle_id": {"$ref": "#/$defs/hash"}, "bundle_version": {"type": "string"}, "a_checkpoint": {"$ref": "#/$defs/hash"}, "b_checkpoint": {"$ref": "#/$defs/hash"}}},
+    "provenance": {"type": "object", "required": ["a_checkpoint", "b_checkpoint"]},
+    "devices": {"type": "array", "items": {"type": "object", "required": ["device_id", "device_type", "status", "behavioral_score", "behavioral_flag", "link_anomaly", "link_flag", "compromised_probability", "component_scores", "calibration_scope", "unscored_reasons", "history"],
+      "properties": {
+        "device_id": {"type": "string"}, "device_type": {"type": "string"}, "status": {"enum": ["ok", "inactive", "unavailable"]},
+        "behavioral_score": {"type": ["number", "null"]}, "link_anomaly": {"type": ["number", "null"]},
+        "behavioral_flag": {"type": ["boolean", "null"]}, "link_flag": {"type": ["boolean", "null"]}, "compromised_probability": {"type": "null"},
+        "component_scores": {"type": "object"}, "calibration_scope": {"type": "object"}, "unscored_reasons": {"type": "object"}, "history": {"type": ["object", "null"]}
+      }}},
+    "health": {"type": "object", "required": ["complete", "sensor_healthy", "clock_synchronized", "capture_drops", "unavailable_device_ids", "identity_unscored_device_ids", "received_at", "processing_seconds"]},
+    "state": {"type": "object", "required": ["epoch", "reset_reason", "reset_device_ids", "history"]}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}
