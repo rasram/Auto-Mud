@@ -1,5 +1,6 @@
 """Incremental selected v4 features, reusing the exact offline operations."""
 from collections import Counter, defaultdict, deque
+from copy import deepcopy as copy_graph
 from ml.schema import resolve_device, require
 from ml.graph.build import features
 from ml.graph.context import extend_features, service_id
@@ -16,19 +17,22 @@ class StreamingGraph:
         self.last_window = None
         self.epoch_start = None
         self.epoch = 0
+        self.model_past = deque(maxlen=15)
+        self.model_profile_id = None
 
     @staticmethod
     def new_device(identity, start):
         return dict(identity=identity, epoch_start=start, destinations=set(), temporal={},
                     peers=set(), prior=deque(maxlen=5), past=deque(maxlen=15))
 
-    def build(self, window):
+    def build(self, window, profile=None):
         start = window['window_start']
         reason = None
         if self.last_window is not None:
             require(start > self.last_window, 'Out-of-order window')
             if start != self.last_window + 60:
                 self.devices.clear()
+                self.model_past.clear()
                 self.edges.clear()
                 self.epoch += 1
                 reason = 'observation_gap'
@@ -37,6 +41,18 @@ class StreamingGraph:
             self.epoch_start = start
             reason = 'cold_start'
         manifest, unavailable = observed_manifest(window)
+        model_reset = None
+        if profile is not None:
+            from ml.supervised.graphs import profile_id
+            current_profile = profile_id(profile)
+            if current_profile != self.model_profile_id:
+                self.model_past.clear()
+                for state in self.devices.values(): state['flow'] = {}
+                model_reset = 'profile_changed_or_initial_supervised_start'
+            self.model_profile_id = current_profile
+        else:
+            self.model_past.clear()
+            self.model_profile_id = None
         grouped = defaultdict(list)
         pairs = defaultdict(list)
         for row in window['telemetry']:
@@ -121,7 +137,25 @@ class StreamingGraph:
                    observed_age_seconds=max(0, start - self.devices[n['device_id']]['epoch_start']),
                    fully_warmed=len(n['temporal_history']) == 15 and start - self.devices[n['device_id']]['epoch_start'] >= 3600)
                    for n in nodes if n['device_type'] != 'external_service'}
-        return graph, dict(epoch=self.epoch, reset_reason=reason, reset_device_ids=reset_devices, history=history)
+        if profile is not None:
+            from ml.supervised.graphs import project
+            graph = project(graph,window['telemetry'],manifest,profile,self.devices,self.model_past)
+            for node in graph['nodes']:
+                if node['device_type']=='external_service':continue
+                count=0
+                if node['available']:
+                    for previous in reversed(self.model_past):
+                        found=[n for n in previous['nodes'] if n['device_id']==node['device_id']]
+                        if previous['window_start']!=start-60*(count+1) or len(found)!=1 or not found[0]['available'] or found[0].get('identity_epoch')!=node.get('identity_epoch'):break
+                        count+=1
+                history[node['device_id']]['prior_windows']=count
+                history[node['device_id']]['fully_warmed']=count==15 and history[node['device_id']]['observed_age_seconds']>=3600
+            saved={k:v for k,v in graph.items() if k!='prior_graphs'}
+            saved=copy_graph(saved)
+            for node in saved['nodes']: node.pop('temporal_history',None)
+            self.model_past.append(copy_graph(saved))
+        return graph, dict(epoch=self.epoch, reset_reason=reason, reset_device_ids=reset_devices,
+                           model_history_reset_reason=model_reset, history=history)
 
     def dump(self):
         devices = {}
@@ -131,7 +165,9 @@ class StreamingGraph:
                 destinations=sorted(state['destinations']), peers=sorted(state['peers']), prior=list(state['prior']), past=list(state['past']),
                 temporal=dict(windows=list(temporal.get('windows', [])), starts=list(temporal.get('starts', [])),
                               streams=[[list(k), list(v)] for k, v in temporal.get('streams', {}).items()]))
+            devices[ident]['flow']={'history':list(state.get('flow',{}).get('history',[]))}
         return dict(devices=devices, edges=[list(p) for p in sorted(self.edges)], last_window=self.last_window,
+                    model_past=list(self.model_past), model_profile_id=self.model_profile_id,
                     epoch_start=self.epoch_start, epoch=self.epoch, max_peers=self.max_peers)
 
     @classmethod
@@ -139,9 +175,12 @@ class StreamingGraph:
         builder = cls(value['max_peers'])
         builder.edges = {tuple(p) for p in value['edges']}
         builder.last_window, builder.epoch_start, builder.epoch = value['last_window'], value['epoch_start'], value['epoch']
+        builder.model_past=deque(value.get('model_past',[]),maxlen=15)
+        builder.model_profile_id=value.get('model_profile_id')
         for ident, saved in value['devices'].items():
             builder.devices[ident] = dict(saved, destinations=set(saved['destinations']), peers=set(saved['peers']),
                 prior=deque(saved['prior'], maxlen=5), past=deque(saved['past'], maxlen=15),
                 temporal=dict(windows=deque(saved['temporal']['windows']), starts=deque(saved['temporal']['starts']),
                               streams={tuple(k): deque(v) for k, v in saved['temporal']['streams']}))
+            builder.devices[ident]['flow']={'history':deque(saved.get('flow',{}).get('history',[]),maxlen=60)}
         return builder

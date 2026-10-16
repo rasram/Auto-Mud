@@ -75,7 +75,7 @@ class LiveEngine:
     def model_info(self, model=None):
         model = model or self.active
         return dict(bundle_id=model.bundle_id, bundle_version=model.bundle_version,
-                    a_checkpoint=model.inputs['selected-a.pt'], b_checkpoint=model.inputs['frozen-b.pt'])
+                    **model.checkpoint_hashes)
 
     def _payload(self, streams=None, active=None, previous=False):
         streams = self.streams if streams is None else streams
@@ -130,7 +130,7 @@ class LiveEngine:
             require(state is not None or len(self.streams) < self.config.get('max_streams', 8), 'Active session limit exceeded; reset an unused session')
             candidate = copy.deepcopy(state) if state else dict(builder=StreamingGraph(self.config.get('max_peers_per_device', 4096)),
                                                                cache=OrderedDict(), last_graph=None, last_response=None)
-            graph, history = candidate['builder'].build(window)
+            graph, history = candidate['builder'].build(window,profile=getattr(self.active,'profile',None))
             self.active.verify_inputs()
             response = self.active.score_graph(graph)
             elapsed = time.perf_counter() - began
@@ -162,11 +162,13 @@ class LiveEngine:
             require(not self.closed, 'Engine is closed')
             model = self._load(path)
             require(model.bundle_id != self.active.bundle_id, 'Bundle is already active')
-            if self.streams:
-                graph = next(iter(self.streams.values()))['last_graph']
-            else:
+            graph = next(iter(self.streams.values()))['last_graph'] if self.streams else None
+            compatible = graph is not None and graph.get('schema_hash')==model.graph_schema_hash
+            if compatible and model.adapter=='supervised-direct.v1':
+                compatible = graph.get('flow_profile_sha256')==model.predictor.profile_sha256
+            if not compatible:
                 from ml.live.examples import example_window
-                graph, _ = StreamingGraph().build(example_window(int(self.now() // 60) * 60 - 60))
+                graph, _ = StreamingGraph().build(example_window(int(self.now() // 60) * 60 - 60),profile=getattr(model,'profile',None))
             probe = model.score_graph(graph)
             require(probe['schema_version'] == 'automud.gnn-evidence.v1' and all('behavioral_flag' in r and 'link_flag' in r for r in probe['devices']),
                     'Candidate output contract differs')
@@ -182,9 +184,11 @@ class LiveEngine:
             require(self.staged is not None and self.staged.bundle_id == bundle_id, 'No matching staged candidate')
             self.staged.verify_inputs()
             self._save(self._payload(active=self.staged, previous=self.active))
+            preserves=self.active.adapter==self.staged.adapter and getattr(self.active,'profile',None)==getattr(self.staged,'profile',None)
             self.previous, self.active, self.staged = self.active, self.staged, None
             return dict(status='activated', model=self.model_info(), rollback=self.model_info(self.previous),
-                        boundary='between_completed_windows', feature_history_preserved=True)
+                        boundary='between_completed_windows', feature_history_preserved=preserves,
+                        model_history_reset_on_next_window=not preserves)
 
     def rollback(self, bundle_id=None):
         with self.lock:

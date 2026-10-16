@@ -12,6 +12,20 @@ def export_bundle(checkpoint, frozen_b, out, version, results=None):
     root = Path(out).resolve()
     require(not root.exists(), 'Bundle destination already exists; use a new version directory')
     require(re.fullmatch(r'[A-Za-z0-9_.-]{1,80}', version) is not None, 'Invalid bundle version')
+    if Path(checkpoint).is_dir():
+        source=GNNBundle(checkpoint,'cpu',allow_candidate=True)
+        require(source.adapter=='supervised-direct.v1','Directory export expects a supervised bundle')
+        root.mkdir(parents=True)
+        for name in source.inputs:shutil.copy2(source.root/name,root/name)
+        if results:shutil.copy2(results,root/'results.json')
+        manifest=json.loads((source.root/'manifest.json').read_text())
+        manifest['bundle_version']=version
+        manifest['files']=[dict(path=name,bytes=(root/name).stat().st_size,sha256=file_hash(root/name)) for name in source.inputs]
+        (root/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+        model=GNNBundle(root,'cpu',allow_candidate=True);model.verify_inputs()
+        return dict(bundle_version=version,bundle_id=model.bundle_id,path=str(root),verified=True,
+                    training_invocations=0,accuracy_validated=False)
+    require(frozen_b is not None,'For supervised releases export a complete evaluated bundle directory, including its own frozen assets')
     require(Path(checkpoint).is_file() and Path(frozen_b).is_file(), 'Missing model input')
     root.mkdir(parents=True)
     shutil.copy2(checkpoint, root / 'selected-a.pt')

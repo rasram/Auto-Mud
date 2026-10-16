@@ -1,28 +1,43 @@
 {
-  "schema_version": "automud.gnn-bundle.v1",
-  "input_schema": "automud.graph.v4",
+  "schema_version": "automud.gnn-bundle.v3",
+  "bundle_version": "supervised-C-20261016",
+  "adapter": "supervised-direct.v1",
+  "graph_schema_hash": "cd2f196169720015a6cf93c590ce1fe934fda0e134fda21c5a3baa2cdba3fd2e",
+  "input_schema": "automud.live-window.v1",
   "output_schema": "automud.gnn-evidence.v1",
-  "selected_variant": "widened_native_mask30",
-  "clock_mode": "native_source",
-  "feature_mask_probability": 0.3,
-  "precision_recipe": "prior_context_residual",
-  "clean_calibration_tail": 0.05,
+  "learning_regime": "supervised_direct_detection",
+  "learned_neighbor_messages": false,
   "head_c_trained": false,
   "files": [
     {
-      "path": "selected-a.pt",
-      "bytes": 609488,
-      "sha256": "4a233d667d8ec81d21891845c95a27948e5283f105a2ecce93b64d88245e7698"
+      "path": "detector.pt",
+      "bytes": 277241,
+      "sha256": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7"
     },
     {
-      "path": "frozen-b.pt",
-      "bytes": 261301,
-      "sha256": "a996d926c634d4d4f3acc326ab748c962ea9ced561472f6c0d2717a9d4c00f7d"
+      "path": "normalizer.json",
+      "bytes": 41880,
+      "sha256": "30c5e6c193d86d17dc436625b8c9bffef22d23b6b78a4649596b274f2048e178"
+    },
+    {
+      "path": "flow-profiles.json",
+      "bytes": 26336,
+      "sha256": "6fb6b60e80464a98b2e946b59102ffa01addccf89635d4f6451cdf078b4daad5"
+    },
+    {
+      "path": "thresholds.json",
+      "bytes": 1916,
+      "sha256": "68baa4c7fa91c34017827c0740101f2cbbf6853c66be3cbaa56728e3ecaa0b32"
+    },
+    {
+      "path": "feature-contract.json",
+      "bytes": 3082,
+      "sha256": "6cde546183f9e89271f5d4b02477b7d5179374bca5122bded1e3abd68b7ff32f"
     },
     {
       "path": "results.json",
-      "bytes": 2051,
-      "sha256": "8e7e478616e6433a87360501dca2464c7f46ddb1d79d569fe7c45da5f0cb6d3c"
+      "bytes": 39574,
+      "sha256": "a1d658f504596262d2d5e01d9a67880ad17e94503cb6ed8ff9e86f972a3e07d0"
     }
   ]
 }

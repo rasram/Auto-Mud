@@ -118,5 +118,4 @@ tmp/
 .venv-ryu/
 
 # Small selected inference checkpoints are deliberately shareable.
-!/models/gnn/selected-a.pt
-!/models/gnn/frozen-b.pt
+!/models/gnn/detector.pt

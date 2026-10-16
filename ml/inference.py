@@ -38,6 +38,12 @@ class GNNBundle:
         manifest_bytes = (self.root / 'manifest.json').read_bytes()
         manifest = json.loads(manifest_bytes)
         self.manifest_sha = hashlib.sha256(manifest_bytes).hexdigest()
+        if manifest.get('schema_version') == 'automud.gnn-bundle.v3':
+            self._supervised(manifest,device,allow_candidate)
+            return
+        self.adapter='v4-residual-native.v1'
+        from ml.ab_targets.schema import SCHEMA_HASH as LEGACY_SCHEMA_HASH
+        self.graph_schema_hash=LEGACY_SCHEMA_HASH
         candidate = manifest['schema_version'] == 'automud.gnn-bundle.v2'
         require(manifest['schema_version'] == 'automud.gnn-bundle.v1' or candidate and allow_candidate,
                 'Unsupported or unapproved bundle manifest')
@@ -84,8 +90,65 @@ class GNNBundle:
         require(file_hash(self.root / 'manifest.json') == self.manifest_sha, 'Bundle manifest changed during inference')
         require(all(file_hash(self.root / p) == h for p, h in self.inputs.items()), 'Bundle changed during inference')
 
+    @property
+    def checkpoint_hashes(self):
+        if self.adapter=='supervised-direct.v1':
+            return dict(a_checkpoint=self.inputs['detector.pt'],b_checkpoint=self.inputs['detector.pt'])
+        return dict(a_checkpoint=self.inputs['selected-a.pt'],b_checkpoint=self.inputs['frozen-b.pt'])
+
+    def _supervised(self,manifest,device,allow_candidate):
+        from ml.supervised.schema import SCHEMA_HASH, FEATURES, LOG_FEATURES
+        from ml.supervised.predict import Predictor as SupervisedPredictor
+        from ml.live.contracts import digest
+        import re
+        require(manifest.get('adapter')=='supervised-direct.v1' and manifest.get('graph_schema_hash')==SCHEMA_HASH and
+            manifest.get('input_schema')=='automud.live-window.v1' and manifest.get('output_schema')==VERSION,
+            'Supervised bundle contract or adapter differs')
+        require(re.fullmatch(r'[A-Za-z0-9_.-]{1,80}',manifest.get('bundle_version','')) is not None,'Invalid bundle version')
+        self.adapter=manifest['adapter'];self.graph_schema_hash=SCHEMA_HASH;self.inputs={}
+        for entry in manifest['files']:
+            path=(self.root/entry['path']).resolve()
+            require(path.is_relative_to(self.root),'Bundle input escaped root')
+            require(entry['path'] not in self.inputs,'Duplicate bundle input')
+            require(path.stat().st_size==entry['bytes'] and file_hash(path)==entry['sha256'],'Bundle input changed: '+entry['path'])
+            self.inputs[entry['path']]=entry['sha256']
+        require(set(self.inputs)=={'detector.pt','normalizer.json','flow-profiles.json','thresholds.json','feature-contract.json','results.json'},'Unexpected supervised bundle inputs')
+        self.profile=read_json(self.root/'flow-profiles.json');normalizer=read_json(self.root/'normalizer.json')
+        thresholds=read_json(self.root/'thresholds.json');features=read_json(self.root/'feature-contract.json')
+        require(features['features']==list(FEATURES) and features['log_feature_indices']==list(LOG_FEATURES) and
+            features['history_windows']==15,'Frozen supervised feature projection differs')
+        require(self.profile.get('frozen') is True,'Frozen clean profile required')
+        require(isinstance(self.profile.get('groups'),dict) and
+            isinstance(self.profile.get('external_tx_baseline_by_device'),dict),'Invalid frozen profile structure')
+        require(all(isinstance(v,(int,float)) and not isinstance(v,bool) and math.isfinite(v) and v>=0
+            for v in self.profile['external_tx_baseline_by_device'].values()),'Invalid frozen profile baseline')
+        for group in self.profile['groups'].values():
+            counts=group.get('counts')
+            require(isinstance(counts,dict) and isinstance(group.get('total'),(int,float)) and
+                math.isfinite(group['total']) and group['total']>=0 and
+                all(isinstance(v,(int,float)) and not isinstance(v,bool) and math.isfinite(v) and v>=0 for v in counts.values()) and
+                sum(counts.values())==group['total'],'Invalid frozen profile counts')
+        require('global' in normalizer['stats'],'Missing global normalizer fallback')
+        for stat in normalizer['stats'].values():
+            require(len(stat['mean'])==len(stat['std'])==61 and all(math.isfinite(v) for v in stat['mean']) and
+                all(math.isfinite(v) and v>0 for v in stat['std']),'Invalid frozen normalizer')
+        if not allow_candidate:
+            require(self.inputs['detector.pt']=='b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7' and
+                self.inputs['normalizer.json']=='30c5e6c193d86d17dc436625b8c9bffef22d23b6b78a4649596b274f2048e178' and
+                self.inputs['flow-profiles.json']=='6fb6b60e80464a98b2e946b59102ffa01addccf89635d4f6451cdf078b4daad5' and
+                thresholds['A']['value']==1.1537269353866577 and thresholds['B']['value']==-0.2367836833000183,
+                'Selected C checkpoint/profile/normalizer/operating point differs')
+        self.predictor=SupervisedPredictor(self.root/'detector.pt',normalizer,self.profile,thresholds,device)
+        self.bundle_id=digest(manifest);self.bundle_version=manifest['bundle_version'];self.verify_inputs()
+
     @torch.no_grad()
     def score_graph(self, graph):
+        if self.adapter=='supervised-direct.v1':
+            require(native_clock_ready(graph),'Native clock unavailable; supply observed UTC or captured-source provenance')
+            result=self.predictor.predict(graph)
+            result.update(schema_version=VERSION,input_schema_version=graph['schema_version'],session_id=graph['session_id'],
+                window_end=graph['window_start']+60,provenance=self.checkpoint_hashes,enforcement_action=None)
+            return result
         validate_graph(graph)
         require(native_clock_ready(graph), 'Native clock unavailable; live wrapper must report unscored input')
         result = self.predictor.predict(graph)

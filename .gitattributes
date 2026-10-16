@@ -1,6 +1,6 @@
 # Preserve hash-bound model/fixture bytes on Windows and Linux checkouts.
 /models/gnn/*.pt -text
-/models/gnn/*.json -text
+/models/gnn/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 /fixtures/gnn/*.jsonl -text
 /fixtures/gnn/manifest.json -text
-/docs/gnn/MODEL_RESULTS.png -text
+/configs/gnn/schemas/supervised/*.json -text

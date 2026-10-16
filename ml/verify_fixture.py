@@ -8,7 +8,7 @@ from ml.inference import GNNBundle
 def verify_fixture(bundle='models/gnn', fixture='fixtures/gnn', device='cpu'):
     root = Path(fixture).resolve()
     manifest = read_json(root / 'manifest.json')
-    require(manifest['schema_version'] == 'automud.gnn-fixture.v1' and manifest['already_evaluated'], 'Expected consumed reference fixture')
+    require(manifest['schema_version'] in ('automud.gnn-fixture.v1','automud.gnn-fixture.v2') and manifest['already_evaluated'], 'Expected consumed reference fixture')
     paths = {}
     for entry in manifest['files']:
         p = (root / entry['path']).resolve()
@@ -20,8 +20,8 @@ def verify_fixture(bundle='models/gnn', fixture='fixtures/gnn', device='cpu'):
     # Avoid excessive BLAS overhead on tiny household graphs during this test.
     torch.set_num_threads(1)
     model = GNNBundle(bundle, device)
-    require(manifest['a_checkpoint'] == model.inputs['selected-a.pt'] and
-            manifest['b_checkpoint'] == model.inputs['frozen-b.pt'], 'Fixture checkpoint differs')
+    require(manifest['a_checkpoint'] == model.checkpoint_hashes['a_checkpoint'] and
+            manifest['b_checkpoint'] == model.checkpoint_hashes['b_checkpoint'], 'Fixture checkpoint differs')
     expected = {}
     for row in read_jsonl(paths['expected.jsonl']):
         key = row['run_id'], row['window_start'], row['device_id']

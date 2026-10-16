@@ -16,15 +16,16 @@ def main():
     fixture.add_argument('--bundle', default='models/gnn')
     fixture.add_argument('--fixture', default='fixtures/gnn')
     fixture.add_argument('--device', default='cpu')
-    predict = commands.add_parser('predict', help='Score already-prepared v4 graphs; no fitting')
+    predict = commands.add_parser('predict', help='Score prepared model-specific graphs, including causal history; no fitting')
     predict.add_argument('--bundle', default='models/gnn')
     predict.add_argument('--device', default='cpu')
     predict.add_argument('--graphs', required=True)
     predict.add_argument('--out', required=True)
-    build = commands.add_parser('build-graphs', help='Convert canonical telemetry and inventory manifest to v4 graphs')
+    build = commands.add_parser('build-graphs', help='Convert canonical telemetry and inventory manifest to the selected bundle feature contract')
     build.add_argument('--telemetry', required=True)
     build.add_argument('--manifest', required=True)
     build.add_argument('--out', required=True)
+    build.add_argument('--bundle', default='models/gnn')
     extract = commands.add_parser('extract', help='Extract canonical telemetry from PCAPs with the project Zeek policy')
     extract.add_argument('--pcap', nargs='+', required=True)
     extract.add_argument('--out', required=True)
@@ -33,7 +34,7 @@ def main():
     service.add_argument('--config', default='configs/gnn/live/service.json')
     export = commands.add_parser('export-bundle', help='Package a trained compatible checkpoint without fitting')
     export.add_argument('--checkpoint', required=True)
-    export.add_argument('--frozen-b', default='models/gnn/frozen-b.pt')
+    export.add_argument('--frozen-b', help='Legacy v4 residual bundle export only; supervised export accepts a complete bundle directory')
     export.add_argument('--out', required=True)
     export.add_argument('--version', required=True)
     export.add_argument('--results')
@@ -100,7 +101,13 @@ def main():
         from ml.ab_targets.graphs import build_v4
         if Path(args.out).exists():
             parser.error('Output already exists; choose a new path')
-        write_jsonl(args.out, build_v4(read_jsonl(args.telemetry), read_json(args.manifest)))
+        from ml.inference import GNNBundle
+        bundle=GNNBundle(args.bundle)
+        if bundle.adapter=='supervised-direct.v1':
+            from ml.supervised.graphs import build_graphs
+            graphs=build_graphs(read_jsonl(args.telemetry),read_json(args.manifest),bundle.profile)
+        else:graphs=build_v4(read_jsonl(args.telemetry),read_json(args.manifest))
+        write_jsonl(args.out,graphs)
     else:
         from ml.dataset_prep.extract import extract
         print(extract(args.pcap, args.out, args.zeek))

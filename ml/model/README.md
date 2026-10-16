@@ -1,6 +1,9 @@
-# Frozen Head B architecture
+# Legacy frozen-B architecture
 
-`graphsage.py` defines the architecture needed to load the original frozen B
-checkpoint. Selected Head A is defined in `ml/ab_targets/model.py`.
-Retaining B's v3 architecture and schema is necessary for loading the selected
-composite checkpoint; these files are not obsolete model artifacts.
+`graphsage.py` is retained for explicit legacy v1/v2 bundle loading and shared
+historical projections. It is not the active supervised C model.
+
+Current inference uses `ml/supervised/model.py` with
+`Detector(use_graph=False)`: own-device encoder, causal GRU history and joint
+A/B heads. Unused original message-module parameters are retained to load the
+exact original C checkpoint. No learned neighbor messages are evaluated.

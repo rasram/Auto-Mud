@@ -1,0 +1,66 @@
+{
+  "schema_version": "automud.inventory-template.v1",
+  "note": "Use actual runtime MACs and UTC lease bounds; this file gives stable model-profile identities/types and example IPv4 mappings, not fabricated leases",
+  "devices": [
+    {
+      "device_id": "AmazonEcho_44650d56ccd3_flows",
+      "device_type": "speaker",
+      "example_ip": "10.0.0.11"
+    },
+    {
+      "device_id": "AugustDoorBell_e076d03f00ae_flows",
+      "device_type": "doorbell",
+      "example_ip": "10.0.0.12"
+    },
+    {
+      "device_id": "BelkinWemoMotionSensor_ec1a59832811_flows",
+      "device_type": "motion_sensor",
+      "example_ip": "10.0.0.13"
+    },
+    {
+      "device_id": "BelkinWemoSwitch_ec1a5979f489_flows",
+      "device_type": "plug",
+      "example_ip": "10.0.0.14"
+    },
+    {
+      "device_id": "HPPrinter_705a0fe49bc0_flows",
+      "device_type": "printer",
+      "example_ip": "10.0.0.15"
+    },
+    {
+      "device_id": "NestDropCam_308cfb2fe4b2_flows",
+      "device_type": "camera",
+      "example_ip": "10.0.0.16"
+    },
+    {
+      "device_id": "NetatmoWeatherStation_70ee5003b8ac_flows",
+      "device_type": "environmental_sensor",
+      "example_ip": "10.0.0.17"
+    },
+    {
+      "device_id": "PhilipsHue_0017882b9a25_flows",
+      "device_type": "light",
+      "example_ip": "10.0.0.18"
+    },
+    {
+      "device_id": "SamsungCamera_00166cab6b88_flows",
+      "device_type": "camera",
+      "example_ip": "10.0.0.19"
+    },
+    {
+      "device_id": "SamsungSmartThings_d052a800675e_flows",
+      "device_type": "hub",
+      "example_ip": "10.0.0.20"
+    },
+    {
+      "device_id": "LiFXBulb_d073d5018308_flows",
+      "device_type": "light",
+      "example_ip": "10.0.0.21"
+    },
+    {
+      "device_id": "NetatmoWelcome_70ee50183443_flows",
+      "device_type": "camera",
+      "example_ip": "10.0.0.22"
+    }
+  ]
+}

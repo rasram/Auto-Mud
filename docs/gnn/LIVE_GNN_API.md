@@ -1,6 +1,6 @@
 # Live GNN API and integration contract
 
-The supplied service owns graph construction, feature order, normalization, UTC clock conversion, temporal history and frozen A/B scoring. The orchestrator supplies completed sensor observations and consumes evidence. No full dataset, attack labels or prepared tensors are needed for live operation. Start it using [Linux setup](LINUX_PIPELINE_SETUP_20261012.md); ownership is in [the handoff](LIVE_PIPELINE_HANDOFF_20261012.md).
+The supplied service now runs supervised C (E2 family), version `supervised-C-20261016`, replacing New 2. It owns graph construction, frozen profiles, feature order, normalization, UTC clock conversion, causal own-device history and joint A/B scoring. External telemetry/evidence versions and endpoint names are unchanged. No full dataset, attack labels or prepared tensors are needed for live operation. Start it using [Linux setup](LINUX_PIPELINE_SETUP_20261012.md); ownership and ordered completion steps are in [the handoff](LIVE_PIPELINE_HANDOFF_20261012.md).
 
 ## 1. Endpoints and transport
 
@@ -97,28 +97,30 @@ For each device:
 - Head A: `behavioral_score`, `behavioral_flag`.
 - Head B: `link_anomaly`, `link_flag` (initiated relationships).
 - `status`: `ok`, `inactive` (healthy but quiet) or `unavailable`.
-- `component_scores`, saved `calibration_scope` including threshold/scope/fallback, and `unscored_reasons`.
+- Empty `component_scores` for C (there are no old residual components), saved `calibration_scope` including threshold/scope/fallback, and `unscored_reasons`.
+- `profile_support.known_device`: whether the stable ID has a frozen clean volume baseline; unknown profiles are masked rather than fitted online. Mechanically supported unknown-device scoring does not establish accuracy for unseen devices.
 - `history`: prior window count, observed age and `fully_warmed` (15 prior neural windows plus at least one hour of observed rolling history).
 - `compromised_probability=null`; envelope `head_c_trained=false` and `enforcement_action=null`.
 
-A and B have distinct scales; use their saved flags/threshold provenance, not a fabricated shared probability. Null means unscored, not normal. A healthy idle device can have unscored heads; inspect each head's reason and availability. Cold-start evidence may be produced with shorter histories and is marked accordingly. Gaps reset all stream history; binding changes reset the affected device; outages clear affected histories. The first hour after a reset lacks fully warmed rolling history.
+Both scores are **raw supervised logits**, including valid negative values. Frozen global cutoffs use strict `score > threshold`: A `1.1537269353866577`, B `-0.2367836833000183`. Scope is `frozen_selection_and_clean_calibration`, `fallback=false`, `score_kind=supervised_raw_logit`; no per-device residual calibration remains. Use the returned flags/provenance. Applying sigmoid does not make these calibrated probabilities. Both provenance checkpoint fields identify the same joint C checkpoint. The envelope reports `learning_regime=supervised_direct_detection` and `learned_neighbor_messages=false`; graph-derived counts/context still contribute inputs.
 
-External-service graph nodes may appear in evidence. Only inventory devices are household action targets. The Decision Engine must preserve initiator context and current binding, exclude `observation_kind=engineering`, join matching GNN/MUD evidence, and choose a response under its own policy. A high receiving-device score does not prove that device initiated an attack. GNN anomalies do not override MUD permission failures.
+Null means unscored. A is scored for active available household devices; B additionally requires an observed outgoing initiated relationship. A receiving device can therefore have A evidence with B null. Healthy idle and unavailable heads remain null. Cold-start evidence may be produced with shorter histories and is marked accordingly. Gaps reset all stream history; binding changes reset the affected device; outages clear affected histories. The first hour after a reset lacks fully warmed rolling history. The supervised adapter uses 61 raw features, width 149 current inputs and 15 strictly prior width-147 vectors, never labels or future observations.
+
+C returns household inventory devices only; external-service nodes remain internal context. The Decision Engine must preserve initiator context and current binding, exclude `observation_kind=engineering`, join matching GNN/MUD evidence, and choose a response under its own policy. A high receiving-device score does not prove that device initiated an attack. Anomaly evidence does not override MUD permission failures.
 
 `/readyz` establishes model/service readiness, not sensor readiness. `/healthz` exposes each stream's `stale` and `observation_healthy`; default staleness is 180 seconds after its last window end. The orchestrator must check freshness/health and branch timeouts. `health.processing_seconds` measures graph/scoring work before persistence; capacity reports measure the complete HTTP request including state saves. Neither measures packet-to-OVS response latency.
 
 ## 5. Safe model replacement and rollback
 
-Jayan exports a separately trained/evaluated compatible checkpoint; export does not train, refit thresholds or measure accuracy:
+Jayan supplies a separately trained/evaluated **complete supervised bundle directory**, including that release's frozen normalizer, clean profiles, cutoffs, feature contract, results and manifest. A checkpoint alone is insufficient. Export validates and copies a complete release; it does not train, refit or measure accuracy. This same-weights example tests deployment mechanics:
 
 ```bash
-python -m ml export-bundle --checkpoint /path/to/new-a.pt \
-  --frozen-b models/gnn/frozen-b.pt --out models/gnn-next \
-  --version new-a-release-1 --results /path/to/evaluated-results.json
+python -m ml export-bundle --checkpoint models/gnn \
+  --out models/gnn-next --version supervised-deployment-test-1
 python -m ml check-model --bundle models/gnn-next --allow-candidate --device cpu
 ```
 
-Use a fresh output directory. The v2 manifest binds filenames/sizes/hashes, external contracts, graph hash and `v4-residual-native.v1` adapter. The A checkpoint's embedded B must equal the supplied standalone B. The currently supplied adapter supports this compatible v4 native-clock/residual family; different feature or architecture families need an internal ML adapter update, while the external contracts remain stable. A new model does not reproduce the old model's fixture outputs: use the old fixture for the baseline installation and a separately evaluated candidate's own acceptance evidence.
+Use a fresh output directory. The v3 manifest binds six filenames/sizes/hashes, external contracts, graph hash and `supervised-direct.v1` adapter. `detector.pt` contains both heads; there is no separate frozen-B dependency. The adapter requires the exact C no-learned-message architecture and feature contract. Other architectures need an internal ML adapter update while keeping external contracts stable. Use a new release's own reference outputs; the packaged fixture binds original C. The retained legacy v1/v2 loaders are migration support, not the default C package.
 
 Deploy the entire bundle under an allowed root (`models/` by default), readable by the service. Keep files immutable after export. Record the current ID, stage, activate, and retain the previous ID for rollback:
 
@@ -136,7 +138,9 @@ admin.call('/v1/models/activate', {'bundle_id': candidate_id})
 admin.call('/v1/models/rollback', {'bundle_id': previous_id})
 ```
 
-Staging does not change the active model. Hash/schema/weight/normalizer checks and a forward probe precede activation. They establish software compatibility, not predictive quality. Activation/rollback wait for current processing to finish and durably save the model pointer. Raw feature histories are preserved and re-normalized by the active bundle, rather than reusing old model hidden states. Active/previous versions and history are restored after restart; a merely staged candidate is not persisted and must be staged again. Keep the active and previous directories intact. Reset/new sessions require cold-start handling; never edit the durable state to bypass model checks.
+Staging does not change the active model. Hash/schema/weight/normalizer checks and a forward probe precede activation. They establish software compatibility, not predictive quality. Activation/rollback wait for current processing to finish and durably save the model pointer. With the same adapter and frozen profile, compatible raw histories are retained and re-normalized by the active bundle; hidden states are recomputed. A changed profile or adapter clears supervised model/profile history on the next new minute, preventing mixed-profile inputs. Activation reports `feature_history_preserved` and `model_history_reset_on_next_window`. Underlying profile-independent rolling observations remain causal. Cached retries always return their original model outputs.
+
+Active/previous versions and history are restored after restart; a merely staged candidate is not persisted and must be staged again. Keep referenced directories immutable and intact. The first New 2-to-C installation uses a fresh supervised state path/session as described in Linux setup step 6. Never edit durable state or overwrite a referenced bundle to bypass checks.
 
 ## 6. Capacity and operation
 

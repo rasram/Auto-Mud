@@ -1,6 +1,10 @@
-# Selected GNN live inference package
+# Supervised C/E2 inference package
 
-Owner: Jayan Subramanian. This package supplies selected New 2 native-clock/context Head A and original frozen Head B, a live telemetry adapter, graph/history processing and the HTTP evidence service. Frozen weights, references and thresholds remain unchanged. There is no classifier, compromise probability or statistical-profiler fusion.
+Owner: Jayan Subramanian. The default bundle is `supervised-C-20261016`,
+original supervised C (E2 family). It supplies joint A/B logits with frozen
+clean profiles, normalization and cutoffs, replacing the New 2 residual models.
+Graph-derived context and causal own-device history contribute features; C
+uses no learned neighbor messages. Head C is untrained.
 
 From the repository root in the qualified ML environment:
 
@@ -11,6 +15,16 @@ python -m pytest ml/tests network/tests -q
 python -m ml serve --config configs/gnn/live/service.json
 ```
 
-The fixture checks loading and saved outputs; it is not training data or a live dependency. Full datasets and earlier development artifacts remain private and are not imported by this runtime. `ml.live.client.Client` provides the integration client using only the Python standard library.
+The service accepts `automud.live-window.v1` and returns
+`automud.gnn-evidence.v1`. It owns the 61-feature projection, actual UTC clock,
+15-minute neural history, rolling observations, persistence and release swaps.
+No labels, training stack or private imports are needed.
+`ml.live.client.Client` uses Python's standard library.
 
-Read [Linux setup](../docs/gnn/LINUX_PIPELINE_SETUP_20261012.md), [live API and swapping](../docs/gnn/LIVE_GNN_API.md), [pipeline handoff](../docs/gnn/LIVE_PIPELINE_HANDOFF_20261012.md) and [deployment validation](../docs/gnn/DEPLOYMENT_VALIDATION.json). Teammates supply sensor finalization/inventory/health and complete MUD/Decision Engine/Ryu integration; feature/history/tensor construction is supplied here. Compatible new bundles preserve the external telemetry/evidence interface.
+Use [Linux setup](../docs/gnn/LINUX_PIPELINE_SETUP_20261012.md),
+[the live API](../docs/gnn/LIVE_GNN_API.md) and
+[the ordered handoff](../docs/gnn/LIVE_PIPELINE_HANDOFF_20261012.md).
+Teammates complete continuous acquisition/finalization, independent MUD
+evidence, joins, Decision Engine and Ryu actions. Legacy v3/v4 residual code
+remains available for explicit historical bundle migration and is not the
+default supervised inference path.

@@ -1,35 +1,52 @@
-# GNN-only AutoMUD setup on native Linux
+# AutoMUD supervised C/E2 pipeline setup on Linux
 
-This guide installs and checks the selected New 2 native-clock/context A and
-original frozen B. Native Linux is suitable; WSL is not required. The GNN service is supplied and qualified on Linux/WSL. Teammates finish sensor finalization, MUD, the Decision Engine and controller described in [the handoff](LIVE_PIPELINE_HANDOFF_20261012.md).
-Use a dedicated Linux lab host/VM for Mininet networking commands.
+Updated 16 October 2026. This guide installs **supervised C (the E2 family)**,
+bundle `supervised-C-20261016`, replacing the self-supervised New 2 package.
+The original C checkpoint, frozen normalizer, clean profiles and A/B cutoffs are
+shipped unchanged. E2 is a repeat of this model family; the deployed file is C.
 
-## 1. Reference environment and package contents
+The ML service is supplied. Continuous acquisition/finalization, MUD, the
+Decision Engine and Ryu enforcement still need integration. Follow the ordered
+steps in [the live handoff](LIVE_PIPELINE_HANDOFF_20261012.md) after these checks.
 
-Ubuntu 24.04 LTS / Python 3.12 is the first target, matching current working
-userspace. The reference WSL environment has Mininet 2.3.0, OVS 3.3.9 and Zeek
-8.0.10 at `/opt/zeek/bin/zeek`. Native-Linux end-to-end deployment remains untested.
-CPU inference is supported; a GPU is not required for installation/integration.
+## 1. Obtain the complete current package and choose the lab inventory
 
-The shared package contains:
+Use a dedicated Linux lab host or VM. Ubuntu 24.04 / Python 3.12 is the reference
+userspace. The qualified WSL2 environment has Mininet 2.3.0, OVS 3.3.9 and Zeek
+8.0.10. A fresh native Linux deployment must pass these checks on its own host.
 
-- `models/gnn/`: `selected-a.pt`, `frozen-b.pt`, manifest and numeric results.
-  Scaler, residual references and saved thresholds are included in the checkpoint.
-- `ml/`: inference-only runtime, canonical extraction, graphs and tensor utilities.
-- `configs/gnn/schemas/`: selected v4 contract plus B's required v3 contract.
-- `fixtures/gnn/`: small consumed graphs and expected outputs for installation tests.
-- `configs/gnn/live/`: frozen external schemas, service config and optional systemd template.
-- Selected screenshot/results, setup/handoff/API guides and compact deployment validation under `docs/gnn/`.
+Copy or check out the complete current repository snapshot, including:
 
-Full datasets, previous models, conversation notes, investigations and development
-scripts are excluded from Git. None is a live inference dependency. A fixture is
-also not a live dependency; it is included to check model loading and outputs.
-Do not copy another machine's `.venv`. Until changes are committed, Jayan must
-transfer the current source/package snapshot: cloning the old commit is insufficient.
+| Location | Required contents |
+|---|---|
+| `models/gnn/` | `detector.pt`, `normalizer.json`, `flow-profiles.json`, `thresholds.json`, `feature-contract.json`, `results.json`, `manifest.json` |
+| `ml/` | Inference, supervised adapter, rolling features/history, HTTP server/client |
+| `configs/gnn/live/` | Input/output schemas, service config, inventory example, systemd template |
+| `configs/gnn/schemas/supervised/` | Internal ordered supervised feature contract |
+| `fixtures/gnn/` | Small consumed installation reference, including causal history |
+| `network/` | Mininet/testbed tools and project Zeek policy |
 
-## 2. Host tools
+Until this replacement is committed, cloning the old commit alone does not
+supply the new package. Full datasets, training code and private notes are not
+runtime dependencies. Do not copy another machine's virtual environment.
 
-From a dedicated Ubuntu 24.04 host:
+For the authored 12-device household, start from
+`network/testbed/topology-supervised.json` and
+`configs/gnn/live/inventory.example.json`. They retain the profile's stable
+device IDs/types and example IP mapping, including LiFX and Netatmo Welcome.
+The older `topology.json` has a different cohort/order/IP mapping. Choose the
+supervised template explicitly when preparing new traffic. After installing the
+host tools, inspect `python3 network/testbed/run_full_topology.py --help`.
+That collector accepts `--topology network/testbed/topology-supervised.json`;
+its traffic directory must contain matching devices. It is a standalone
+collection launcher, not the finished controller-managed deployment.
+Do not relabel an unrelated device to borrow a profile. Populate actual MACs
+and UTC lease bounds at runtime. Align MUD rules and controller targets to the
+same inventory. Authored traffic edges do not grant MUD permission.
+
+## 2. Install and check host networking tools
+
+From the dedicated Ubuntu host:
 
 ```bash
 sudo apt update
@@ -42,17 +59,14 @@ sudo ovs-vsctl show
 sudo mn --switch ovsbr --test pingall
 ```
 
-Mininet supports native Ubuntu/Debian and needs network privileges. Run the
-connectivity test only when no other Mininet job owns the lab. It tests standalone
-forwarding, not the controller or MUD policy. Keep the ML service unprivileged.
+Run the connectivity test only when no other Mininet job owns the lab. It checks
+standalone forwarding. Mininet needs network privileges; the ML service runs as
+an ordinary user. VMs need namespaces, veth and the OVS kernel datapath.
 [Official Mininet installation](https://mininet.org/download/).
-If systemd is absent, use the distribution's OVS service method. A VM must support
-network namespaces, veth and the OVS kernel datapath.
 
-## 3. Zeek with the project policy
+## 3. Install Zeek and use the project minute policy
 
-Use the 8.0 LTS line first and verify feature parity after patch upgrades. For
-Ubuntu 24.04, configure a repository-specific key and official package source:
+Start with the qualified 8.0 series. For Ubuntu 24.04:
 
 ```bash
 curl -fsSL \
@@ -67,22 +81,23 @@ export PATH="/opt/zeek/bin:$PATH"
 zeek --version
 ```
 
-Use the matching distribution repository on other Linux versions. Persist PATH
-in service configuration or use `/opt/zeek/bin/zeek` explicitly.
-[Official Zeek installation](https://docs.zeek.org/en/current/install.html).
+Check distribution/package availability against the
+[official Zeek installation instructions](https://docs.zeek.org/en/current/install.html).
+Record actual versions; upgrades require the acceptance checks below.
 
-Load `network/zeek/automud-window.zeek`. It produces minute directional IP-byte/
-packet deltas and causal flow metadata; ordinary connection totals are unsuitable.
-On live Mininet traffic run Zeek **inside the sensor host namespace** using the
-host's `popen`/`cmd` or Mininet CLI host command. Find its actual interface and use
-absolute binary/policy paths and a writable log directory. Validate drops,
-offloads, bidirectional visibility and duplicate counting. Do not use a blanket
-checksum bypass to hide capture errors. Add a live interval finalizer for silence,
-completion and partial shutdown; it is not implemented by the offline extractor.
+Load `network/zeek/automud-window.zeek`. It emits directional minute IP-byte/
+packet deltas and causal flow outcomes. Ordinary `conn.log` lifetime totals
+have different semantics. For live Mininet, launch Zeek inside the sensor host's
+namespace with absolute binary/policy paths, its actual interface and a writable
+log directory. Confirm both directions, drops, offloads and duplicate counting.
+Do not use a blanket checksum bypass to conceal capture errors.
 
-## 4. ML environment
+The team must add a continuous interval finalizer: packet arrival alone does
+not finalize healthy silent minutes. See handoff steps 3–4.
 
-Assume the current package is in `$HOME/Auto-Mud`; substitute your actual path. Use the ML-only pinned top-level versions, not root requirements that mix ML/controller/web dependencies:
+## 4. Install the ML environment
+
+Assume the package is in `$HOME/Auto-Mud`; substitute its actual path:
 
 ```bash
 cd "$HOME/Auto-Mud"
@@ -95,108 +110,130 @@ python -m pip install -r requirements-ml-runtime.lock.txt
 python -m pip check
 ```
 
-`requirements-ml-runtime.lock.txt` records the six top-level versions qualified by the existing Linux/WSL tests. It is not a fully hashed transitive lock or proof that every pinned wheel is available for every platform. Actual tested Torch is `2.14.1+cu130`, run on CPU; the upstream version is pinned without the CUDA-local suffix for CPU-wheel selection. If the CPU index cannot supply that version for your platform, do not silently unpin: use an available official compatible release in a separate environment, pass section 5 and the live acceptance checks, and record that deployment's versions. [Official PyTorch installation](https://pytorch.org/get-started/locally/), [PyG installation](https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html).
+The lock records six qualified top-level versions, not a hashed transitive
+lock or guaranteed wheel availability on every platform. The reference Torch
+is `2.14.1+cu130`, exercised on CPU; the local CUDA suffix is omitted for
+CPU-wheel selection. If the official CPU index cannot supply that version for
+your platform, qualify an available official compatible release in a separate
+environment and record its versions after all checks pass. Do not silently unpin.
+[PyTorch installation](https://pytorch.org/get-started/locally/),
+[PyG installation](https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html).
 
-Recorded reference environment: `configs/gnn/live/runtime-qualification.json` (Python 3.12.3, Ubuntu 24.04 userspace, WSL2 x86_64). WSL is not a runtime dependency. A fresh native-host install must pass the same checks. No SciPy/scikit-learn training stack is required by the inference package, and a GPU is optional. Do not copy another machine's virtual environment.
+Use `configs/gnn/live/runtime-qualification.json` for the recorded environment.
+WSL and a GPU are optional. No training stack is needed. Keep Ryu and web/MUD
+dependencies in separate environments. After acceptance save `pip freeze`,
+OS/kernel information and the deployment configuration.
 
-After successful acceptance, save `python -m pip freeze`, OS/kernel information and your config in the deployment's operational records. Preserve the wheel-index instructions. Root requirements and Ryu belong to separate environments.
-
-## 5. Required installation tests — no full dataset needed
-
-First verify all bundle hashes, selected operating point and embedded B integrity:
+## 5. Verify the supervised release
 
 ```bash
 python -m ml check-model --bundle models/gnn --device cpu
-```
-
-Expected: `status=ok`, `verified_files=3`. This loads the models without scoring.
-The manifest is additional metadata; its three verified inputs are the two
-checkpoints and results file. Do not modify hashes to bypass a mismatch.
-
-Then check model loading **and inference output** against the public reference:
-
-```bash
 python -m ml check-fixture --bundle models/gnn --fixture fixtures/gnn --device cpu
 python -m pytest ml/tests network/tests -q
 ```
 
-Expected fixture result:
+Expected model check: `status=ok`, `verified_files=6`. The manifest binds the
+joint checkpoint and its five companion assets. Do not edit hashes to bypass
+integrity errors.
 
-- `status=passed`, 20 graphs, 394 device/window records, 788 matching A/B flags.
-- Absolute score differences no larger than `1e-4`.
-- `training_invocations=0`, `new_evaluation_data=false`.
+Expected fixture: `passed`, **9 graphs, 108 household records, 216 matching
+A/B flags**, absolute score error at most `1e-4`, no training or new evaluation
+data. Packaging reproduced both scores with zero CPU error. Cold and continuous
+examples include their exact causal prior graphs. This is an installation check;
+do not tune thresholds on it. The current regression suite has **52 passing tests**.
 
-The same CPU check passed during packaging: maximum errors A `7.8831e-6`,
-B `1.5259e-5` against saved CUDA outputs. The graphs and trimmed expected outputs
-total about **1.17 MB**. This checks installation/reproduction, not live accuracy
-or the aggregate metrics in the screenshot. It contains no full research dataset
-and should never be used to tune thresholds. Run it when dependencies change.
-
-Optional CLI reproduction into a fresh output path:
+Optional prediction check (choose a fresh output path):
 
 ```bash
 python -m ml predict --bundle models/gnn --graphs fixtures/gnn/graphs.jsonl \
-  --out tmp/gnn-fixture-predictions.jsonl --device cpu
+  --out tmp/supervised-fixture-predictions.jsonl --device cpu
 ```
 
-The output guard refuses overwriting a previous file. Do not run old training or
-research-final commands as setup prerequisites; they are not in this package.
-After acceptance, record `python -m pip freeze` and OS/kernel information with
-the deployment configuration. Preserve CPU wheel-index instructions beside the lock.
+Do not send old v4 model graphs directly to C. The live service builds the new
+61-feature inputs and 15-minute causal neural history internally. For a finite
+capture, `build-graphs --bundle models/gnn` uses the supervised adapter.
 
-## 6. Run the supplied live GNN service
+## 6. Migrate an existing New 2 deployment
 
-From the repository with `.venv-ml` activated:
+Stop the old service and its sender. Back up the **old model directory and
+matching state/config together** before replacing files. Preserve them in a
+separate version directory if historical rollback is required.
+
+Install the complete new source and C bundle. Use the updated
+`configs/gnn/live/service.json`, whose state path is
+`tmp/gnn-live-supervised/state.json`. Start a fresh supervised session/state:
+do not copy New 2 state over this path or edit its bundle ID. Restoring a state
+file that points at overwritten model bytes is rejected. Update any custom
+service `ReadWritePaths` and monitoring paths too.
+
+Pass step 5, then start the new service and sender. Expect cold-start history.
+Later supervised restarts restore their own accepted windows/history normally.
+Old residual scores, thresholds and dashboards must not be reused as C scores.
+
+## 7. Start the supervised evidence service and check transport
 
 ```bash
 python -m ml serve --config configs/gnn/live/service.json
 ```
 
-The foreground launcher prints a ready event and serves `127.0.0.1:8001`. It loads the bundle once. Ctrl+C closes the listener/state lock; restart restores accepted history and active/previous bundle pointers. Default durable state is `tmp/gnn-live/state.json`; do not share it between service instances. Start as an ordinary user with read access to code/models and write access to the state directory.
-
-In another terminal:
+The launcher prints a ready event and listens on `127.0.0.1:8001`. It loads C
+once and owns one durable state file. Ctrl+C releases its lock. In another
+terminal with the same ML environment:
 
 ```bash
-cd "$HOME/Auto-Mud"
-source .venv-ml/bin/activate
 curl --fail http://127.0.0.1:8001/readyz
 curl --fail http://127.0.0.1:8001/v1/model
-python -m ml sample-window --out tmp/gnn-engineering-window.json
-python -m ml submit-window --request tmp/gnn-engineering-window.json \
-  --out tmp/gnn-engineering-evidence.json
+python -m ml sample-window --out tmp/supervised-engineering-window.json
+python -m ml submit-window --request tmp/supervised-engineering-window.json \
+  --out tmp/supervised-engineering-evidence.json
 ```
 
-Choose fresh output names when repeating file-producing commands. The example is explicitly `observation_kind=engineering`; it tests the API and must not trigger enforcement. It has its own engineering stream. The installation fixture checks the selected model's expected numeric outputs; this example checks transport. The qualified regression suite has **45 passing tests**, including actual CLI startup/shutdown/restart. [Deployment validation](DEPLOYMENT_VALIDATION.json).
+Choose fresh file names on repeat. The example has `observation_kind=engineering`;
+exclude it from enforcement. Model version must be `supervised-C-20261016`.
+Both checkpoint hashes identify the same joint `detector.pt`.
 
-Configure `configs/gnn/live/service.json` for your installation. `project_root=../../..` resolves relative to the config directory; other file paths resolve against that root. Defaults are CPU/one Torch thread, eight streams/connections, a 4 MiB request and 16 MiB state. See [API limits and semantics](LIVE_GNN_API.md). Keep active/previous bundle directories intact and the state directory writable.
+Input `automud.live-window.v1` and output `automud.gnn-evidence.v1` remain stable.
+A is behavioral/affected-device evidence; B concerns initiated relationships.
+Scores are raw supervised logits, possibly negative, with strict frozen cutoffs
+A `1.1537269353866577`, B `-0.2367836833000183`. Use returned flags/provenance.
+They are not probabilities or MUD permissions. B is null without an observed
+initiated relationship; idle/unavailable scores remain null. C has no learned
+neighbor messages, although graph-derived context is an input.
 
-For token-protected operation, set the same API token in the service and client shells. Set an independent admin token in the service/operator shells only if model/reset operations are needed:
+Supply actual completed UTC minutes, stable inventory, health and watermarks;
+no labels, private source provenance or tensors. Healthy silence is an empty
+minute with verified capture health; failed observation is unavailable.
+Known profile identities are listed in the inventory example. Unknown devices
+can be scored with missing-profile masks and type/global normalization, but
+their accuracy is unverified. `profile_support.known_device` exposes support.
 
-```bash
-read -rsp 'GNN API token: ' AUTOMUD_GNN_API_TOKEN
-printf '\n'
-export AUTOMUD_GNN_API_TOKEN
-read -rsp 'GNN administrator token: ' AUTOMUD_GNN_ADMIN_TOKEN
-printf '\n'
-export AUTOMUD_GNN_ADMIN_TOKEN
-python -m ml serve --config configs/gnn/live/service.json
-```
+For authenticated operation, export `AUTOMUD_GNN_API_TOKEN` in service/client
+shells. Set a separate `AUTOMUD_GNN_ADMIN_TOKEN` only for operators needing
+model/reset routes. With tokens, health requests need
+`-H "Authorization: Bearer $AUTOMUD_GNN_API_TOKEN"`. Non-loopback binding
+requires an API token; use a trusted lab network or TLS proxy. No admin token
+disables administration. See [the API guide](LIVE_GNN_API.md).
 
-Authenticate health requests with `curl --fail -H "Authorization: Bearer $AUTOMUD_GNN_API_TOKEN" http://127.0.0.1:8001/readyz`. The submit command reads its API token from the environment. A non-loopback listener requires an API token; configure the orchestrator URL accordingly and use a trusted lab network or TLS proxy. No admin token disables administrator endpoints. Readiness only checks the ML service; check stream freshness/capture health separately.
+Config paths resolve against `project_root=../../..`. Defaults: CPU/one Torch
+thread, eight streams/connections, 4 MiB requests and 16 MiB durable state.
+Keep active/previous bundle directories immutable and accessible. Readiness
+checks ML; monitor sensor health and stream freshness separately.
 
-### Optional systemd operation
+### Optional systemd service
 
-`configs/gnn/live/automud-gnn.service` is a template, not an installed service. It expects a current source snapshot in `/opt/automud/Auto-Mud` with a fresh `.venv-ml` installed there. Complete sections 4–5 at that path before enabling it. `ProtectHome=true` intentionally prevents using a venv under a user's home directory. Adapt all absolute paths and `ReadWritePaths` together if choosing another location.
-
-On that host, create an unprivileged service account and state directory:
+The template expects `/opt/automud/Auto-Mud` and a fresh `.venv-ml` there.
+Complete steps 4–5 at that path first. Create the account only if absent:
 
 ```bash
 sudo useradd --system --user-group --home-dir /opt/automud --no-create-home automud
-sudo install -d -o automud -g automud -m 0750 /opt/automud/Auto-Mud/tmp/gnn-live
+sudo install -d -o automud -g automud -m 0750 /opt/automud/Auto-Mud/tmp/gnn-live-supervised
 sudo install -d -m 0750 /etc/automud
 ```
 
-Create the account only if it does not already exist. Ensure it can traverse/read the installed code, venv and models; only state needs write permission. If tokens are used, create root-readable `/etc/automud/gnn.env` with the appropriate `AUTOMUD_GNN_API_TOKEN=...` and optional `AUTOMUD_GNN_ADMIN_TOKEN=...`; set mode `0600`. Do not put secrets in Git or this template. Then:
+Allow the account to read/traverse code, models and venv; only state needs write
+access. If using tokens, create root-readable `/etc/automud/gnn.env` (mode 0600)
+with the two environment variables as appropriate. Keep secrets out of Git.
+Stop any foreground instance, then:
 
 ```bash
 sudo install -m 0644 configs/gnn/live/automud-gnn.service /etc/systemd/system/automud-gnn.service
@@ -206,40 +243,45 @@ sudo systemctl status automud-gnn
 sudo journalctl -u automud-gnn -n 50 --no-pager
 ```
 
-Stop the foreground instance before enabling systemd. The shared template has not been installed/enabled by this handoff. Hosts without systemd can use the qualified foreground launcher under their process manager.
+`ProtectHome=true` prevents using a venv under a home directory. Change all
+absolute paths and `ReadWritePaths` together if relocating. The template has not
+been enabled by this handoff. A host without systemd can use its process manager.
 
-### Reproduce sensor-to-model acceptance on your lab host
+## 8. Reproduce packet-to-supervised-API acceptance
 
-After host tools and Zeek are installed, create a fresh isolated lab capture. Run from the repository; only the Mininet helper needs root/system Python. The helper reserves bridge `amgnn0`, refuses an existing bridge/output path and cleans only its own network. It has no Ryu/NAT/internet requirement and takes roughly 1–2 minutes:
+Use fresh output directories, from the repository. Only Mininet needs root/system
+Python; extraction/inference use the ordinary ML environment:
 
 ```bash
-sudo /usr/bin/python3 -m network.testbed.gnn_acceptance --out tmp/gnn-live-lab/capture
-python -m ml validate-live-capture --capture-dir tmp/gnn-live-lab/capture \
-  --out tmp/gnn-live-lab/validation --zeek /opt/zeek/bin/zeek
-python -m ml benchmark-live --out tmp/gnn-live-lab/throughput --windows 60 --devices 12
+sudo /usr/bin/python3 -m network.testbed.gnn_acceptance --out tmp/gnn-supervised-lab/capture
+python -m ml validate-live-capture --capture-dir tmp/gnn-supervised-lab/capture \
+  --out tmp/gnn-supervised-lab/validation --zeek /opt/zeek/bin/zeek
+python -m ml benchmark-live --out tmp/gnn-supervised-lab/throughput --windows 60 --devices 12
 ```
 
-The ordinary ML process needs read access to the capture; adjust permissions if your sudo umask restricts access. Validation extracts canonical Zeek rows, compares streaming/offline features/edges/scores, tests HTTP replay, staging/activation/targeted rollback and durable restart. It runs its own temporary localhost API, not your deployed service. Expected report: `status=passed`, zero drops and score error, exact feature/edge parity, at least 16 controlled closed-port rows. The workload benchmark uses synthetic engineering observations and measures CPU/API capacity; neither command computes accuracy or trains. Raw captures/temporary candidates belong in ignored `tmp/`, not the teammate model bundle.
+The helper reserves `amgnn0`, refuses an existing bridge/output and cleans only
+its own network. It takes roughly 1–2 minutes and needs no Ryu/NAT/internet.
+Ensure the ordinary user can read the capture if sudo's umask restricts it.
 
-The orchestrator must still implement actual continuous Zeek acquisition and an interval finalizer, using the schema in [the API guide](LIVE_GNN_API.md). Supply genuine UTC timestamps/leases, ordered completed windows and honest sensor health, including healthy silent minutes and unavailable intervals. The service owns clock/features/history; teammates do not build model tensors or invent native-source provenance.
+Require `validation/report.json` to pass: zero capture drops, at least 16
+controlled closed-port rows, exact features/edges and matching flags/scores,
+durable restart, identical retries and stage/activate/rollback. It starts a
+temporary localhost API. The synthetic 12-device capacity probe must keep up
+with a 60-second cadence; size your deployment from its own measurements.
+These are engineering checks, not live detection accuracy. Recorded release
+evidence is [DEPLOYMENT_VALIDATION.json](DEPLOYMENT_VALIDATION.json).
 
-## 7. Ryu environment and OVS connection
+## 9. Qualify Ryu separately and connect controller-managed OVS
 
-Ryu is not installed in the verified ML environment. Its upstream currently says
-it is not maintained. Qualify a separate controller Python/dependency environment
-or provide a tested controller image; do not install Ryu in `.venv-ml` or assume
-its dependencies work on Python 3.12. A controller substitution requires a team
-decision. [Official Ryu repository](https://github.com/faucetsdn/ryu).
+Ryu's [upstream repository](https://github.com/faucetsdn/ryu) states that it is
+not currently maintained. Anand must supply a tested, pinned controller
+environment/image and pass import/startup, switch connection and rule checks.
+Do not install it into `.venv-ml` or assume Python 3.12 compatibility. There is
+no accepted controller lock or AutoMUD action app in this handoff.
 
-There is no accepted Ryu lock in this handoff. Anand must pin the working Python,
-Ryu and supporting versions and pass `ryu-manager --help`, switch connection and
-rule-installation checks. In that qualified environment, the built-in
-`ryu.app.simple_switch_13` is a connectivity-only test; the AutoMUD action app still
-needs implementation.
-
-Configure the live launcher with `OVSSwitch`/`RemoteController`, OpenFlow 1.3 and
-an intentional fail mode. The existing `OVSBridge` standalone collectors are not
-the live enforcement launcher. On the dedicated lab's created `s1` bridge:
+Use Mininet `OVSSwitch`/`RemoteController`, OpenFlow 1.3 and an intentional
+fail mode. The old standalone `OVSBridge` collectors do not become
+controller-managed just because ML changed. On the lab's actual `s1`:
 
 ```bash
 sudo ovs-vsctl set Bridge s1 protocols=OpenFlow13
@@ -249,44 +291,30 @@ sudo ovs-ofctl -O OpenFlow13 show s1
 sudo ovs-ofctl -O OpenFlow13 dump-flows s1
 ```
 
-Use `127.0.0.1` only when OVS and Ryu share the host network namespace. Otherwise
-use the reachable controller address. Agree protocol/port on both ends.
-[OVS OpenFlow documentation](https://docs.openvswitch.org/en/latest/faq/openflow/).
-
-Create a dedicated sensor link and discover its actual switch port. Example:
+Use a reachable controller address if it runs in another namespace/host.
+Discover the dedicated sensor port; the example below must be replaced with it:
 
 ```bash
-automud_sensor_port=s1-eth13  # Replace with the discovered sensor port
+automud_sensor_port=s1-eth13
 sudo ovs-vsctl -- --id=@p get Port "$automud_sensor_port" \
   -- --id=@m create Mirror name=automud select-all=true output-port=@p \
   -- set Bridge s1 mirrors=@m
 sudo ovs-vsctl list Mirror
 ```
 
-The example port is not guaranteed. Configure mirrors idempotently and reserve
-their output port for observation. [OVS mirroring documentation](https://docs.openvswitch.org/en/latest/faq/configuration/).
+Make mirror setup idempotent and reserve its output port for observation.
+[OVS mirroring documentation](https://docs.openvswitch.org/en/latest/faq/configuration/).
+Confirm bidirectional visibility and intended MUD baseline forwarding.
 
-## 8. Finish the complete pipeline
+## 10. Complete the full pipeline in order
 
-Start qualified Ryu/OVS, then controller-managed Mininet/MUD base flows/mirror,
-then Zeek/finalizer, then the supplied GNN service and MUD evaluation, then the timed orchestrator
-join and Decision Engine in observation mode. Add event/explanation/dashboard
-services, then verify a scoped action and recovery before enabling responses.
-The integration READMEs are ownership descriptions, not runnable services.
+Follow [handoff steps 1–12](LIVE_PIPELINE_HANDOFF_20261012.md#remaining-work-follow-these-steps-in-order):
+inventory/configuration, controller-managed testbed, sensor finalizer, C evidence,
+MUD evidence, timed join, Decision Engine observation, scoped action/expiry,
+failure recovery, timing/events and host sign-off.
 
-If using FastAPI, qualify its dependencies in a separate application environment.
-Neo4j is optional observation storage; the backend owner configures it if chosen.
-Do not invent frontend launch commands before its actual package/build exists.
-
-Configuration must supply absolute paths, inventory and UTC clock rules, sensor
-interface, controller address/DPID, service routes/timeouts, history retention,
-policy versions and action TTLs. Measure end-to-end timing separately from model
-inference. Validate actual OpenFlow table entries/counters and traffic effect.
-
-Common failures: missing model files after an old clone, Zeek absent from service
-PATH, incorrect sensor namespace, stale identity, missing native clock, discarded
-history, mismatched dependencies, Ryu import errors, or a rule targeting the wrong
-DPID/port. Resolve the actual error; null scores must not become healthy decisions.
-
-The full pipeline is complete only after live feature parity, evidence joins,
-enforcement/expiry, outage/restart and swap/rollback tests pass. The fixture proves loading/output reproduction; supplied ML acceptance covers the ML branch. Evidence joins and action effect/expiry remain team checks.
+The supplied model is usable for live evidence. Full enforcement readiness
+requires those team checks. Its consumed benchmark results and remaining B
+subgroup failures are disclosed in [MODEL_RESULTS.md](MODEL_RESULTS.md).
+An installation fixture or software parity check does not establish accuracy
+on new live traffic.

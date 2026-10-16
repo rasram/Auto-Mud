@@ -17,6 +17,11 @@ using traffic calibrated from the UNSW IoTraffic dataset.
 - `topology.json` defines the device list, stable Mininet IP addresses, and
 	deliberately authored household automation edges such as hub-to-bulb and
 	motion-sensor-to-camera traffic.
+- `topology-supervised.json` is the authored 12-device cohort/IP/type template
+  for the current supervised C/E2 bundle. Select it explicitly with `--topology`
+  and prepare matching device traffic inputs. It differs from the older default
+  cohort. Align actual inventory/leases and MUD rules with the selected template;
+  authored traffic edges do not themselves grant permission.
 - `run_full_topology.py` creates the complete Mininet topology, replays each
 	device's prepared traffic, captures the network with `tcpdump`, and opens the
 	Mininet CLI.
@@ -57,5 +62,6 @@ See [the current pipeline handoff](../../docs/gnn/LIVE_PIPELINE_HANDOFF_20261012
 implements bidirectional lab exchanges; `collect.py` runs an isolated household
 with a common clock, local cloud endpoints, OVS mirror, labels, and health metadata.
 These collectors use standalone OVS. The live launcher still needs a
-controller-managed switch, genuine live telemetry and the ML streaming wrapper.
+controller-managed switch and continuous live telemetry/finalization. The
+supervised ML streaming wrapper is supplied; see the ordered handoff steps.
 Historical synthetic/replay study runners have been moved into the private archive.

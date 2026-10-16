@@ -1,21 +1,22 @@
 # AutoMUD (AutoShield)
 
-**Self-Supervised Behavioral Profiling and Graph Neural Network–Driven Adaptive Microsegmentation for Smart Home IoT Security**
+**Behavioral Profiling and Supervised Detection for Adaptive Microsegmentation in Smart Home IoT Security**
 
 Team A12, Amrita School of Artificial Intelligence, Coimbatore. Supervisor: Mr. Vipin Das.
 
-> A system that silently watches every device on a home network, automatically learns what "normal" looks like for each device, builds a live map of how devices relate to each other, and automatically isolates any device that starts behaving suspiciously — with no human writing rules or profiles.
+> AutoMUD combines traffic-based detection with independent MUD permission evidence and SDN response. The supervised C evidence service is supplied; full policy, controller and response integration remains team work.
 
 For current implemented GNN behavior and pipeline ownership, use the shared setup/API/handoff guides below. Earlier methodology descriptions are background proposals and do not establish implementation or measured performance.
 
-For the current **GNN-only teammate package**, use
+For the current **supervised C/E2 teammate package**, use
 [the selected model guide](docs/gnn/README.md),
 [Linux setup](docs/gnn/LINUX_PIPELINE_SETUP_20261012.md), and
 [pipeline handoff](docs/gnn/LIVE_PIPELINE_HANDOFF_20261012.md).
-The selected native-clock/context A and frozen B checkpoints, their results and
+The supervised joint C checkpoint, its frozen profile/normalizer/cutoffs, results and
 a small loading/output fixture are shareable; full research datasets and old
-development artifacts are private. The current GNN emits separate A/B scores,
+development artifacts are private. The current C detector emits separate supervised A/B logits,
 not a [0,1] compromise probability. The stateful GNN HTTP service is supplied; sensor finalization, MUD/Decision Engine/Ryu integration and full-pipeline acceptance remain teammate work.
+C uses graph-derived context and own-device history without learned neighbor messages.
 Earlier architecture/training descriptions below are project background.
 
 ---
@@ -32,13 +33,13 @@ Earlier architecture/training descriptions below are project background.
 
 | Stage | What happens | Where in repo |
 |---|---|---|
-| **0. Offline Foundation** | Zeek metadata supports the separate MUD/profile engine. The selected GNN's frozen A/B checkpoints and saved calibration are supplied in `models/gnn/`; research datasets are private. | `network/zeek/`, `profiling/`, `ml/`, `models/gnn/` |
+| **0. Offline Foundation** | Zeek metadata supports the separate MUD/profile engine. Supervised C's frozen joint A/B checkpoint, clean profiles, normalizer and cutoffs are supplied in `models/gnn/`; research datasets are private. | `network/zeek/`, `profiling/`, `ml/`, `models/gnn/` |
 | **1. Live Testbed** | Mininet + Open vSwitch virtual home network (8–10 device types), per-device traffic generators, OVS traffic mirrored to Zeek. | `network/testbed/`, `network/zeek/`, `profiling/traffic_gen/` |
 | **2. Live Detection Loop** | Completed 60s telemetry feeds the MUD engine and ML-owned graph/history construction; frozen GNN emits separate behavioral A and relationship B scores/flags. Neo4j is optional observation storage. The GNN service is supplied; full pipeline integration remains to be built. | `integration/orchestrator/`, `profiling/profile_engine/`, `ml/`, `models/gnn/` |
 | **3. Decision & Response** | Threshold Decision Engine picks a tier (alert / rate-limit / VLAN isolate / full block) → Ryu pushes OpenFlow rules to OVS; LLM module writes a plain-English alert; both go to the web dashboard. | `integration/decision_engine/`, `network/sdn/`, `integration/explanation/`, `dashboard/` |
 | **4. Evaluation** | Four attack scenarios injected; compared against Suricata, a flow-only ablation, and a Wang 2023 replication; poisoned-baseline stress test. | `network/attacks/`, `integration/evaluation/` |
 
-**Non-circularity:** The profile engine and GNN are trained offline on real datasets in Stage 0. Inside Mininet they run only in frozen inference mode and never relearn from simulated traffic. See §7 of the context doc.
+**Frozen deployment:** C's supervised training used earlier native-derived household traffic and authored attack overlays. The live service freezes its weights, clean profiles, normalizer and cutoffs; it never trains or refits on deployment traffic. Earlier methodology proposals are background, not the current learning-regime contract.
 
 ## Team & Ownership
 
@@ -59,7 +60,7 @@ profiling/        Feature extraction, traffic generators, profile engine, ground
   features/  traffic_gen/  profile_engine/  validation/
 ml/               Selected frozen inference, graph construction and telemetry/tensor utilities
   graph/  dataset_prep/  model/  ab_targets/  live/
-models/gnn/       Selected A/B checkpoints, integrity manifest and model results
+models/gnn/       Supervised joint C checkpoint, frozen assets, manifest and results
 fixtures/gnn/     Small consumed model-loading/output reproduction test
 integration/      Live-loop orchestration, decision engine, LLM explanations, evaluation framework
   orchestrator/  decision_engine/  explanation/  evaluation/

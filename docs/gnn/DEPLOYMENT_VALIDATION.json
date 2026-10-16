@@ -1,8 +1,8 @@
 {
   "schema_version": "automud.gnn-deployment-validation.v1",
-  "published_date": "2026-10-13",
+  "published_date": "2026-10-16",
   "status": "passed",
-  "scope": "Selected GNN ML-side software handoff; no new accuracy, full controller enforcement, or fresh native-host install claim",
+  "scope": "Supervised C/E2 ML software and sensor/API compatibility; no fresh native-host install, live accuracy or full Ryu enforcement claim",
   "runtime": {
     "schema_version": "automud.gnn-runtime.v1",
     "python": "3.12.3",
@@ -15,33 +15,63 @@
       "scapy": "2.8.0",
       "pytest": "9.1.1"
     },
-    "qualification": "Existing Linux/WSL runtime; CPU model/API tests. Native-host install must run the same acceptance tests."
+    "qualification": "Existing Linux/WSL runtime; CPU model/API tests. Native-host install must run the same acceptance tests.",
+    "qualified_date": "2026-10-16",
+    "bundle_version": "supervised-C-20261016",
+    "adapter": "supervised-direct.v1"
   },
   "regression": {
     "command": "python -m pytest ml/tests network/tests -q",
-    "tests": 45,
+    "tests": 52,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "seconds": 24.149,
-    "source_timestamp": "2026-10-12T18:45:29.875568+00:00",
+    "seconds": 27.514,
     "includes": [
-      "80-minute incremental/offline feature parity",
-      "clock/identity validation",
-      "outage/idle/gap handling",
-      "durable restart/idempotency",
-      "candidate integrity, activation and targeted rollback",
-      "bounded HTTP/auth",
-      "foreground CLI lifecycle",
-      "selected fixture reproduction",
+      "80-minute base feature parity",
+      "supervised causal/bounded history and restart",
+      "per-device identity resets",
+      "profile-aware swaps and immediate restaging",
+      "mixed-profile/nonfinite asset rejection",
+      "health/idle/loss/gap",
+      "HTTP auth/capacity/idempotency and CLI lifecycle",
+      "consumed C reference",
       "retained network transport"
     ]
+  },
+  "reference_fixture": {
+    "status": "passed",
+    "graphs": 9,
+    "records": 108,
+    "flag_checks": 216,
+    "max_absolute_score_error": {
+      "a": 0.0,
+      "b": 0.0
+    },
+    "score_absolute_tolerance": 0.0001,
+    "training_invocations": 0,
+    "new_evaluation_data": false
+  },
+  "independent_archived_reference": {
+    "status": "passed",
+    "scope": "Engineering parity against independent archived batch features/tensors/model, not accuracy",
+    "windows": 80,
+    "raw_feature_width": 61,
+    "input_width": 149,
+    "history_width": 147,
+    "history_windows": 15,
+    "exact_features_masks_edges_and_tensors": true,
+    "max_logit_error": 0.0,
+    "flag_checks": 3032,
+    "restart_at_window": 41,
+    "training_invocations": 0,
+    "accuracy_metrics_computed": false
   },
   "live_acceptance": {
     "schema_version": "automud.gnn-live-acceptance.v1",
     "status": "passed",
     "purpose": "ML software/extraction/API handoff; not classifier accuracy, Ryu or physical-device validation",
-    "captured_packets_sha256": "a73ab369eb94e18c1a9b14f48c5942c94c8bcb3b198f65b6d3eaa7fb9eb9a8c3",
+    "captured_packets_sha256": "c31b64341e8a5d39e746780a258c12cae09d3e1c7b9d9497edbd0f8f4b001ed2",
     "zeek_policy_sha256": "a90b7e1f6fd38e57a026e0e614cf6ac9dc752f027d126f3a4a66a03d83d180af",
     "capture_drops": 0,
     "telemetry_rows": 41,
@@ -52,18 +82,18 @@
     "flag_checks": 12,
     "max_score_error": 0.0,
     "http_seconds": [
-      0.0655112710000001,
-      0.04457118100000024
+      0.05028862000000345,
+      0.09289318700001559
     ],
-    "model_load_seconds": 0.2633827320000002,
+    "model_load_seconds": 0.19707401499999833,
     "durable_restart": true,
     "idempotency": true,
     "stage_activate_rollback": true,
     "model": {
-      "bundle_id": "1ff53083bd1b1cd23ec4c5240a8e88e14c120522eef8666c8f18d4fc727e1f05",
-      "bundle_version": "selected-new2-20261011",
-      "a_checkpoint": "4a233d667d8ec81d21891845c95a27948e5283f105a2ecce93b64d88245e7698",
-      "b_checkpoint": "a996d926c634d4d4f3acc326ab748c962ea9ced561472f6c0d2717a9d4c00f7d"
+      "bundle_id": "264776b432fcebf20db8234e6265f4de099d72ae042721e2ac3b28bb41feeb6d",
+      "bundle_version": "supervised-C-20261016",
+      "a_checkpoint": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7",
+      "b_checkpoint": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7"
     },
     "training_invocations": 0,
     "accuracy_metrics_computed": false
@@ -74,38 +104,58 @@
     "windows": 60,
     "devices": 12,
     "records": 720,
-    "model_load_seconds": 0.20155464800000011,
+    "model_load_seconds": 0.20518365999999943,
     "http_seconds": {
-      "p50": 0.06377993300000284,
-      "p95": 0.07236487599999819,
-      "max": 0.15631818300000333
+      "p50": 0.14072028900000078,
+      "p95": 0.18916680099999894,
+      "max": 0.2873246700000003
     },
     "keeps_up_with_60_second_cadence": true,
-    "state_bytes": 194761,
-    "process_peak_rss_mb": 756.03515625,
+    "state_bytes": 601142,
+    "process_peak_rss_mb": 747.70703125,
     "model": {
-      "bundle_id": "1ff53083bd1b1cd23ec4c5240a8e88e14c120522eef8666c8f18d4fc727e1f05",
-      "bundle_version": "selected-new2-20261011",
-      "a_checkpoint": "4a233d667d8ec81d21891845c95a27948e5283f105a2ecce93b64d88245e7698",
-      "b_checkpoint": "a996d926c634d4d4f3acc326ab748c962ea9ced561472f6c0d2717a9d4c00f7d"
+      "bundle_id": "264776b432fcebf20db8234e6265f4de099d72ae042721e2ac3b28bb41feeb6d",
+      "bundle_version": "supervised-C-20261016",
+      "a_checkpoint": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7",
+      "b_checkpoint": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7"
     },
     "training_invocations": 0,
     "accuracy_metrics_computed": false
   },
+  "documentation_smoke": {
+    "status": "passed",
+    "checks": [
+      "foreground serve",
+      "ready/model routes",
+      "sample-window CLI",
+      "submit-window CLI",
+      "cached replay",
+      "engineering evidence"
+    ],
+    "devices": 2,
+    "training_invocations": 0
+  },
+  "training_invocations": 0,
+  "accuracy_metrics_computed": false,
   "reproduction": {
-    "fixture": "python -m ml check-fixture --bundle models/gnn --fixture fixtures/gnn --device cpu",
-    "capture": "sudo /usr/bin/python3 -m network.testbed.gnn_acceptance --out tmp/gnn-live-lab/capture",
-    "acceptance": "python -m ml validate-live-capture --capture-dir tmp/gnn-live-lab/capture --out tmp/gnn-live-lab/validation --zeek /opt/zeek/bin/zeek",
-    "capacity": "python -m ml benchmark-live --out tmp/gnn-live-lab/throughput --windows 60 --devices 12"
+    "fixture": "python -m ml check-fixture --device cpu",
+    "capture": "sudo /usr/bin/python3 -m network.testbed.gnn_acceptance --out tmp/gnn-supervised-lab/capture",
+    "acceptance": "python -m ml validate-live-capture --capture-dir tmp/gnn-supervised-lab/capture --out tmp/gnn-supervised-lab/validation --zeek /opt/zeek/bin/zeek",
+    "capacity": "python -m ml benchmark-live --out tmp/gnn-supervised-lab/throughput --windows 60 --devices 12"
   },
   "source_files_sha256": {
-    "configs/gnn/live/automud-gnn.service": "1866b90172eba04ce7438e0c14ba165ed60beca22e3b964a6ad3d34925681cac",
+    ".gitattributes": "24ceab8d2f18ac7708fa94258494e9b50955018dfc39b43d2b1224ff79b6ee1b",
+    ".gitignore": "0a74be9035308f0fc93facf278b7a316ad22efb974af69e6ecd629edfdb989e1",
+    "configs/gnn/live/automud-gnn.service": "fb064ecaf13bef2d3f83cc04d4e0a94e4a3a1bdc947c8dafe9b483c256c1ed2f",
     "configs/gnn/live/evidence.schema.json": "a4ba0851ef01c5d85e04b69c8caded51bf658fa3b9a5a520bc071c5dd63f59ba",
-    "configs/gnn/live/runtime-qualification.json": "ba9f1d095dde064d8c90f4305cc6d9063085d53903adb76f0968184ade7abad1",
-    "configs/gnn/live/service.json": "661fe55eb8215a3f3133795dd3ea15496bd556b96a0bb24399487d1f3955d399",
+    "configs/gnn/live/inventory.example.json": "efe5a48aa701e8221b8ed3b8d8d4d37c7c924cd486f24ec7b4beb6661799624a",
+    "configs/gnn/live/runtime-qualification.json": "fbcb728788c9dc86752cacb54a308069c7c781130d2a869c4108188532ebd48b",
+    "configs/gnn/live/service.json": "a7e6557b6ffa73c88b06940a9930763986b86edcf74434a7e3d0bf1d1401efc4",
     "configs/gnn/live/window.schema.json": "736e5b5a674bfe968d5426f4de4ae4809b7935a5f5824eac4f7ef68e61afa64b",
+    "configs/gnn/schemas/supervised/features.json": "c9f75e5b839a5383423765e9aea5c8e76af37b908f6e60361a932a774a5e297e",
+    "fixtures/gnn/manifest.json": "109b02d52c635f88b3423ef9b6983b588f01632b079632dc5c4ce34fd9d92129",
     "ml/__init__.py": "48e371cc976633b5e1a366f60e575ab2a75a875bd00632f2eb4e212a6537a9a0",
-    "ml/__main__.py": "9e741bfca7cf9f114bd77a1290edee3b26457d735dc66897e09debf54aff9923",
+    "ml/__main__.py": "57f320becd8966020a8ef26c1d24f711f3a8d76bd6a0511e856c883277a783ad",
     "ml/ab_targets/__init__.py": "71e43cf048b464bd520dfe84fa20162887d4bedc91e85e394d3f58cb994a06c1",
     "ml/ab_targets/calibration.py": "daf3a2aa43b5ceedc8466e9f002c0a92cc336b3dc9ae2dc35ceac31b7d8b5dac",
     "ml/ab_targets/context_scoring.py": "3a9f9269a2424dd2a3e7e848de88693f1aae00b1aab712a689144b5944560de8",
@@ -125,55 +175,36 @@
     "ml/graph/__init__.py": "a28cac0e1bdcf8e8cb108802a8287c004f3878bdab0c4f972a3ad86b5b9ddf3b",
     "ml/graph/build.py": "a7844720ffd582e41fa331454fc715740c058c0dc5de7a069f0351f1d5c6ab5d",
     "ml/graph/context.py": "a5490317c9ad9af4997a7cf1e273a38c19efb97f789d303508a2a64961ddebca",
-    "ml/inference.py": "68d97f59dc5f4e0601102a9274e2f6892f897ed0b2865535cfc0cf80887ad35b",
+    "ml/inference.py": "b1c517b8d823163eba0bfbe8d17501f74dc87be5fd6361c3d6ea0e782809b2c2",
     "ml/live/__init__.py": "be741f04dcc7ee8fe8b693f73dcb95c7f382cfb8455d8d730df2538df77f9ec7",
-    "ml/live/acceptance.py": "808a7b22994421cbb3d2cddf94c5b5dbebeb95ebbfe33cdd27f76a9d6e5d2691",
+    "ml/live/acceptance.py": "a7a0f23e91ef6c21cc50e35b44e2255f07a49439ffa55f4101b3fdc2dc7aeaae",
     "ml/live/benchmark.py": "62bc62eb6c2b9b2e5c9b0bd23fa2b9c59e1915df1effa9b86b077ea22db91fa7",
-    "ml/live/bundles.py": "326bf8928cd5e058d7dccdca466d3bc2c4787d1553fd6d98014a7b00a6aca917",
+    "ml/live/bundles.py": "3c9b6b3d17afa0e5129392d749add76d4b9c7c7b1b37291e5a07ff25b6493f68",
     "ml/live/client.py": "d260120c890467408747c567b90cf490c70199e8d1aba647e0d94d74350078d8",
     "ml/live/contracts.py": "fe81e24b007c5d3f5b36cac9ba51d6c64f1159da78ea6602708f7cf25d3caf74",
-    "ml/live/engine.py": "c60b8200efd9b583badc4459613b51b6b9eb1ac722fba43e54114eb02e84ec1a",
+    "ml/live/engine.py": "d158b45261355320176a25f44c2aa148fda31025e04b3e0bb4ebc1af1a5c2add",
     "ml/live/examples.py": "9ab820acde3fb6d3e9bd5c830caec70f8c806b972073275547cd584fa5e698e8",
-    "ml/live/graphs.py": "9718a86334cabfc42412561ce7f64e939d2f238603ebac38e1f9587c371d1f84",
+    "ml/live/graphs.py": "bdbcacd4d15e928427c3d6ef0024316985dcfcb70c67b4ec4c7436c3c2084ca3",
     "ml/live/server.py": "3f8b4f08c3fe4dec6a60f4a20f7f57dceac7e29f127f2c1dd3847a680353e81e",
     "ml/model/__init__.py": "a589db999009f8cbb530a740ab96b0a5c1eddad232251b6c13bd66267751ceec",
     "ml/model/graphsage.py": "bdd86e807fff92bdd17d4ef720a5f69b8766731f65c8cf0497db808f3b879457",
     "ml/schema.py": "b460812d1a1fd05e1b0bd0f8d08d2e141bdb9050c2132b86b5c7a5f07bbb10f1",
-    "ml/tests/test_live_gnn.py": "58e18441a93374d5d97470f6174e7c42cc7291c08de90e69cfbb275a572f8efe",
-    "ml/tests/test_selected_gnn.py": "ced354755372a126a8114f98a52160cac1c2161cf7cc48b8a41af44ac76f2ba8",
-    "ml/verify_fixture.py": "8bda962c36e6a1a1924b5457e9784ef4f972b82c0d9b94b8f99c7c05f2b83fac",
+    "ml/supervised/__init__.py": "b7dc7f4458f170dea6679f0d419ecdf84f1d069fab73958fe9536eb65937b6a8",
+    "ml/supervised/graphs.py": "e43c5633b0221f671ffa3441e38a7250da2fb43ff3a81eea3f97fee9aacd3165",
+    "ml/supervised/model.py": "d78a72b8deac70bc5ac1f821290fb1180152422ffbeb59fab942a970c7edba17",
+    "ml/supervised/predict.py": "8cf5cf3c9d7c530ab986ab68d110fd3e1502aa34bc541e6ca2615e1443477229",
+    "ml/supervised/profile_features.py": "5f85ad4efd87b329f1204aaeca6903ea8e897c9f463a832e77d8b2c9e25dd092",
+    "ml/supervised/schema.py": "2cab8b5eebd99ce2051afa1ee51775cfdeb640c9176d44cd1c062dca7eeef4b1",
+    "ml/supervised/tensors.py": "135b507d21dd25e63d456521724699f5db2e4ec435312c7c33928489bb894265",
+    "ml/tests/test_live_gnn.py": "26bdddddca78067e711e3a73fab6de8c39fcdcfa137bb103e2f755f4c68dfa7e",
+    "ml/tests/test_selected_gnn.py": "e043d8110a2e01468a89eb19277f9d9f6d32f5c014573f3fc06402537fb7619d",
+    "ml/tests/test_supervised_live.py": "f54653b658b19076e43b51df143cc973ae4b68679d51c8776dc9995a17c0dd31",
+    "ml/verify_fixture.py": "80ab4c438ffae261c87a663bb80bd3e944909005bd0df1057db294036ffb2945",
+    "models/gnn/manifest.json": "af8c4b4abf38627a4803ff917437cc71751d4e60bc69d531230bee9a79a8e671",
     "network/testbed/gnn_acceptance.py": "bf23191d7a17d3829f79212fe4aaf1b3dd25c86c6ec1f4fb50b35a0bc8753c64",
-    "network/tests/test_collection.py": "9b744317da2d131d42eeb66ffed6ced9ce624d465ab3b7ee5e7d6a6cbdb4e484",
-    "network/tests/test_socket_traffic.py": "e45a1668633585e36532620ba92e4cabb910f747bec35dc43821a2fe757c1768",
+    "network/testbed/topology-supervised.json": "2e9bc080586a215e0c7c463316ecc78f44ef56dce49a473008377c9d8f79ec0e",
     "network/zeek/automud-window.zeek": "a90b7e1f6fd38e57a026e0e614cf6ac9dc752f027d126f3a4a66a03d83d180af",
     "requirements-ml-runtime.lock.txt": "e3ed39e720c3d11f99ef13fb07f31b7bbe7ebff4727ae1afe50ea753f204f6d0"
   },
-  "training_invocations": 0,
-  "accuracy_metrics_computed": false,
-  "reference_fixture": {
-    "status": "passed",
-    "graphs": 20,
-    "records": 394,
-    "flag_checks": 788,
-    "max_absolute_score_error": {
-      "a": 7.883103162242833e-06,
-      "b": 1.52587890625e-05
-    },
-    "score_absolute_tolerance": 0.0001,
-    "training_invocations": 0,
-    "new_evaluation_data": false
-  },
-  "documentation_smoke": {
-    "status": "passed",
-    "checks": [
-      "foreground serve",
-      "ready/model routes",
-      "sample-window CLI",
-      "submit-window CLI",
-      "cached replay"
-    ],
-    "devices": 2,
-    "training_invocations": 0
-  },
-  "source_hash_note": "Hashes describe local bytes of the qualified software snapshot; Git text line-ending normalization can change source hashes. Model/fixture manifest hashes are enforced and preserved by scoped .gitattributes."
+  "source_hash_note": "Hashes describe qualified local bytes; Git may normalize source text endings. Model/fixture manifest bytes are protected by scoped .gitattributes. After qualification, three source files had EOF blank lines removed (identical parsed Python AST), and scoped Git whitespace attributes were added for unchanged CRLF model JSON."
 }

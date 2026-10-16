@@ -75,7 +75,7 @@ def test_incremental_features_equal_offline_over_hour_and_resume():
 
 
 def test_live_clock_matches_native_encoder_with_identical_utc(engine):
-    graph, _ = StreamingGraph().build(example_window(START))
+    graph, _ = StreamingGraph().build(example_window(START),profile=engine.active.profile)
     captured = copy.deepcopy(graph)
     captured.pop('observation_clock')
     captured['source_interval_id'] = '|'.join(f"{n['device_id']}:captured:{START}:{START+60}" for n in graph['nodes'] if n['device_type'] != 'external_service')
@@ -165,7 +165,7 @@ def test_failed_persistence_does_not_accept_window(engine, monkeypatch):
 
 def make_candidate(tmp_path):
     out = tmp_path / 'candidate'
-    export_bundle(ROOT / 'models/gnn/selected-a.pt', ROOT / 'models/gnn/frozen-b.pt', out, 'candidate-test')
+    export_bundle(ROOT / 'models/gnn', None, out, 'candidate-test')
     return out
 
 
@@ -257,11 +257,12 @@ def test_output_schema_and_unknown_device_fallback(engine):
     Draft202012Validator(schema).validate(output)
     assert output['observation_kind'] == 'engineering' and output['diagnostic']
     scope = next(r for r in output['devices'] if r['device_id'] == 'demo-camera')['calibration_scope']['a']
-    assert scope['scope'] == 'type:camera' and not scope['fallback']
+    assert scope['scope'] == 'frozen_selection_and_clean_calibration' and not scope['fallback']
+    assert not next(r for r in output['devices'] if r['device_id']=='demo-camera')['profile_support']['known_device']
     unknown = example_window(START + 60)
     unknown['inventory'][0]['device_type'] = 'unknown'
     output, _ = engine.submit(unknown)
-    assert next(r for r in output['devices'] if r['device_id'] == 'demo-camera')['calibration_scope']['a']['fallback']
+    assert next(r for r in output['devices'] if r['device_id'] == 'demo-camera')['calibration_scope']['a']['value']==scope['value']
 
 
 def test_two_services_cannot_share_durable_state(config, tmp_path):
@@ -288,7 +289,7 @@ def test_active_model_and_history_survive_restart_after_swap(config, tmp_path):
         output, _ = second.submit(example_window(START + 60))
         assert all(r['history']['prior_windows'] == 1 for r in output['devices'])
         second.rollback()
-        assert second.model_info()['bundle_version'] == 'selected-new2-20261011'
+        assert second.model_info()['bundle_version'] == 'supervised-C-20261016'
     finally:
         second.close()
 
@@ -317,12 +318,18 @@ def test_manifest_modified_after_loading_is_rejected(engine, tmp_path):
 
 def test_nonfinite_candidate_weights_rejected_without_activation(engine, tmp_path):
     checkpoint = tmp_path / 'bad.pt'
-    artifact = torch.load(ROOT / 'models/gnn/selected-a.pt', map_location='cpu', weights_only=True)
-    next(iter(artifact['model_state'].values())).fill_(float('nan'))
-    torch.save(artifact, checkpoint)
+    path=make_candidate(tmp_path)
+    artifact = torch.load(path/'detector.pt', map_location='cpu', weights_only=True)
+    next(iter(artifact['state_dict'].values())).fill_(float('nan'))
+    torch.save(artifact,path/'detector.pt')
+    from ml.schema import file_hash
+    manifest=json.loads((path/'manifest.json').read_text())
+    entry=next(e for e in manifest['files'] if e['path']=='detector.pt')
+    entry.update(bytes=(path/'detector.pt').stat().st_size,sha256=file_hash(path/'detector.pt'))
+    (path/'manifest.json').write_text(json.dumps(manifest))
     original = engine.model_info()
-    with pytest.raises(ValueError, match='Nonfinite model weights'):
-        export_bundle(checkpoint, ROOT / 'models/gnn/frozen-b.pt', tmp_path / 'bad-bundle', 'bad-test')
+    with pytest.raises(ValueError, match='Nonfinite supervised weights'):
+        engine.stage(str(path))
     assert engine.model_info() == original
 
 

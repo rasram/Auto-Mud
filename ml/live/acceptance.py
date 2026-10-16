@@ -48,6 +48,9 @@ def validate_capture(capture_dir, out, zeek='/opt/zeek/bin/zeek'):
     os.environ[config['admin_token_env']] = token
     began = time.perf_counter()
     engine = LiveEngine(config)
+    if engine.active.adapter=='supervised-direct.v1':
+        from ml.supervised.graphs import build_graphs
+        offline=list(build_graphs(rows,manifest,engine.active.profile))
     load_seconds = time.perf_counter() - began
     server = Server(('127.0.0.1', 0), engine)
     worker = threading.Thread(target=server.serve_forever, daemon=True)
@@ -63,7 +66,7 @@ def validate_capture(capture_dir, out, zeek='/opt/zeek/bin/zeek'):
         require(client.health()['ready'], 'HTTP service is not ready')
         for reference in offline:
             start = reference['window_start']
-            window = dict(schema_version='automud.live-window.v1', observation_kind='live', run_id=manifest['run_id'], session_id=manifest['session_id'],
+            window = dict(schema_version='automud.live-window.v1', observation_kind='engineering', run_id=manifest['run_id'], session_id=manifest['session_id'],
                           sensor_id='live-zeek-1', inventory_version='capture-inventory-1', window_start=start, window_end=start+60,
                           watermark=start+60, inventory=metadata['inventory'],
                           health=dict(complete=start >= metadata['window_start'], sensor_healthy=True, clock_synchronized=True,
@@ -92,7 +95,7 @@ def validate_capture(capture_dir, out, zeek='/opt/zeek/bin/zeek'):
                         require(error <= 1e-4, 'Live API/offline score mismatch')
         require(client.submit(window) == response, 'HTTP retry is not idempotent')
         baseline = client.call('/v1/model')
-        candidate = export_bundle(root / 'models/gnn/selected-a.pt', root / 'models/gnn/frozen-b.pt',
+        candidate = export_bundle(root / 'models/gnn', None,
                                   out / 'candidate', 'acceptance-same-weights')
         staged = admin.call('/v1/models/stage', {'bundle': candidate['path']})
         admin.call('/v1/models/activate', {'bundle_id': staged['model']['bundle_id']})
