@@ -1,38 +1,40 @@
 {
   "A": {
-    "value": 1.1537269353866577,
+    "value": 0.7624336779117584,
     "feasible": true,
     "interval": [
-      0.6900049448013306,
-      1.6174489259719849
+      0.6278438568115234,
+      1.1662031412124634
     ],
     "selection_population": 19173,
     "selection_positive_opportunities": 4999,
     "selection_scored": 19173,
     "selection_true_positive": 4999,
-    "selection_false_positive": 7,
-    "selection_precision": 0.9986016779864163,
+    "selection_false_positive": 6,
+    "selection_precision": 0.9988011988011988,
     "selection_population_recall": 1.0,
-    "selection_population_f1": 0.9993003498250874,
-    "selection_fpr": 0.0004938620008466206,
+    "selection_population_f1": 0.9994002399040384,
+    "selection_fpr": 0.0004233102864399605,
     "selection_coverage": 1.0,
     "clean_support": 23015,
-    "clean_false_positive": 3,
-    "clean_fpr": 0.0001303497718878992,
+    "clean_false_positive": 0,
+    "clean_fpr": 0.0,
     "clean_fpr_budget": 0.0035268802031889405,
     "selection_prevalence": 0.2607312366348511,
-    "clean_unique_scores": 22993,
+    "clean_unique_scores": 22969,
     "clean_ties_allowed": true,
     "threshold_source": "labeled selection + designated clean calibration only",
-    "rule": "strict score > midpoint of selected constant-decision interval",
-    "failure": null
+    "rule": "strict score > lower quartile of selected constant-decision interval",
+    "failure": null,
+    "interval_fraction": 0.25,
+    "midpoint_value": 0.8970234990119934
   },
   "B": {
-    "value": -0.2367836833000183,
+    "value": 4.921021908521652,
     "feasible": true,
     "interval": [
-      -1.7166146039962769,
-      1.2430472373962402
+      -1.2226098775863647,
+      23.351917266845703
     ],
     "selection_population": 19173,
     "selection_positive_opportunities": 420,
@@ -49,10 +51,12 @@
     "clean_fpr": 0.0,
     "clean_fpr_budget": 0.00022396416573348282,
     "selection_prevalence": 0.02190580503833516,
-    "clean_unique_scores": 22785,
+    "clean_unique_scores": 22769,
     "clean_ties_allowed": true,
     "threshold_source": "labeled selection + designated clean calibration only",
-    "rule": "strict score > midpoint of selected constant-decision interval",
-    "failure": null
+    "rule": "strict score > lower quartile of selected constant-decision interval",
+    "failure": null,
+    "interval_fraction": 0.25,
+    "midpoint_value": 11.06465369462967
   }
 }

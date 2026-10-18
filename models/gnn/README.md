@@ -1,31 +1,35 @@
-# Supervised C deployment bundle
+# Original E1+Q deployment bundle
 
-Version: `supervised-C-20261016`; manifest: `automud.gnn-bundle.v3`;
-adapter: `supervised-direct.v1`. This is original C, seed 42, selected epoch 13,
-of the C/E2 supervised family. E2 independently reproduced its binary benchmark
-decisions; this release uses C's original bytes and C's own frozen cutoffs.
+Version: `supervised-E1Q-20261018`; manifest: `automud.gnn-bundle.v3`;
+adapter: `supervised-direct.v1`. Original E1, seed 42, selected epoch 5,
+with its already-frozen lower-quartile (Q) cutoffs. No retraining or cutoff fitting.
 
 | File | Purpose |
 |---|---|
-| `detector.pt` | Joint supervised A/B checkpoint, no learned neighbor messages |
-| `normalizer.json` | Frozen clean type/global feature statistics |
-| `flow-profiles.json` | Frozen earlier-clean relationship counts and volume baselines |
-| `thresholds.json` | C's frozen selection/clean-calibration cutoffs |
-| `feature-contract.json` | Ordered raw descriptors, transforms and history contract |
-| `results.json` | Consumed benchmark results and qualification limitations |
-| `manifest.json` | Sizes/hashes of the six inputs and adapter/external contracts |
+| `detector.pt` | Joint A/B checkpoint with directed learned incoming/outgoing messages and own-device GRU |
+| `normalizer.json` | Unchanged frozen clean type/global statistics |
+| `flow-profiles.json` | Unchanged frozen clean relationship/volume baselines |
+| `thresholds.json` | Original E1's frozen Q cutoffs and calibration metadata |
+| `feature-contract.json` | Unchanged ordered features, transforms and history contract |
+| `results.json` | Previously measured consumed-benchmark results and limitations |
+| `manifest.json` | Six exact file bindings and stable external/adapter contracts |
 
 Checkpoint SHA-256:
-`b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7`.
+`bf634ca9c98baf5a6507cf0882009c70630301adeb8b18d0a576751e42b5e5ad`.
 
-A flags behavioral/affected-device evidence above `1.1537269353866577`.
-B flags initiated-relationship evidence above `-0.2367836833000183`.
-These are strict raw-logit comparisons, not calibrated probabilities. Quiet/
-unavailable heads and B without an observed initiated relationship are null.
-Both provenance checkpoint fields identify this single joint checkpoint.
+Strict raw-logit cutoffs: A `0.7624336779117584`, B `4.921021908521652`.
+Scores are neither calibrated probabilities nor MUD permissions. Idle/unavailable
+heads and B without an observed initiated relationship remain null. Both
+provenance fields identify the same checkpoint; `learned_neighbor_messages=true`,
+`head_c_trained=false`. No T/teacher dependency is needed for inference.
 
-Never deploy the checkpoint without its matching frozen assets or edit hashes
-to bypass validation. The service does not refit profiles or thresholds.
-See [Linux setup](../../docs/gnn/LINUX_PIPELINE_SETUP_20261012.md) and
-[results](../../docs/gnn/MODEL_RESULTS.md). The old New 2 weights and screenshot
-are no longer active public model artifacts.
+The complete original C rollback is [models/gnn-c-20261016](../gnn-c-20261016/README.md),
+with its own checkpoint and original cutoffs. Do not mix release assets or
+overwrite directories referenced by a running service. Use the existing
+stage/activate/rollback procedure in [the API guide](../../docs/gnn/LIVE_GNN_API.md).
+
+This release changes the model and required loading adapter. The dataset,
+preprocessing, service configuration and remaining pipeline stay unchanged.
+Repository publication does not activate a teammate host. See
+[results](../../docs/gnn/MODEL_RESULTS.md) and
+[deployment checks](../../docs/gnn/DEPLOYMENT_VALIDATION.json).

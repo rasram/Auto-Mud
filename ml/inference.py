@@ -12,6 +12,23 @@ VERSION = 'automud.gnn-evidence.v1'
 A_SHA = '4a233d667d8ec81d21891845c95a27948e5283f105a2ecce93b64d88245e7698'
 B_SHA = 'a996d926c634d4d4f3acc326ab748c962ea9ced561472f6c0d2717a9d4c00f7d'
 
+# Production identities bind weights, architecture, assets and operating point.
+# Candidate inspection remains an explicit development capability; approved version
+# names must always satisfy their pins, even when inspected as candidates.
+SUPERVISED_RELEASES = {
+    'supervised-C-20261016': dict(
+        checkpoint='b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7',
+        use_graph=False, cutoffs=(1.1537269353866577, -0.2367836833000183)),
+    'supervised-E1Q-20261018': dict(
+        checkpoint='bf634ca9c98baf5a6507cf0882009c70630301adeb8b18d0a576751e42b5e5ad',
+        use_graph=True, cutoffs=(0.7624336779117584, 4.921021908521652)),
+}
+SUPERVISED_ASSETS = {
+    'normalizer.json': '30c5e6c193d86d17dc436625b8c9bffef22d23b6b78a4649596b274f2048e178',
+    'flow-profiles.json': '6fb6b60e80464a98b2e946b59102ffa01addccf89635d4f6451cdf078b4daad5',
+    'feature-contract.json': '6cde546183f9e89271f5d4b02477b7d5179374bca5122bded1e3abd68b7ff32f',
+}
+
 
 def equal_artifacts(left, right):
     if isinstance(left, torch.Tensor):
@@ -132,13 +149,20 @@ class GNNBundle:
         for stat in normalizer['stats'].values():
             require(len(stat['mean'])==len(stat['std'])==61 and all(math.isfinite(v) for v in stat['mean']) and
                 all(math.isfinite(v) and v>0 for v in stat['std']),'Invalid frozen normalizer')
-        if not allow_candidate:
-            require(self.inputs['detector.pt']=='b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7' and
-                self.inputs['normalizer.json']=='30c5e6c193d86d17dc436625b8c9bffef22d23b6b78a4649596b274f2048e178' and
-                self.inputs['flow-profiles.json']=='6fb6b60e80464a98b2e946b59102ffa01addccf89635d4f6451cdf078b4daad5' and
-                thresholds['A']['value']==1.1537269353866577 and thresholds['B']['value']==-0.2367836833000183,
-                'Selected C checkpoint/profile/normalizer/operating point differs')
+        release=SUPERVISED_RELEASES.get(manifest['bundle_version'])
+        require(release is not None or allow_candidate,'Unsupported or unapproved supervised release')
+        if release is not None:
+            require(self.inputs['detector.pt']==release['checkpoint'] and
+                all(self.inputs[name]==sha for name,sha in SUPERVISED_ASSETS.items()) and
+                tuple(thresholds[h]['value'] for h in ('A','B'))==release['cutoffs'],
+                'Approved supervised checkpoint/assets/operating point differs')
         self.predictor=SupervisedPredictor(self.root/'detector.pt',normalizer,self.profile,thresholds,device)
+        require(manifest.get('learning_regime')=='supervised_direct_detection' and
+            manifest.get('head_c_trained') is False and
+            manifest.get('learned_neighbor_messages') is self.predictor.model.use_graph,
+            'Supervised architecture metadata differs')
+        if release is not None:
+            require(self.predictor.model.use_graph is release['use_graph'],'Approved supervised architecture differs')
         self.bundle_id=digest(manifest);self.bundle_version=manifest['bundle_version'];self.verify_inputs()
 
     @torch.no_grad()

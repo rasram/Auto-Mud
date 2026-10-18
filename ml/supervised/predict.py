@@ -12,8 +12,8 @@ class Predictor:
     def __init__(self,checkpoint,normalizer,profile,thresholds,device='cpu'):
         self.device=torch.device(device)
         saved=torch.load(checkpoint,map_location='cpu',weights_only=True)
-        require(saved.get('use_graph') is False,'C/E2 adapter requires the no-learned-message architecture')
-        self.model=Detector(use_graph=False).to(self.device)
+        require(type(saved.get('use_graph')) is bool,'Supervised checkpoint requires an explicit boolean use_graph')
+        self.model=Detector(use_graph=saved['use_graph']).to(self.device)
         self.model.load_state_dict(saved['state_dict'],strict=True)
         self.model.eval().requires_grad_(False)
         require(all(bool(torch.isfinite(p).all()) for p in self.model.parameters()),'Nonfinite supervised weights')
@@ -52,4 +52,4 @@ class Predictor:
                 compromised_probability=None))
         return dict(schema_version=VERSION,model_id=self.model_id,run_id=graph['run_id'],window_start=graph['window_start'],
             devices=output,diagnostic=True,head_c_trained=False,
-            learning_regime='supervised_direct_detection',learned_neighbor_messages=False)
+            learning_regime='supervised_direct_detection',learned_neighbor_messages=self.model.use_graph)

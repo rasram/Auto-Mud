@@ -1,16 +1,16 @@
-# Consumed supervised installation reference
+# E1+Q installation reference
 
-Nine already-consumed C graphs (normal, cold lateral and continuous lateral),
-with exact causal prior graphs, expected outputs and a hash manifest.
-There are 108 household device/window records and 216 A/B flag checks.
-The original C CPU outputs reproduce with zero maximum absolute score error;
-the portability tolerance is `1e-4`.
+Nine previously consumed graphs, 108 household records and 216 flag checks.
+`graphs.jsonl` is byte-identical to the C installation input, including exact
+causal priors. Only expected model outputs and checkpoint bindings change.
+Expected logits come from saved original E1 benchmark predictions; flags use
+the already-frozen Q cutoffs. Nothing is fitted or added to the research dataset.
 
 ```bash
 python -m ml check-fixture --bundle models/gnn --fixture fixtures/gnn --device cpu
+python -m ml check-fixture --bundle models/gnn-c-20261016 --fixture fixtures/gnn-c-20261016 --device cpu
 ```
 
-This verifies model loading, frozen feature/tensor projection and saved outputs.
-It is not training data, new evaluation or a reproduction of aggregate metrics.
-No full dataset or private script is required. Do not tune on this fixture.
-Live operation uses observed UTC windows and its own state, not these graphs.
+This checks installation parity within `1e-4` CPU logit error, with exact flags,
+statuses and opportunities. It is not fresh accuracy evidence. C's original
+complete fixture remains in `fixtures/gnn-c-20261016` for rollback verification.

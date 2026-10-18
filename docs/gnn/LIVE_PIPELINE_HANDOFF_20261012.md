@@ -1,9 +1,10 @@
-# AutoMUD supervised C/E2 live pipeline handoff
+# AutoMUD supervised E1+Q live pipeline handoff
 
-Updated 16 October 2026. The shared pipeline now uses **supervised C, the E2
-family**, in `models/gnn/` (version `supervised-C-20261016`). The deployed
-checkpoint is original C, unchanged; E2 is its repeat, not a second live model.
-This replaces New 2's self-supervised A and separate frozen B.
+Updated 18 October 2026. The repository model is **original E1+Q**, seed 42,
+selected epoch 5, in `models/gnn/` (version `supervised-E1Q-20261018`). Only
+the model and required loading adapter change from C; the remaining pipeline,
+service configuration, frozen preprocessing and numbered owner steps stay the same.
+An existing host requires a coordinated model cutover using the lifecycle API.
 
 The ML service, supervised feature/history adapter, frozen assets, installation
 fixture and software acceptance are supplied. Teammates complete the sensor
@@ -20,7 +21,7 @@ Mininet -> controller-managed OVS -> dedicated mirror -> Zeek + interval finaliz
                                                                |
                                 +------------------------------+----------+
                                 |                                         |
-                 supplied supervised C service                       MUD engine
+                 supplied E1+Q service                               MUD engine
                  features/history -> joint A/B                    permission evidence
                                 +-------------------+---------------------+
                                                     |
@@ -31,7 +32,7 @@ Mininet -> controller-managed OVS -> dedicated mirror -> Zeek + interval finaliz
                                         OVS rule -> measured traffic effect
 ```
 
-Only the C branch is a supervised detector. The MUD branch evaluates permissions
+Only the E1+Q branch is a supervised detector. The MUD branch evaluates permissions
 independently. The Decision Engine owns actions. Neo4j is optional event storage.
 
 | ML deliverable | Supplied implementation |
@@ -43,8 +44,8 @@ independently. The Decision Engine owns actions. Neo4j is optional event storage
 | Model lifecycle | Complete supervised bundle export, validation/probe, serialized activation, profile-aware history resets and targeted rollback |
 | Qualification | Consumed reference reproduction, regression, independent archived feature/tensor parity, Mininet/Zeek/API acceptance and CPU capacity report |
 
-The model uses graph-derived counts and context, **without learned neighbor
-messages**. A reports behavioral/affected-device evidence; B reports initiated
+The model uses graph-derived counts/context and **directed learned neighbor
+messages**, with causal own-device history. A reports behavioral/affected-device evidence; B reports initiated
 relationship evidence. Both are raw logits, not probabilities. Both checkpoint
 hash fields refer to the same joint model. There is no trained Head C,
 compromise probability, attack-family prediction or automatic enforcement.
@@ -58,7 +59,7 @@ python -m pytest ml/tests network/tests -q
 ```
 
 Expected: six verified files; fixture 9 graphs / 108 household records / 216
-matching flags; 52 passing tests. Reference CPU logits reproduced exactly.
+matching flags; 74 passing Linux tests. Reference CPU logits reproduced exactly.
 An independent 80-minute comparison also matched archived batch features,
 masks, edges, tensors and logits exactly, including a state save/restore.
 [Deployment validation](DEPLOYMENT_VALIDATION.json) records the new release's
@@ -66,10 +67,10 @@ capture and capacity results. These checks establish software compatibility;
 fresh native-host acceptance and full MUD/Ryu enforcement remain team work.
 
 The release's 12-device/60-window CPU capacity probe measured approximately
-141 ms median, 189 ms p95 and 287 ms maximum HTTP processing including durable
-state saves, with about 748 MiB peak process RSS. Real isolated capture
-acceptance observed all 16 controlled closed-port rows with zero drops and
-zero live/offline score error. These are engineering measurements, not attack
+91 ms median, 111 ms p95 and 227 ms maximum HTTP processing including durable
+state saves, with about 753 MiB peak process RSS. Replaying the existing isolated
+engineering capture observed all 16 controlled closed-port rows with recorded
+zero drops and zero live/offline score error. No new capture was acquired. These are engineering measurements, not attack
 accuracy or packet-to-enforcement latency.
 
 ## Remaining work: follow these steps in order
@@ -167,7 +168,7 @@ against overwritten files. Start the service as an ordinary user and confirm
 `/readyz`, `/v1/model` and the consumed fixture.
 
 Use returned flags with their saved threshold provenance: strict A score
-`> 1.1537269353866577`, B score `> -0.2367836833000183`.
+`> 0.7624336779117584`, B score `> 4.921021908521652`.
 Negative scores are valid. B is null without an observed initiated relationship;
 A can score a recipient. Preserve per-head reasons, `inactive/unavailable`,
 `profile_support`, history/warm-up, sensor health, model version and hashes.
@@ -179,7 +180,7 @@ raw causal history itself.
 
 **Complete when:** integration accepts both flags and nulls correctly, detects
 stale/unavailable evidence, excludes engineering examples from enforcement and
-records the active C bundle identity. No residual-score/probability conversion
+records the active E1+Q bundle identity. No residual-score/probability conversion
 remains in dashboards or decision rules.
 
 ### Step 6. Finish the independent MUD evidence branch

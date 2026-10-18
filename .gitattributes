@@ -3,4 +3,8 @@
 /models/gnn/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 /fixtures/gnn/*.jsonl -text
 /fixtures/gnn/manifest.json -text
+/models/gnn-c-20261016/*.pt -text
+/models/gnn-c-20261016/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+/fixtures/gnn-c-20261016/*.jsonl -text
+/fixtures/gnn-c-20261016/manifest.json -text
 /configs/gnn/schemas/supervised/*.json -text

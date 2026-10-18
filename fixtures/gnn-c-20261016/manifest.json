@@ -1,0 +1,22 @@
+{
+  "schema_version": "automud.gnn-fixture.v2",
+  "already_evaluated": true,
+  "a_checkpoint": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7",
+  "b_checkpoint": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7",
+  "graphs": 9,
+  "records": 108,
+  "score_absolute_tolerance": 0.0001,
+  "scope": "Consumed normal/cold lateral/continuous lateral cases with their exact causal prior inputs; installation parity only",
+  "files": [
+    {
+      "path": "graphs.jsonl",
+      "bytes": 1955125,
+      "sha256": "148468d0980d070a7f7a27e25aeeca8cb5865fca52b5fd3aa8a8af37b1d9e8a5"
+    },
+    {
+      "path": "expected.jsonl",
+      "bytes": 26194,
+      "sha256": "b753247d40342955d76a75fb8bc478fd0bf755f728e47f37e68f0065885ce954"
+    }
+  ]
+}

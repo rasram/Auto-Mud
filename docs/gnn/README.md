@@ -1,20 +1,22 @@
-# Supervised C/E2 teammate package
+# Supervised E1+Q teammate package
 
-The active release is **supervised C (E2 family)**, `supervised-C-20261016`.
-It replaces self-supervised New 2 with a joint A/B detector, frozen clean
-profiles, normalization and thresholds. The external live input/evidence
-contracts stay unchanged. No training occurs in the service.
+The current repository release is **original E1+Q**, `supervised-E1Q-20261018`:
+seed 42, selected epoch 5, with its frozen lower-quartile cutoffs. It replaces C
+as the default model. The feature projection, frozen profile/normalizer, service
+configuration, external contracts and remaining pipeline are unchanged.
 
-1. [Linux setup](LINUX_PIPELINE_SETUP_20261012.md): install, migrate old state, check the fixture, start C and reproduce capture acceptance.
-2. [Pipeline handoff](LIVE_PIPELINE_HANDOFF_20261012.md): supplied ML work and 12 ordered teammate steps to complete the pipeline.
-3. [Live API](LIVE_GNN_API.md): input/output meaning, retries, health, complete bundle replacement and rollback.
-4. [Results and limitations](MODEL_RESULTS.md): consumed C benchmark results, including the later corpus's remaining B subgroup failures.
-5. [Deployment validation](DEPLOYMENT_VALIDATION.json): supervised software, capture parity and capacity evidence.
-6. [Schema](SCHEMA.md): external telemetry and the internal supervised adapter.
-7. [Model evolution](MODEL_EVOLUTION_20261013.md): why the current joint supervised model differs from the previous package.
+1. [Linux setup](LINUX_PIPELINE_SETUP_20261012.md): install, check the fixture and use the existing model lifecycle for a C-to-E1 upgrade.
+2. [Pipeline handoff](LIVE_PIPELINE_HANDOFF_20261012.md): supplied ML work and the same 12 ordered teammate steps.
+3. [Live API](LIVE_GNN_API.md): scores, retries, provenance, staging and rollback.
+4. [Results](MODEL_RESULTS.md): saved benchmark results, A recall tradeoff and limitations.
+5. [Deployment validation](DEPLOYMENT_VALIDATION.json): fresh E1 software, capture-replay and capacity checks.
+6. [Schema](SCHEMA.md): stable telemetry and historical feature-hash compatibility.
+7. [Model evolution](MODEL_EVOLUTION_20261013.md): E1+Q and retained C rollback.
 
-C uses graph-derived context and own-device history without learned neighbor
-messages. A/B logits are not probabilities or MUD permissions. The independent
-MUD branch, finalizer, Decision Engine and Ryu action app remain integration work.
-The installation fixture and small frozen bundle are shareable; full datasets
-and development history remain private.
+E1 uses directed learned messages and own-device history. A/B logits are neither
+probabilities nor MUD permissions; Head C remains untrained. The independent MUD
+branch, finalizer, Decision Engine and Ryu work retain their existing ownership.
+No teammate host was activated by publishing this package.
+
+The small bundle/fixture are portable without private files. Original C remains
+at `models/gnn-c-20261016` with its own fixture at `fixtures/gnn-c-20261016`.

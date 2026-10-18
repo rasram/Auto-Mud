@@ -1,18 +1,18 @@
 {
   "schema_version": "automud.gnn-bundle.v3",
-  "bundle_version": "supervised-C-20261016",
+  "bundle_version": "supervised-E1Q-20261018",
   "adapter": "supervised-direct.v1",
   "graph_schema_hash": "cd2f196169720015a6cf93c590ce1fe934fda0e134fda21c5a3baa2cdba3fd2e",
   "input_schema": "automud.live-window.v1",
   "output_schema": "automud.gnn-evidence.v1",
   "learning_regime": "supervised_direct_detection",
-  "learned_neighbor_messages": false,
+  "learned_neighbor_messages": true,
   "head_c_trained": false,
   "files": [
     {
       "path": "detector.pt",
-      "bytes": 277241,
-      "sha256": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7"
+      "bytes": 279349,
+      "sha256": "bf634ca9c98baf5a6507cf0882009c70630301adeb8b18d0a576751e42b5e5ad"
     },
     {
       "path": "normalizer.json",
@@ -26,8 +26,8 @@
     },
     {
       "path": "thresholds.json",
-      "bytes": 1916,
-      "sha256": "68baa4c7fa91c34017827c0740101f2cbbf6853c66be3cbaa56728e3ecaa0b32"
+      "bytes": 2053,
+      "sha256": "c290d98aecfbd7b8f16a368e1183fa1b6cfd857b31792d555c5081ec5628f2db"
     },
     {
       "path": "feature-contract.json",
@@ -36,8 +36,8 @@
     },
     {
       "path": "results.json",
-      "bytes": 39574,
-      "sha256": "a1d658f504596262d2d5e01d9a67880ad17e94503cb6ed8ff9e86f972a3e07d0"
+      "bytes": 43105,
+      "sha256": "265b29fd853ab030f65634fa137f26cd1192bbdde8203cb03882ac5cfb9fac7a"
     }
   ]
 }

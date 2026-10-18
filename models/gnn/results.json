@@ -1,10 +1,11 @@
 {
-  "model": "Supervised C (E2 family)",
+  "model": "Original supervised E1+Q",
   "learning_regime": "supervised_direct_detection",
-  "learned_neighbor_messages": false,
-  "heads": "Joint A behavior/affected-device and B initiator relationship logits",
-  "selected_checkpoint": "Original C, seed 42, selected epoch 13; E2 reproduced its binary benchmark decisions",
-  "checkpoint_sha256": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7",
+  "learned_neighbor_messages": true,
+  "head_c_trained": false,
+  "heads": "Joint A behavior/affected-device and B initiator relationship raw logits",
+  "selected_checkpoint": "Original E1, seed 42, selected epoch 5; original frozen lower-quartile cutoffs",
+  "checkpoint_sha256": "bf634ca9c98baf5a6507cf0882009c70630301adeb8b18d0a576751e42b5e5ad",
   "corpora": {
     "earlier": {
       "primary": {
@@ -13,30 +14,30 @@
           "support": 107241,
           "unscored": 0,
           "population_positives": 21815,
-          "true_positive": 21751,
-          "false_positive": 83,
-          "true_negative": 85343,
-          "false_negative": 64,
-          "precision": 0.9961985893560502,
-          "population_recall": 0.9970662388264955,
-          "population_f1": 0.9966322252514376,
-          "false_positive_rate": 0.0009716011518741366,
+          "true_positive": 21759,
+          "false_positive": 77,
+          "true_negative": 85349,
+          "false_negative": 56,
+          "precision": 0.9964737131342737,
+          "population_recall": 0.9974329589731836,
+          "population_f1": 0.9969531053125931,
+          "false_positive_rate": 0.0009013649240278136,
           "coverage": 1.0,
-          "average_precision": 0.999850750509884,
-          "roc_auc": 0.9999636117420528
+          "average_precision": 0.9997816660718088,
+          "roc_auc": 0.99994706445381
         },
         "B": {
           "population": 107241,
           "support": 106157,
           "unscored": 1084,
           "population_positives": 2100,
-          "true_positive": 2099,
+          "true_positive": 2100,
           "false_positive": 0,
           "true_negative": 104057,
-          "false_negative": 1,
+          "false_negative": 0,
           "precision": 1.0,
-          "population_recall": 0.9995238095238095,
-          "population_f1": 0.9997618480590617,
+          "population_recall": 1.0,
+          "population_f1": 1.0,
           "false_positive_rate": 0.0,
           "coverage": 0.9898919256627596,
           "average_precision": 1.0,
@@ -278,7 +279,62 @@
           "matched_controls:A:fpr": true,
           "matched_controls:A:coverage": true,
           "matched_controls:B:fpr": true,
-          "matched_controls:B:coverage": true
+          "matched_controls:B:coverage": true,
+          "A:working_precision99": true,
+          "A:working_recall99": true,
+          "B:working_precision99": true,
+          "B:working_recall99": true,
+          "native_day_block:094e8156148bf7d36764:A:coverage": true,
+          "native_day_block:094e8156148bf7d36764:B:coverage": true,
+          "native_day_block:5a9a149546e7dc4d5e7d:A:coverage": true,
+          "native_day_block:5a9a149546e7dc4d5e7d:B:coverage": true,
+          "native_day_block:71d706a047708d424eec:A:coverage": true,
+          "native_day_block:71d706a047708d424eec:B:coverage": true,
+          "native_day_block:799aa4acfeb8dca77d16:A:coverage": true,
+          "native_day_block:799aa4acfeb8dca77d16:B:coverage": true,
+          "native_day_block:83192505b86a5023c9f9:A:coverage": true,
+          "native_day_block:83192505b86a5023c9f9:B:coverage": true,
+          "native_day_block:8a23b50763395aad9aaa:A:coverage": true,
+          "native_day_block:8a23b50763395aad9aaa:B:coverage": true,
+          "native_day_block:b407def3ac8a3a41d56c:A:coverage": true,
+          "native_day_block:b407def3ac8a3a41d56c:B:coverage": true,
+          "native_day_block:b8107bd94f9e5fad605e:A:coverage": true,
+          "native_day_block:b8107bd94f9e5fad605e:B:coverage": true,
+          "native_day_block:c0e4ed99fababe27d39b:A:coverage": true,
+          "native_day_block:c0e4ed99fababe27d39b:B:coverage": true,
+          "native_day_block:edfc6b6112266466d1bc:A:coverage": true,
+          "native_day_block:edfc6b6112266466d1bc:B:coverage": true,
+          "normal:day:b8107bd94f9e5fad605e:A:coverage": true,
+          "normal:day:b8107bd94f9e5fad605e:A:fpr": true,
+          "normal:day:b8107bd94f9e5fad605e:B:coverage": true,
+          "normal:day:b8107bd94f9e5fad605e:B:fpr": true,
+          "normal:history:cold:A:coverage": true,
+          "normal:history:cold:A:fpr": true,
+          "normal:history:cold:B:coverage": true,
+          "normal:history:cold:B:fpr": true,
+          "normal:history:continuous:A:coverage": true,
+          "normal:history:continuous:A:fpr": true,
+          "normal:history:continuous:B:coverage": true,
+          "normal:history:continuous:B:fpr": true,
+          "normal:day:8a23b50763395aad9aaa:A:coverage": true,
+          "normal:day:8a23b50763395aad9aaa:A:fpr": true,
+          "normal:day:8a23b50763395aad9aaa:B:coverage": true,
+          "normal:day:8a23b50763395aad9aaa:B:fpr": true,
+          "normal:day:c0e4ed99fababe27d39b:A:coverage": true,
+          "normal:day:c0e4ed99fababe27d39b:A:fpr": true,
+          "normal:day:c0e4ed99fababe27d39b:B:coverage": true,
+          "normal:day:c0e4ed99fababe27d39b:B:fpr": true,
+          "normal:day:799aa4acfeb8dca77d16:A:coverage": true,
+          "normal:day:799aa4acfeb8dca77d16:A:fpr": true,
+          "normal:day:799aa4acfeb8dca77d16:B:coverage": true,
+          "normal:day:799aa4acfeb8dca77d16:B:fpr": true,
+          "normal:day:5a9a149546e7dc4d5e7d:A:coverage": true,
+          "normal:day:5a9a149546e7dc4d5e7d:A:fpr": true,
+          "normal:day:5a9a149546e7dc4d5e7d:B:coverage": true,
+          "normal:day:5a9a149546e7dc4d5e7d:B:fpr": true,
+          "three_families": true,
+          "five_normal_day_tuples": true,
+          "five_attack_day_tuples": true
         },
         "failed": []
       }
@@ -290,38 +346,38 @@
           "support": 107388,
           "unscored": 0,
           "population_positives": 21815,
-          "true_positive": 21691,
-          "false_positive": 189,
-          "true_negative": 85384,
-          "false_negative": 124,
-          "precision": 0.99136197440585,
-          "population_recall": 0.9943158377263351,
-          "population_f1": 0.992836709005607,
-          "false_positive_rate": 0.00220864057588258,
+          "true_positive": 21679,
+          "false_positive": 72,
+          "true_negative": 85501,
+          "false_negative": 136,
+          "precision": 0.9966898073651786,
+          "population_recall": 0.993765757506303,
+          "population_f1": 0.9952256346692375,
+          "false_positive_rate": 0.0008413868860505066,
           "coverage": 1.0,
-          "average_precision": 0.9996650060057376,
-          "roc_auc": 0.9999169942813595
+          "average_precision": 0.9996998529760381,
+          "roc_auc": 0.9999304501076199
         },
         "B": {
           "population": 107388,
           "support": 106050,
           "unscored": 1338,
           "population_positives": 2100,
-          "true_positive": 2091,
-          "false_positive": 2,
-          "true_negative": 103948,
-          "false_negative": 9,
-          "precision": 0.9990444338270426,
-          "population_recall": 0.9957142857142857,
-          "population_f1": 0.9973765800143095,
-          "false_positive_rate": 1.924001924001924e-05,
+          "true_positive": 2100,
+          "false_positive": 0,
+          "true_negative": 103950,
+          "false_negative": 0,
+          "precision": 1.0,
+          "population_recall": 1.0,
+          "population_f1": 1.0,
+          "false_positive_rate": 0.0,
           "coverage": 0.9875405073192536,
-          "average_precision": 0.9999739431169078,
-          "roc_auc": 0.9999994686089925
+          "average_precision": 1.0,
+          "roc_auc": 1.0
         }
       },
       "qualification": {
-        "passed": false,
+        "passed": true,
         "checks": {
           "A:precision": true,
           "A:recall": true,
@@ -409,7 +465,7 @@
           "device_id:PhilipsHue_0017882b9a25_flows:A:fpr": true,
           "device_id:PhilipsHue_0017882b9a25_flows:A:coverage": true,
           "device_id:PhilipsHue_0017882b9a25_flows:B:precision": true,
-          "device_id:PhilipsHue_0017882b9a25_flows:B:recall": false,
+          "device_id:PhilipsHue_0017882b9a25_flows:B:recall": true,
           "device_id:PhilipsHue_0017882b9a25_flows:B:fpr": true,
           "device_id:PhilipsHue_0017882b9a25_flows:B:f1": true,
           "device_id:SamsungCamera_00166cab6b88_flows:A:precision": true,
@@ -429,10 +485,10 @@
           "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:A:fpr": true,
           "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:A:coverage": true,
           "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:precision": true,
-          "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:recall": false,
+          "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:recall": true,
           "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:fpr": true,
           "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:coverage": true,
-          "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:f1": false,
+          "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:f1": true,
           "native_day_family:bba93c8c79e51a4fa3e3:port_scan:A:precision": true,
           "native_day_family:bba93c8c79e51a4fa3e3:port_scan:A:recall": true,
           "native_day_family:bba93c8c79e51a4fa3e3:port_scan:A:fpr": true,
@@ -612,19 +668,40 @@
           "five_normal_day_tuples": true,
           "five_attack_day_tuples": true
         },
-        "failed": [
-          "device_id:PhilipsHue_0017882b9a25_flows:B:recall",
-          "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:recall",
-          "native_day_family:bba93c8c79e51a4fa3e3:lateral_connections:B:f1"
-        ]
+        "failed": []
       }
     }
   },
+  "source_report_hashes": {
+    "earlier": {
+      "sha256": "30e7358b84fa728a4e98b147e832a650fe67cd5d14dc0b6b334089e43be3738c"
+    },
+    "later": {
+      "sha256": "c5d0c91553a27f2c6b36f71ebde60839dee8e752e77ae4233df5d3cac12642a4"
+    }
+  },
+  "comparison_mean_population_f1_percent": {
+    "C": [
+      99.8197,
+      99.5107
+    ],
+    "E1Q": [
+      99.8477,
+      99.7613
+    ],
+    "T": [
+      99.8948,
+      99.8971
+    ]
+  },
   "limitations": [
-    "Both corpora consumed; one authored household, known devices, synthetic attack overlays",
-    "Later C fails three supported B recall/F1 checks (Hue and a lateral native-period group)",
-    "T is stronger; no learned-message advantage or live detection accuracy established",
-    "Engineering deployment adapter qualification is distinct from predictive qualification"
+    "Both benchmarks consumed; one authored household with known devices and synthetic attack overlays",
+    "Later A false positives improve from C 189 to 72; false negatives increase from 124 to 136",
+    "Earlier paired improvement interval includes zero; later E1 seeds transfer less well",
+    "T remains stronger; no replicated message-passing superiority or fresh live accuracy claim",
+    "Deployment checks establish software compatibility, not predictive or full Ryu qualification"
   ],
-  "deployment_authorization": "Explicit user request to replace New 2 with C/E2 and adapt the live pipeline, 16 October 2026"
+  "deployment_authorization": "Jayan authorized original E1+Q model and required adapter upgrade, 18 October 2026; remaining pipeline unchanged",
+  "training_invocations": 0,
+  "dataset_changed": false
 }

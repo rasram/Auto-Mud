@@ -1,8 +1,8 @@
 {
   "schema_version": "automud.gnn-fixture.v2",
   "already_evaluated": true,
-  "a_checkpoint": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7",
-  "b_checkpoint": "b89ed3d0496d02a33be5f02a5f5cd8938288943685f9e08d1cac360d149dabd7",
+  "a_checkpoint": "bf634ca9c98baf5a6507cf0882009c70630301adeb8b18d0a576751e42b5e5ad",
+  "b_checkpoint": "bf634ca9c98baf5a6507cf0882009c70630301adeb8b18d0a576751e42b5e5ad",
   "graphs": 9,
   "records": 108,
   "score_absolute_tolerance": 0.0001,
@@ -15,8 +15,9 @@
     },
     {
       "path": "expected.jsonl",
-      "bytes": 26194,
-      "sha256": "b753247d40342955d76a75fb8bc478fd0bf755f728e47f37e68f0065885ce954"
+      "bytes": 26173,
+      "sha256": "2df07bdc49c6a3f953d9286a56952daf412eab11c988ae76911b616dac529a5a"
     }
-  ]
+  ],
+  "expected_source": "Previously saved original E1 benchmark logits with already-frozen Q cutoffs; observation inputs unchanged"
 }

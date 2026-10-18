@@ -1,52 +1,51 @@
-# Supervised C/E2 results and deployment limits
+# Original E1+Q results and deployment limits
 
-The active release is **original C, seed 42, selected epoch 13**, of the C/E2
-family. E2 independently reproduced C's binary benchmark decisions; this
-package uses C's own weights and frozen cutoffs. It replaces self-supervised
-New 2. These are previously completed benchmark results, not new live accuracy
-measurements from the deployment checks.
+The current repository release is original E1, seed 42, selected epoch 5,
+`supervised-E1Q-20261018`, with its already-frozen lower-quartile cutoffs.
+These are previously completed consumed-benchmark results. The release upgrade
+does not retrain, refit cutoffs or change the dataset.
 
 | Metric | Earlier A | Earlier B | Later A | Later B |
 |---|---:|---:|---:|---:|
-| Precision | 99.6199% | 100% | 99.1362% | 99.9044% |
-| Population recall | 99.7066% | 99.9524% | 99.4316% | 99.5714% |
-| Population F1 | 99.6632% | 99.9762% | 99.2837% | 99.7377% |
-| False-positive rate | 0.097160% | 0% | 0.220864% | 0.001924% |
-| Coverage | 100% | 98.9892% | 100% | 98.7541% |
-| True positives | 21,751 | 2,099 | 21,691 | 2,091 |
-| False positives | 83 | 0 | 189 | 2 |
-| False negatives | 64 | 1 | 124 | 9 |
+| Precision | 99.647371% | 100.000000% | 99.668981% | 100.000000% |
+| Population recall | 99.743296% | 100.000000% | 99.376576% | 100.000000% |
+| Population F1 | 99.695311% | 100.000000% | 99.522563% | 100.000000% |
+| False-positive rate | 0.090136% | 0.000000% | 0.084139% | 0.000000% |
+| Coverage | 100.000000% | 98.989193% | 100.000000% | 98.754051% |
+| True positives | 21,759 | 2,100 | 21,679 | 2,100 |
+| False positives | 77 | 0 | 72 | 0 |
+| False negatives | 56 | 0 | 136 | 0 |
 
-Earlier primary population: 107,241 active device observations; later: 107,388.
+Earlier primary population: 107,241 active observations; later: 107,388.
 Each has 21,815 A positives and 2,100 B positives. B support is respectively
-106,157 and 106,050; no initiated relationship means unscored. Population
-recall retains all positives in the denominator rather than silently dropping
-unscored ones. Numeric details/check outcomes are in
-[`models/gnn/results.json`](../../models/gnn/results.json).
+106,157 and 106,050. Population recall retains unscored positives in its
+denominator. Detailed primary metrics and every saved gate check are in
+[`results.json`](../../models/gnn/results.json). E1+Q passes all original gates
+on both corpora.
 
-C passes the earlier saved qualification. On the later corpus it **fails three
-supported B subgroup checks**: Philips Hue recall 98.8571%, and one lateral
-native-period group's recall 97.1429% / F1 98.5507%. Aggregate high scores do
-not erase these failures. The temporal-only comparator T was stronger in the
-completed study; there is no demonstrated learned-message advantage for C.
+| Mean A/B population F1 | Earlier | Later |
+|---|---:|---:|
+| Retained C | 99.8197% | 99.5107% |
+| Original E1+Q | 99.8477% | 99.7613% |
+| T reference | 99.8948% | 99.8971% |
 
-Both corpora are consumed evaluations of one authored household with known
-devices and synthetic attack overlays. They do not establish generalization
-to unseen households, physical devices or fresh live traffic. Earlier New 2
-results used a different population/protocol and are not a controlled
-before/after improvement estimate.
+Later A false alarms decrease from C's 189 to 72, while misses increase from
+124 to 136. Later B improves from 2 false alarms / 9 misses to 0 / 0 on scored
+opportunities. This aggregate gain has an A recall tradeoff. The earlier paired
+improvement interval includes zero; later E1 seeds transfer less well. T remains
+stronger. No replicated learned-message superiority is established.
 
-C is supervised direct detection: an own-device encoder plus causal GRU
-history with two heads, using graph-derived descriptors but no learned
-neighbor messages. A covers behavioral/affected devices, including victims;
-B concerns initiating relationships. Neither is a compromise probability or
-MUD permission. Head C remains untrained.
+Both corpora are consumed, from one authored household with known devices and
+synthetic attack overlays. These results do not establish accuracy on unseen
+households, physical devices or fresh live traffic.
 
-Frozen strict raw-logit cutoffs are A `1.1537269353866577` and
-B `-0.2367836833000183`. The release includes matching clean profiles,
-normalizer, feature contract and cutoffs; it does not fit them during operation.
-The consumed fixture reproduces C's scores and decisions. Engineering
-qualification in [DEPLOYMENT_VALIDATION.json](DEPLOYMENT_VALIDATION.json)
-establishes software/capture/API compatibility and capacity, not predictive
-qualification or Ryu enforcement. Follow the handoff's observation-mode and
-full-pipeline acceptance steps before enabling automated responses.
+E1 directly scores behavioral/affected devices with A and initiating relationships
+with B, using directed learned messages and own-device causal GRU history.
+Strict raw-logit cutoffs are A `0.7624336779117584`, B `4.921021908521652`.
+These are not probabilities or MUD permissions. Head C remains untrained.
+
+[Deployment validation](DEPLOYMENT_VALIDATION.json) records installation parity,
+unchanged-pipeline regression, replay of an existing engineering packet capture
+and CPU capacity. These checks do not activate a native teammate host, establish
+live accuracy or qualify Ryu enforcement. Original C's validation is preserved
+separately in [DEPLOYMENT_VALIDATION_C_20261016.json](DEPLOYMENT_VALIDATION_C_20261016.json).

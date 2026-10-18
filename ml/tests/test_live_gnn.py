@@ -289,7 +289,7 @@ def test_active_model_and_history_survive_restart_after_swap(config, tmp_path):
         output, _ = second.submit(example_window(START + 60))
         assert all(r['history']['prior_windows'] == 1 for r in output['devices'])
         second.rollback()
-        assert second.model_info()['bundle_version'] == 'supervised-C-20261016'
+        assert second.model_info()['bundle_version'] == GNNBundle(ROOT/'models/gnn').bundle_version
     finally:
         second.close()
 

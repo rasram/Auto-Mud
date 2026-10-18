@@ -1,6 +1,6 @@
 # Live GNN API and integration contract
 
-The supplied service now runs supervised C (E2 family), version `supervised-C-20261016`, replacing New 2. It owns graph construction, frozen profiles, feature order, normalization, UTC clock conversion, causal own-device history and joint A/B scoring. External telemetry/evidence versions and endpoint names are unchanged. No full dataset, attack labels or prepared tensors are needed for live operation. Start it using [Linux setup](LINUX_PIPELINE_SETUP_20261012.md); ownership and ordered completion steps are in [the handoff](LIVE_PIPELINE_HANDOFF_20261012.md).
+The supplied service now runs original supervised E1+Q, version `supervised-E1Q-20261018`, replacing C as the repository default. It owns graph construction, frozen profiles, feature order, normalization, UTC clock conversion, causal own-device history and joint A/B scoring. External telemetry/evidence versions and endpoint names are unchanged. No full dataset, attack labels or prepared tensors are needed for live operation. Start it using [Linux setup](LINUX_PIPELINE_SETUP_20261012.md); ownership and ordered completion steps are in [the handoff](LIVE_PIPELINE_HANDOFF_20261012.md).
 
 ## 1. Endpoints and transport
 
@@ -102,7 +102,7 @@ For each device:
 - `history`: prior window count, observed age and `fully_warmed` (15 prior neural windows plus at least one hour of observed rolling history).
 - `compromised_probability=null`; envelope `head_c_trained=false` and `enforcement_action=null`.
 
-Both scores are **raw supervised logits**, including valid negative values. Frozen global cutoffs use strict `score > threshold`: A `1.1537269353866577`, B `-0.2367836833000183`. Scope is `frozen_selection_and_clean_calibration`, `fallback=false`, `score_kind=supervised_raw_logit`; no per-device residual calibration remains. Use the returned flags/provenance. Applying sigmoid does not make these calibrated probabilities. Both provenance checkpoint fields identify the same joint C checkpoint. The envelope reports `learning_regime=supervised_direct_detection` and `learned_neighbor_messages=false`; graph-derived counts/context still contribute inputs.
+Both scores are **raw supervised logits**, including valid negative values. Frozen global cutoffs use strict `score > threshold`: A `0.7624336779117584`, B `4.921021908521652`. Scope is `frozen_selection_and_clean_calibration`, `fallback=false`, `score_kind=supervised_raw_logit`; no per-device residual calibration remains. Use the returned flags/provenance. Applying sigmoid does not make these calibrated probabilities. Both provenance checkpoint fields identify the same joint E1 checkpoint. The envelope reports `learning_regime=supervised_direct_detection` and `learned_neighbor_messages=true`; directed incoming/outgoing learned messages, graph-derived context and own-device history contribute inputs.
 
 Null means unscored. A is scored for active available household devices; B additionally requires an observed outgoing initiated relationship. A receiving device can therefore have A evidence with B null. Healthy idle and unavailable heads remain null. Cold-start evidence may be produced with shorter histories and is marked accordingly. Gaps reset all stream history; binding changes reset the affected device; outages clear affected histories. The first hour after a reset lacks fully warmed rolling history. The supervised adapter uses 61 raw features, width 149 current inputs and 15 strictly prior width-147 vectors, never labels or future observations.
 
@@ -112,15 +112,15 @@ C returns household inventory devices only; external-service nodes remain intern
 
 ## 5. Safe model replacement and rollback
 
-Jayan supplies a separately trained/evaluated **complete supervised bundle directory**, including that release's frozen normalizer, clean profiles, cutoffs, feature contract, results and manifest. A checkpoint alone is insufficient. Export validates and copies a complete release; it does not train, refit or measure accuracy. This same-weights example tests deployment mechanics:
+Jayan supplies a separately trained/evaluated **complete supervised bundle directory**, including that release's frozen normalizer, clean profiles, cutoffs, feature contract, results and manifest. A checkpoint alone is insufficient. Export validates and copies a complete release; it does not train, refit or measure accuracy. Export the approved E1+Q release under a fresh immutable path before staging:
 
 ```bash
 python -m ml export-bundle --checkpoint models/gnn \
-  --out models/gnn-next --version supervised-deployment-test-1
-python -m ml check-model --bundle models/gnn-next --allow-candidate --device cpu
+  --out models/gnn-next --version supervised-E1Q-20261018
+python -m ml check-model --bundle models/gnn-next --device cpu
 ```
 
-Use a fresh output directory. The v3 manifest binds six filenames/sizes/hashes, external contracts, graph hash and `supervised-direct.v1` adapter. `detector.pt` contains both heads; there is no separate frozen-B dependency. The adapter requires the exact C no-learned-message architecture and feature contract. Other architectures need an internal ML adapter update while keeping external contracts stable. Use a new release's own reference outputs; the packaged fixture binds original C. The retained legacy v1/v2 loaders are migration support, not the default C package.
+Use a fresh output directory. The v3 manifest binds six filenames/sizes/hashes, external contracts, graph hash and `supervised-direct.v1` adapter. `detector.pt` contains both heads; there is no separate frozen-B dependency. Approved-release validation binds original E1+Q (`use_graph=True`) and original C (`use_graph=False`) to their respective checkpoint, architecture, frozen assets and exact cutoffs. Approved version names cannot bypass these checks through candidate inspection. `allow-candidate` remains an explicit development inspection capability, not release approval. The packaged fixture binds E1+Q; original C and its fixture remain at `models/gnn-c-20261016` and `fixtures/gnn-c-20261016`. The retained legacy v1/v2 loaders are historical migration support.
 
 Deploy the entire bundle under an allowed root (`models/` by default), readable by the service. Keep files immutable after export. Record the current ID, stage, activate, and retain the previous ID for rollback:
 
@@ -140,7 +140,7 @@ admin.call('/v1/models/rollback', {'bundle_id': previous_id})
 
 Staging does not change the active model. Hash/schema/weight/normalizer checks and a forward probe precede activation. They establish software compatibility, not predictive quality. Activation/rollback wait for current processing to finish and durably save the model pointer. With the same adapter and frozen profile, compatible raw histories are retained and re-normalized by the active bundle; hidden states are recomputed. A changed profile or adapter clears supervised model/profile history on the next new minute, preventing mixed-profile inputs. Activation reports `feature_history_preserved` and `model_history_reset_on_next_window`. Underlying profile-independent rolling observations remain causal. Cached retries always return their original model outputs.
 
-Active/previous versions and history are restored after restart; a merely staged candidate is not persisted and must be staged again. Keep referenced directories immutable and intact. The first New 2-to-C installation uses a fresh supervised state path/session as described in Linux setup step 6. Never edit durable state or overwrite a referenced bundle to bypass checks.
+Active/previous versions and history are restored after restart; a merely staged candidate is not persisted and must be staged again. Keep referenced directories immutable and intact. The first New 2-to-supervised installation uses a fresh supervised state path/session as described in Linux setup step 6. Never edit durable state or overwrite a referenced bundle to bypass checks.
 
 ## 6. Capacity and operation
 

@@ -1,9 +1,10 @@
-# AutoMUD supervised C/E2 pipeline setup on Linux
+# AutoMUD supervised E1+Q pipeline setup on Linux
 
-Updated 16 October 2026. This guide installs **supervised C (the E2 family)**,
-bundle `supervised-C-20261016`, replacing the self-supervised New 2 package.
-The original C checkpoint, frozen normalizer, clean profiles and A/B cutoffs are
-shipped unchanged. E2 is a repeat of this model family; the deployed file is C.
+Updated 18 October 2026. This guide installs **original E1+Q**, bundle
+`supervised-E1Q-20261018` (seed 42, epoch 5, frozen Q cutoffs). Only the model
+and required loader change from C. Features, frozen preprocessing, service
+configuration and pipeline procedures remain unchanged. Publishing this
+repository does not activate an existing host.
 
 The ML service is supplied. Continuous acquisition/finalization, MUD, the
 Decision Engine and Ryu enforcement still need integration. Follow the ordered
@@ -140,7 +141,7 @@ Expected fixture: `passed`, **9 graphs, 108 household records, 216 matching
 A/B flags**, absolute score error at most `1e-4`, no training or new evaluation
 data. Packaging reproduced both scores with zero CPU error. Cold and continuous
 examples include their exact causal prior graphs. This is an installation check;
-do not tune thresholds on it. The current regression suite has **52 passing tests**.
+do not tune thresholds on it. The current regression suite has **74 passing Linux tests**.
 
 Optional prediction check (choose a fresh output path):
 
@@ -149,9 +150,23 @@ python -m ml predict --bundle models/gnn --graphs fixtures/gnn/graphs.jsonl \
   --out tmp/supervised-fixture-predictions.jsonl --device cpu
 ```
 
-Do not send old v4 model graphs directly to C. The live service builds the new
+Do not send old v4 model graphs directly to the supervised model. The live service builds the new
 61-feature inputs and 15-minute causal neural history internally. For a finite
 capture, `build-graphs --bundle models/gnn` uses the supervised adapter.
+
+### Existing C service: model-only upgrade
+
+Keep the active C directory and its state intact. Export the approved E1+Q
+bundle to a new immutable path before staging; never replace bytes referenced
+by durable state. Obtain this release in a separate checkout rather than pulling
+over a running service's bundle directory. The deployment owner coordinates the
+runtime/adapter cutover while keeping the existing active/previous paths intact.
+Follow [the existing lifecycle API](LIVE_GNN_API.md#5-safe-model-replacement-and-rollback).
+The same profile/adapter retains causal raw history and recomputes GRU states;
+cached retries keep their original C provenance. The complete rollback is
+`models/gnn-c-20261016` with fixture `fixtures/gnn-c-20261016`.
+The runtime-qualification config records the earlier Linux environment;
+[DEPLOYMENT_VALIDATION.json](DEPLOYMENT_VALIDATION.json) records this E1 release.
 
 ## 6. Migrate an existing New 2 deployment
 
@@ -159,7 +174,7 @@ Stop the old service and its sender. Back up the **old model directory and
 matching state/config together** before replacing files. Preserve them in a
 separate version directory if historical rollback is required.
 
-Install the complete new source and C bundle. Use the updated
+Install the complete new source and E1+Q bundle. Use the updated
 `configs/gnn/live/service.json`, whose state path is
 `tmp/gnn-live-supervised/state.json`. Start a fresh supervised session/state:
 do not copy New 2 state over this path or edit its bundle ID. Restoring a state
@@ -168,7 +183,7 @@ service `ReadWritePaths` and monitoring paths too.
 
 Pass step 5, then start the new service and sender. Expect cold-start history.
 Later supervised restarts restore their own accepted windows/history normally.
-Old residual scores, thresholds and dashboards must not be reused as C scores.
+Old residual scores, thresholds and dashboards must not be reused as supervised logits.
 
 ## 7. Start the supervised evidence service and check transport
 
@@ -176,7 +191,7 @@ Old residual scores, thresholds and dashboards must not be reused as C scores.
 python -m ml serve --config configs/gnn/live/service.json
 ```
 
-The launcher prints a ready event and listens on `127.0.0.1:8001`. It loads C
+The launcher prints a ready event and listens on `127.0.0.1:8001`. It loads E1+Q
 once and owns one durable state file. Ctrl+C releases its lock. In another
 terminal with the same ML environment:
 
@@ -189,16 +204,16 @@ python -m ml submit-window --request tmp/supervised-engineering-window.json \
 ```
 
 Choose fresh file names on repeat. The example has `observation_kind=engineering`;
-exclude it from enforcement. Model version must be `supervised-C-20261016`.
+exclude it from enforcement. Model version must be `supervised-E1Q-20261018`.
 Both checkpoint hashes identify the same joint `detector.pt`.
 
 Input `automud.live-window.v1` and output `automud.gnn-evidence.v1` remain stable.
 A is behavioral/affected-device evidence; B concerns initiated relationships.
 Scores are raw supervised logits, possibly negative, with strict frozen cutoffs
-A `1.1537269353866577`, B `-0.2367836833000183`. Use returned flags/provenance.
+A `0.7624336779117584`, B `4.921021908521652`. Use returned flags/provenance.
 They are not probabilities or MUD permissions. B is null without an observed
-initiated relationship; idle/unavailable scores remain null. C has no learned
-neighbor messages, although graph-derived context is an input.
+initiated relationship; idle/unavailable scores remain null. E1 enables
+directed learned neighbor messages and retains the same own-device history.
 
 Supply actual completed UTC minutes, stable inventory, health and watermarks;
 no labels, private source provenance or tensors. Healthy silence is an empty
@@ -309,12 +324,12 @@ Confirm bidirectional visibility and intended MUD baseline forwarding.
 ## 10. Complete the full pipeline in order
 
 Follow [handoff steps 1–12](LIVE_PIPELINE_HANDOFF_20261012.md#remaining-work-follow-these-steps-in-order):
-inventory/configuration, controller-managed testbed, sensor finalizer, C evidence,
+inventory/configuration, controller-managed testbed, sensor finalizer, E1+Q evidence,
 MUD evidence, timed join, Decision Engine observation, scoped action/expiry,
 failure recovery, timing/events and host sign-off.
 
 The supplied model is usable for live evidence. Full enforcement readiness
-requires those team checks. Its consumed benchmark results and remaining B
-subgroup failures are disclosed in [MODEL_RESULTS.md](MODEL_RESULTS.md).
+requires those team checks. Its consumed benchmark results and A recall
+tradeoff are disclosed in [MODEL_RESULTS.md](MODEL_RESULTS.md).
 An installation fixture or software parity check does not establish accuracy
 on new live traffic.

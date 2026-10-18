@@ -1,7 +1,7 @@
-"""C checkpoint architecture: own-device encoder/GRU and two supervised heads.
+"""Original E1/C architecture: own-device encoder/GRU and two supervised heads.
 
-Unused message modules retain original parameter keys for exact checkpoint
-loading. The C/E2 predictor always constructs this with use_graph=False.
+E1 enables directed incoming/outgoing messages. C retains the same parameter
+keys with use_graph=False, allowing exact loading of either frozen checkpoint.
 """
 import torch
 from torch import nn

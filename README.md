@@ -4,19 +4,19 @@
 
 Team A12, Amrita School of Artificial Intelligence, Coimbatore. Supervisor: Mr. Vipin Das.
 
-> AutoMUD combines traffic-based detection with independent MUD permission evidence and SDN response. The supervised C evidence service is supplied; full policy, controller and response integration remains team work.
+> AutoMUD combines traffic-based detection with independent MUD permission evidence and SDN response. The supervised E1+Q evidence service is supplied; full policy, controller and response integration remains team work.
 
 For current implemented GNN behavior and pipeline ownership, use the shared setup/API/handoff guides below. Earlier methodology descriptions are background proposals and do not establish implementation or measured performance.
 
-For the current **supervised C/E2 teammate package**, use
+For the current **supervised E1+Q teammate package**, use
 [the selected model guide](docs/gnn/README.md),
 [Linux setup](docs/gnn/LINUX_PIPELINE_SETUP_20261012.md), and
 [pipeline handoff](docs/gnn/LIVE_PIPELINE_HANDOFF_20261012.md).
-The supervised joint C checkpoint, its frozen profile/normalizer/cutoffs, results and
+The supervised joint E1 checkpoint, its frozen profile/normalizer/cutoffs, results and
 a small loading/output fixture are shareable; full research datasets and old
-development artifacts are private. The current C detector emits separate supervised A/B logits,
+development artifacts are private. The current E1+Q detector emits separate supervised A/B logits,
 not a [0,1] compromise probability. The stateful GNN HTTP service is supplied; sensor finalization, MUD/Decision Engine/Ryu integration and full-pipeline acceptance remain teammate work.
-C uses graph-derived context and own-device history without learned neighbor messages.
+E1 uses directed learned neighbor messages, graph-derived context and own-device history.
 Earlier architecture/training descriptions below are project background.
 
 ---
@@ -60,7 +60,7 @@ profiling/        Feature extraction, traffic generators, profile engine, ground
   features/  traffic_gen/  profile_engine/  validation/
 ml/               Selected frozen inference, graph construction and telemetry/tensor utilities
   graph/  dataset_prep/  model/  ab_targets/  live/
-models/gnn/       Supervised joint C checkpoint, frozen assets, manifest and results
+models/gnn/       Supervised joint E1+Q checkpoint, frozen assets, manifest and results
 fixtures/gnn/     Small consumed model-loading/output reproduction test
 integration/      Live-loop orchestration, decision engine, LLM explanations, evaluation framework
   orchestrator/  decision_engine/  explanation/  evaluation/
