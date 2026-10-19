@@ -2,6 +2,7 @@
 # and live. new_packet gives exact interval allocation, including long flows.
 # This intentionally favors correctness at household scale over sensor throughput.
 @load base/protocols/conn
+@load base/protocols/dns
 @load policy/protocols/conn/mac-logging
 @load policy/tuning/json-logs
 

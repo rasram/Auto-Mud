@@ -1,0 +1,23 @@
+[Unit]
+Description=AutoMUD continuous UTC-window finalizer and evidence coordinator
+After=network-online.target automud-gnn.service automud-controller.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=automud
+Group=automud
+WorkingDirectory=/opt/automud/Auto-Mud
+EnvironmentFile=-/etc/automud/gnn.env
+ExecStart=/opt/automud/Auto-Mud/.venv-ml/bin/python -m integration.live.finalizer --config configs/live/saturn.json --runtime-current /mnt/data/automud/live/current.json --daemon
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadOnlyPaths=/opt/automud/Auto-Mud
+ReadWritePaths=/mnt/data/automud/live
+
+[Install]
+WantedBy=multi-user.target

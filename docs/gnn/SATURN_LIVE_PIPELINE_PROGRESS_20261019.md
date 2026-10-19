@@ -6,6 +6,13 @@ declare the team deployment complete or enable automatic enforcement.
 
 The ordered implementation and acceptance work for the remaining gates is in
 [the live-pipeline completion plan](LIVE_PIPELINE_COMPLETION_PLAN_20261019.md).
+The subsequent completion-branch implementation and measured acceptance runs
+are recorded in
+[the Saturn live-pipeline completion record](SATURN_LIVE_PIPELINE_COMPLETION_20261019.md).
+
+This file remains the receipt for the earlier `codex/live-pipeline` baseline.
+The completion record supersedes its test counts and remaining-code list; the
+manual production gates stated below still apply.
 
 ## Implemented on the `codex/live-pipeline` branch
 

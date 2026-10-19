@@ -9,6 +9,8 @@ Type=simple
 User=automud
 Group=automud
 WorkingDirectory=/opt/automud/Auto-Mud
+Environment=AUTOMUD_CONTROLLER_ALLOW_ENGINEERING_ACTIONS=false
+Environment=AUTOMUD_CONTROLLER_MAX_TTL_SECONDS=300
 ExecStart=/usr/bin/osken-manager --ofp-listen-host 127.0.0.1 --ofp-tcp-listen-port 6653 network/sdn/automud_controller.py
 Restart=on-failure
 RestartSec=2

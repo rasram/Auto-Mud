@@ -1,0 +1,11 @@
+{
+  "schema_version": "automud.decision-policy.v1",
+  "policy_version": "saturn-engineering-observe-20261019-v1",
+  "purpose": "Engineering decision behavior; team approval is required before enforcement",
+  "cooldown_seconds": 120,
+  "escalation": {
+    "enabled": false,
+    "consecutive_denied": 3
+  },
+  "maximum_action_ttl_seconds": 30
+}

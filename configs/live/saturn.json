@@ -21,7 +21,8 @@
     "zeek_policy": "/opt/automud/Auto-Mud/network/zeek/automud-window.zeek",
     "runtime_root": "/mnt/data/automud/live",
     "event_log": "/mnt/data/automud/live/events.jsonl",
-    "queue": "/mnt/data/automud/live/queue"
+    "queue": "/mnt/data/automud/live/queue",
+    "state_db": "/mnt/data/automud/live/live-state.sqlite3"
   },
   "gnn": {
     "url": "http://127.0.0.1:8001",
@@ -33,6 +34,8 @@
   },
   "decision": {
     "mode": "observe",
+    "policy": "configs/live/decision-policy.json",
+    "override_file": "/etc/automud/human-overrides.json",
     "join_timeout_seconds": 10,
     "cooldown_seconds": 120,
     "action_ttl_seconds": 30

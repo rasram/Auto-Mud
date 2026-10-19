@@ -11,6 +11,9 @@ The first controller/sensor/integration implementation on Saturn is tracked in
 [Saturn live-pipeline progress](SATURN_LIVE_PIPELINE_PROGRESS_20261019.md).
 The ordered implementation and acceptance work for the remaining gates is in
 [the live-pipeline completion plan](LIVE_PIPELINE_COMPLETION_PLAN_20261019.md).
+The engineering completion state, installed services, 87-test regression and
+failure-matrix evidence are recorded in
+[the Saturn completion record](SATURN_LIVE_PIPELINE_COMPLETION_20261019.md).
 
 The ML service, supervised feature/history adapter, frozen assets, installation
 fixture and software acceptance are supplied. Teammates complete the sensor

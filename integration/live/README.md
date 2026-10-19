@@ -40,9 +40,27 @@ python -m integration.live.finalizer \
 ```
 
 The finalizer sends unhealthy evidence when health is missing, persists pending
-payloads under `/mnt/data/automud/live/queue/pending`, retries identical bytes,
-and stores accepted joined results separately. Events are appended with `fsync`
-to `/mnt/data/automud/live/events.jsonl`.
+payloads under a run-isolated `/mnt/data/automud/live/queue/runs/<token>/pending`
+directory, retries identical bytes, and stores accepted joined results separately.
+The persistent service follows `current.json` when a new topology run starts and
+stops at the recorded run boundary. Events are appended with `fsync` to
+`/mnt/data/automud/live/events.jsonl`.
+
+The read-only dashboard listens on `127.0.0.1:8090` and exposes `/api/status`,
+`/api/events` and `/api/traces`. Build an evidence-linked acceptance receipt
+after a run with:
+
+```bash
+python -m integration.live.acceptance \
+  --config configs/live/saturn.json \
+  --runtime /mnt/data/automud/live/runs/RUN/runtime.json \
+  --tests-junit /mnt/data/automud/live/acceptance/RUN/tests.xml \
+  --action-run ACTION_RUN \
+  --output /mnt/data/automud/live/acceptance/RUN
+```
+
+The receipt marks unperformed disruptive scenarios and missing team approvals as
+blocked. It never turns unit coverage into a live deployment sign-off.
 
 `observation_kind` is `engineering` and `decision.mode` is `observe` in the
 committed Saturn config. These two independent gates prevent the controller

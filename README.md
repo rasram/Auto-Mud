@@ -4,7 +4,7 @@
 
 Team A12, Amrita School of Artificial Intelligence, Coimbatore. Supervisor: Mr. Vipin Das.
 
-> AutoMUD combines traffic-based detection with independent MUD permission evidence and SDN response. The supervised E1+Q evidence service is supplied; full policy, controller and response integration remains team work.
+> AutoMUD combines traffic-based detection with independent MUD permission evidence and SDN response. The supervised E1+Q service and engineering live-pipeline implementation are available; production inventory, policy approval, disruptive acceptance tests and live enablement remain team gates.
 
 For current implemented GNN behavior and pipeline ownership, use the shared setup/API/handoff guides below. Earlier methodology descriptions are background proposals and do not establish implementation or measured performance.
 
@@ -15,7 +15,10 @@ For the current **supervised E1+Q teammate package**, use
 The supervised joint E1 checkpoint, its frozen profile/normalizer/cutoffs, results and
 a small loading/output fixture are shareable; full research datasets and old
 development artifacts are private. The current E1+Q detector emits separate supervised A/B logits,
-not a [0,1] compromise probability. The stateful GNN HTTP service is supplied; sensor finalization, MUD/Decision Engine/Ryu integration and full-pipeline acceptance remain teammate work.
+not a [0,1] compromise probability. The engineering pipeline includes durable
+sensor finalization, independent MUD evidence, asynchronous joining, decision
+state, scoped controller actions and a read-only trace dashboard. It defaults to
+engineering/observe mode and cannot be treated as production sign-off.
 E1 uses directed learned neighbor messages, graph-derived context and own-device history.
 Earlier architecture/training descriptions below are project background.
 

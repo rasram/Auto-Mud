@@ -4,8 +4,10 @@ Run with OS-Ken (the maintained Ryu fork on Ubuntu 24.04):
     osken-manager network/sdn/automud_controller.py
 """
 import hashlib
+import ipaddress
 import json
 import os
+import re
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -46,6 +48,10 @@ class AutoMUDController(ControllerApp):
         self.actions = {}
         self.pending_barriers = {}
         self.lock = threading.RLock()
+        self.allow_engineering_actions = os.environ.get(
+            "AUTOMUD_CONTROLLER_ALLOW_ENGINEERING_ACTIONS", "false"
+        ).lower() in ("1", "true", "yes")
+        self.maximum_ttl = int(os.environ.get("AUTOMUD_CONTROLLER_MAX_TTL_SECONDS", "300"))
         handler = type("AutoMUDActionHandler", (_ActionHandler,), {"app": self})
         api_port = int(os.environ.get("AUTOMUD_CONTROLLER_API_PORT", "8080"))
         self.httpd = ThreadingHTTPServer(("127.0.0.1", api_port), handler)
@@ -73,6 +79,11 @@ class AutoMUDController(ControllerApp):
         self.datapaths[datapath.id] = datapath
         self.mac_to_port.setdefault(datapath.id, {})
         parser, ofp = datapath.ofproto_parser, datapath.ofproto
+        datapath.send_msg(parser.OFPFlowMod(
+            datapath=datapath, cookie=COOKIE_PREFIX, cookie_mask=COOKIE_MASK,
+            table_id=ofp.OFPTT_ALL, command=ofp.OFPFC_DELETE,
+            out_port=ofp.OFPP_ANY, out_group=ofp.OFPG_ANY,
+        ))
         self.add_flow(datapath, 0, parser.OFPMatch(), [parser.OFPActionOutput(ofp.OFPP_CONTROLLER, ofp.OFPCML_NO_BUFFER)])
         self.logger.info("AutoMUD switch connected dpid=%016x", datapath.id)
 
@@ -113,10 +124,29 @@ class AutoMUDController(ControllerApp):
             raise ValueError("Missing action fields: " + ", ".join(sorted(missing)))
         if value["schema_version"] != "automud.action-request.v1" or value["action"] != "block":
             raise ValueError("Only automud.action-request.v1 temporary block actions are supported")
+        if value["observation_kind"] not in ("live", "engineering"):
+            raise ValueError("Unknown observation kind")
+        if value["observation_kind"] != "live" and not self.allow_engineering_actions:
+            raise ValueError("Engineering actions are disabled by controller policy")
         ttl = int(value["ttl_seconds"])
         priority = int(value["priority"])
-        if not 1 <= ttl <= 300 or not 1000 <= priority <= 60000:
+        if not 1 <= ttl <= self.maximum_ttl or not 1000 <= priority <= 60000:
             raise ValueError("Unsafe action TTL or priority")
+        if time.time() - float(value["window_end"]) > 180:
+            raise ValueError("Action observation is stale")
+        if not re.fullmatch(r"[0-9a-fA-F]{16}", str(value["dpid"])):
+            raise ValueError("Invalid DPID")
+        mac = str(value["device_mac"]).lower()
+        if not re.fullmatch(r"(?:[0-9a-f]{2}:){5}[0-9a-f]{2}", mac):
+            raise ValueError("Invalid device MAC")
+        if str(ipaddress.ip_address(value["device_ip"])) != value["device_ip"]:
+            raise ValueError("Invalid device IP")
+        scope = value.get("scope")
+        if not isinstance(scope, dict) or not scope.get("destination_ip") or scope.get("proto") not in ("tcp", "udp"):
+            raise ValueError("Block action requires a narrow destination/protocol scope")
+        ipaddress.ip_address(scope["destination_ip"])
+        if scope.get("destination_port") is None or not 1 <= int(scope["destination_port"]) <= 65535:
+            raise ValueError("Block action requires a valid destination port")
         decision_id = value["decision_id"]
         with self.lock:
             previous = self.actions.get(decision_id)
@@ -128,7 +158,6 @@ class AutoMUDController(ControllerApp):
             datapath = self.datapaths.get(dpid)
             if datapath is None:
                 raise ValueError("Requested switch is not connected")
-            mac = value["device_mac"].lower()
             learned = self.mac_to_port.get(dpid, {}).get(mac)
             port = int(value["switch_port"])
             if learned is None:
@@ -137,7 +166,6 @@ class AutoMUDController(ControllerApp):
                 raise ValueError(f"Stale device binding: expected port {port}, current port {learned}")
             parser = datapath.ofproto_parser
             match_fields = {"in_port": port, "eth_src": mac, "eth_type": 0x0800, "ipv4_src": value["device_ip"]}
-            scope = value.get("scope") or {}
             if scope.get("destination_ip"):
                 match_fields["ipv4_dst"] = scope["destination_ip"]
             protocol = scope.get("proto")
@@ -149,7 +177,7 @@ class AutoMUDController(ControllerApp):
             self.add_flow(datapath, priority, parser.OFPMatch(**match_fields), [], cookie=cookie, hard_timeout=ttl, send_removed=True)
             barrier = parser.OFPBarrierRequest(datapath)
             datapath.set_xid(barrier)
-            self.pending_barriers[(dpid, barrier.xid)] = decision_id
+            self.pending_barriers[(dpid, barrier.xid)] = (decision_id, "install")
             datapath.send_msg(barrier)
             accepted_at = time.time()
             record = {
@@ -160,6 +188,31 @@ class AutoMUDController(ControllerApp):
             }
             self.actions[decision_id] = record
             hub.spawn_after(ttl + 1, self._mark_expired, decision_id)
+            return record.copy()
+
+    def revoke_action(self, decision_id):
+        with self.lock:
+            record = self.actions.get(decision_id)
+            if record is None:
+                raise ValueError("Unknown decision_id")
+            if record["status"] in ("expired", "removed"):
+                return record.copy()
+            dpid = int(str(record["request"]["dpid"]), 16)
+            datapath = self.datapaths.get(dpid)
+            if datapath is None:
+                raise ValueError("Requested switch is not connected")
+            parser, ofp = datapath.ofproto_parser, datapath.ofproto
+            cookie = int(record["cookie"], 16)
+            datapath.send_msg(parser.OFPFlowMod(
+                datapath=datapath, cookie=cookie, cookie_mask=0xFFFFFFFFFFFFFFFF,
+                table_id=ofp.OFPTT_ALL, command=ofp.OFPFC_DELETE,
+                out_port=ofp.OFPP_ANY, out_group=ofp.OFPG_ANY,
+            ))
+            barrier = parser.OFPBarrierRequest(datapath)
+            datapath.set_xid(barrier)
+            self.pending_barriers[(dpid, barrier.xid)] = (decision_id, "remove")
+            datapath.send_msg(barrier)
+            record["status"] = "removing"
             return record.copy()
 
     def _mark_expired(self, decision_id):
@@ -173,10 +226,15 @@ class AutoMUDController(ControllerApp):
     def barrier_reply(self, event):
         key = (event.msg.datapath.id, event.msg.xid)
         with self.lock:
-            decision_id = self.pending_barriers.pop(key, None)
-            if decision_id and decision_id in self.actions:
-                self.actions[decision_id]["status"] = "installed"
-                self.actions[decision_id]["installed_at"] = time.time()
+            pending = self.pending_barriers.pop(key, None)
+            if pending and pending[0] in self.actions:
+                decision_id, operation = pending
+                if operation == "install":
+                    self.actions[decision_id]["status"] = "installed"
+                    self.actions[decision_id]["installed_at"] = time.time()
+                else:
+                    self.actions[decision_id]["status"] = "removed"
+                    self.actions[decision_id]["removed_at"] = time.time()
 
     @set_ev_cls(ofp_event.EventOFPFlowRemoved, MAIN_DISPATCHER)
     def flow_removed(self, event):
@@ -185,7 +243,10 @@ class AutoMUDController(ControllerApp):
             return
         with self.lock:
             for record in self.actions.values():
-                if int(record["cookie"], 16) == cookie:
+                if (
+                    int(record["cookie"], 16) == cookie
+                    and record["status"] in ("accepted", "installed")
+                ):
                     record["status"] = "expired"
                     record["expired_at"] = time.time()
                     break
@@ -216,6 +277,11 @@ class _ActionHandler(BaseHTTPRequestHandler):
         if self.path == "/v1/switches":
             self._send({"switches": self.app.switches()})
             return
+        if self.path == "/v1/actions":
+            with self.app.lock:
+                actions = [dict(value) for _, value in sorted(self.app.actions.items())]
+            self._send({"actions": actions})
+            return
         prefix = "/v1/actions/"
         if self.path.startswith(prefix):
             decision_id = self.path[len(prefix):]
@@ -236,4 +302,14 @@ class _ActionHandler(BaseHTTPRequestHandler):
             value = json.loads(self.rfile.read(length))
             self._send(self.app.install_action(value))
         except (ValueError, TypeError, KeyError, json.JSONDecodeError) as error:
+            self._send({"status": "rejected", "error": str(error)}, 409)
+
+    def do_DELETE(self):
+        prefix = "/v1/actions/"
+        if not self.path.startswith(prefix):
+            self._send({"status": "not_found"}, 404)
+            return
+        try:
+            self._send(self.app.revoke_action(self.path[len(prefix):]))
+        except (ValueError, TypeError, KeyError) as error:
             self._send({"status": "rejected", "error": str(error)}, 409)

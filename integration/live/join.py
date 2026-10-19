@@ -17,6 +17,8 @@ def join_evidence(window, gnn=None, mud=None, now=time.time):
     if mismatches:
         raise ValueError("Cross-window/identity evidence join rejected: " + ", ".join(mismatches))
     missing = [name for name, value in (("gnn", gnn), ("mud", mud)) if value is None]
+    gnn_fresh = bool(gnn and gnn.get("integration_health", {}).get("fresh", True))
+    mud_available = bool(mud and mud.get("health", {}).get("available"))
     joined = {
         "schema_version": "automud.joined-evidence.v1",
         **{field: window[field] for field in JOIN_FIELDS},
@@ -24,10 +26,10 @@ def join_evidence(window, gnn=None, mud=None, now=time.time):
         "gnn_evidence": gnn,
         "mud_evidence": mud,
         "branch_status": {
-            "gnn": "available" if gnn is not None else "unavailable",
-            "mud": "available" if mud is not None and mud["health"]["available"] else "unavailable",
+            "gnn": "available" if gnn is not None and gnn_fresh else ("stale" if gnn is not None else "unavailable"),
+            "mud": "available" if mud_available else "unavailable",
         },
-        "partial": bool(missing or (mud and not mud["health"]["available"])),
+        "partial": bool(missing or not gnn_fresh or not mud_available),
         "joined_at": now(),
     }
     joined["join_id"] = canonical_digest({k: v for k, v in joined.items() if k != "joined_at"})
