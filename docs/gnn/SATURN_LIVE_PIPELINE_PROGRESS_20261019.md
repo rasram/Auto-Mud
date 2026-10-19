@@ -4,6 +4,9 @@ Recorded 19 October 2026. This receipt covers the first implementation against
 the ordered live handoff. It supplements the installation receipt; it does not
 declare the team deployment complete or enable automatic enforcement.
 
+The ordered implementation and acceptance work for the remaining gates is in
+[the live-pipeline completion plan](LIVE_PIPELINE_COMPLETION_PLAN_20261019.md).
+
 ## Implemented on the `codex/live-pipeline` branch
 
 - `configs/live/saturn.json` defines the 12-device supervised engineering

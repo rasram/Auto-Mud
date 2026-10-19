@@ -9,6 +9,8 @@ Saturn's installation is now qualified and its E1+Q service is running, as
 recorded below. The remaining integration steps retain their team ownership.
 The first controller/sensor/integration implementation on Saturn is tracked in
 [Saturn live-pipeline progress](SATURN_LIVE_PIPELINE_PROGRESS_20261019.md).
+The ordered implementation and acceptance work for the remaining gates is in
+[the live-pipeline completion plan](LIVE_PIPELINE_COMPLETION_PLAN_20261019.md).
 
 The ML service, supervised feature/history adapter, frozen assets, installation
 fixture and software acceptance are supplied. Teammates complete the sensor
