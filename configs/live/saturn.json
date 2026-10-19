@@ -1,0 +1,54 @@
+{
+  "schema_version": "automud.deployment.v1",
+  "deployment_id": "saturn-supervised-lab",
+  "inventory_version": "saturn-supervised-20261019-v1",
+  "observation_kind": "engineering",
+  "network": {
+    "subnet": "10.0.0.0/24",
+    "bridge": "s1",
+    "dpid": "0000000000000001",
+    "openflow": "OpenFlow13",
+    "fail_mode": "secure",
+    "controller_host": "127.0.0.1",
+    "controller_port": 6653,
+    "controller_api": "http://127.0.0.1:8080",
+    "sensor_name": "sensor",
+    "sensor_interface": "sensor-eth0",
+    "sensor_id": "saturn-zeek-1"
+  },
+  "paths": {
+    "zeek": "/opt/zeek/bin/zeek",
+    "zeek_policy": "/opt/automud/Auto-Mud/network/zeek/automud-window.zeek",
+    "runtime_root": "/mnt/data/automud/live",
+    "event_log": "/mnt/data/automud/live/events.jsonl",
+    "queue": "/mnt/data/automud/live/queue"
+  },
+  "gnn": {
+    "url": "http://127.0.0.1:8001",
+    "timeout_seconds": 30,
+    "stale_after_seconds": 180
+  },
+  "mud": {
+    "policy": "configs/mud/saturn-lab-policy.json"
+  },
+  "decision": {
+    "mode": "observe",
+    "join_timeout_seconds": 10,
+    "cooldown_seconds": 120,
+    "action_ttl_seconds": 30
+  },
+  "devices": [
+    {"device_id": "AmazonEcho_44650d56ccd3_flows", "device_type": "speaker", "ip": "10.0.0.11", "mac": "02:00:00:00:00:01"},
+    {"device_id": "AugustDoorBell_e076d03f00ae_flows", "device_type": "doorbell", "ip": "10.0.0.12", "mac": "02:00:00:00:00:02"},
+    {"device_id": "BelkinWemoMotionSensor_ec1a59832811_flows", "device_type": "motion_sensor", "ip": "10.0.0.13", "mac": "02:00:00:00:00:03"},
+    {"device_id": "BelkinWemoSwitch_ec1a5979f489_flows", "device_type": "plug", "ip": "10.0.0.14", "mac": "02:00:00:00:00:04"},
+    {"device_id": "HPPrinter_705a0fe49bc0_flows", "device_type": "printer", "ip": "10.0.0.15", "mac": "02:00:00:00:00:05"},
+    {"device_id": "NestDropCam_308cfb2fe4b2_flows", "device_type": "camera", "ip": "10.0.0.16", "mac": "02:00:00:00:00:06"},
+    {"device_id": "NetatmoWeatherStation_70ee5003b8ac_flows", "device_type": "environmental_sensor", "ip": "10.0.0.17", "mac": "02:00:00:00:00:07"},
+    {"device_id": "PhilipsHue_0017882b9a25_flows", "device_type": "light", "ip": "10.0.0.18", "mac": "02:00:00:00:00:08"},
+    {"device_id": "SamsungCamera_00166cab6b88_flows", "device_type": "camera", "ip": "10.0.0.19", "mac": "02:00:00:00:00:09"},
+    {"device_id": "SamsungSmartThings_d052a800675e_flows", "device_type": "hub", "ip": "10.0.0.20", "mac": "02:00:00:00:00:0a"},
+    {"device_id": "LiFXBulb_d073d5018308_flows", "device_type": "light", "ip": "10.0.0.21", "mac": "02:00:00:00:00:0b"},
+    {"device_id": "NetatmoWelcome_70ee50183443_flows", "device_type": "camera", "ip": "10.0.0.22", "mac": "02:00:00:00:00:0c"}
+  ]
+}

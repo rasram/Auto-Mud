@@ -8,7 +8,8 @@
 module AutoMUD;
 
 export {
-    redef enum Log::ID += { LOG };
+    redef enum Log::ID += { LOG, HEALTH_LOG };
+    const clock_synchronized: bool = F &redef;
     type Info: record {
         schema_version: string &log &default="automud.graph.v1";
         window_start: double &log;
@@ -31,6 +32,17 @@ export {
         orig_mac: string &log &optional;
         resp_mac: string &log &optional;
     };
+    type HealthInfo: record {
+        schema_version: string &log &default="automud.sensor-health.v1";
+        window_start: double &log;
+        window_end: double &log;
+        watermark: double &log;
+        complete: bool &log;
+        sensor_healthy: bool &log &default=T;
+        clock_synchronized: bool &log;
+        capture_drops: count &log;
+        drop_measurement: string &log &default="zeek_get_net_stats_pkts_dropped_delta";
+    };
 }
 
 global rows: table[string] of Info;
@@ -39,9 +51,18 @@ global established_uids: table[string] of double;
 global rejected_uids: table[string] of double;
 global attempted_uids: set[string];
 global pending_cleanup: set[string];
+global previous_capture_drops: count = 0;
+global sensor_started_at: double = -1.0;
 
-function flush_window()
+function sensor_clock(): time
     {
+    if ( reading_live_traffic() ) return current_time();
+    return network_time();
+    }
+
+function flush_window(complete: bool)
+    {
+    if ( current_window <= 0.0 ) return;
     for (uid in rows)
         {
         local r = rows[uid];
@@ -61,11 +82,29 @@ function flush_window()
         delete attempted_uids[uid];
         }
     pending_cleanup = set();
+    local stats = get_net_stats();
+    local drops = stats$pkts_dropped - previous_capture_drops;
+    Log::write(HEALTH_LOG, [$window_start=current_window,
+                            $window_end=current_window + 60.0,
+                            $watermark=time_to_double(sensor_clock()),
+                            $complete=complete && sensor_started_at <= current_window,
+                            $sensor_healthy=T,
+                            $clock_synchronized=clock_synchronized,
+                            $capture_drops=drops]);
+    previous_capture_drops = stats$pkts_dropped;
     }
 
 event zeek_init()
     {
     Log::create_stream(LOG, [$columns=Info, $path="automud-window"]);
+    Log::create_stream(HEALTH_LOG, [$columns=HealthInfo, $path="automud-health"]);
+    if ( reading_live_traffic() )
+        {
+        sensor_started_at = time_to_double(current_time());
+        current_window = floor(sensor_started_at / 60.0) * 60.0;
+        }
+    local stats = get_net_stats();
+    previous_capture_drops = stats$pkts_dropped;
     }
 
 event connection_established(c: connection)
@@ -92,10 +131,10 @@ event connection_state_remove(c: connection)
 
 event interval_tick()
     {
-    local next_window = floor(time_to_double(network_time()) / 60.0) * 60.0;
+    local next_window = floor(time_to_double(sensor_clock()) / 60.0) * 60.0;
     if ( current_window >= 0.0 && next_window > current_window )
         {
-        flush_window();
+        flush_window(T);
         current_window = next_window;
         }
     schedule 1sec { interval_tick() };
@@ -110,10 +149,14 @@ event new_packet(c: connection, p: pkt_hdr)
     {
     local ts = time_to_double(network_time());
     local window = floor(ts / 60.0) * 60.0;
-    if ( current_window < 0.0 ) current_window = window;
+    if ( current_window <= 0.0 )
+        {
+        current_window = window;
+        if ( sensor_started_at <= 0.0 ) sensor_started_at = ts;
+        }
     if ( window > current_window )
         {
-        flush_window();
+        flush_window(T);
         current_window = window;
         }
     if ( window < current_window )
@@ -165,5 +208,5 @@ event new_packet(c: connection, p: pkt_hdr)
 
 event zeek_done()
     {
-    flush_window();
+    flush_window(F);
     }

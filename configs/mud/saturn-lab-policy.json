@@ -1,0 +1,28 @@
+{
+  "schema_version": "automud.mud-policy.v1",
+  "policy_version": "saturn-lab-mud-20261019-v1",
+  "purpose": "Engineering permissions for the supervised Saturn Mininet cohort; team review is required before live enforcement",
+  "default": "deny",
+  "device_policies": {
+    "AmazonEcho_44650d56ccd3_flows": "data/references/mudgee_muds/amazonEchoMud.json",
+    "AugustDoorBell_e076d03f00ae_flows": "data/references/mudgee_muds/augustdoorbellcamMud.json",
+    "BelkinWemoMotionSensor_ec1a59832811_flows": "data/references/mudgee_muds/wemomotionMud.json",
+    "BelkinWemoSwitch_ec1a5979f489_flows": "data/references/mudgee_muds/wemoswitchMud.json",
+    "HPPrinter_705a0fe49bc0_flows": "data/references/mudgee_muds/hpprinterMud.json",
+    "NestDropCam_308cfb2fe4b2_flows": "data/references/mudgee_muds/dropcamMud.json",
+    "NetatmoWeatherStation_70ee5003b8ac_flows": "data/references/mudgee_muds/NetatmoWeatherStationMud.json",
+    "PhilipsHue_0017882b9a25_flows": "data/references/mudgee_muds/HueBulbMud.json",
+    "SamsungCamera_00166cab6b88_flows": "data/references/mudgee_muds/samsungsmartcamMud.json",
+    "SamsungSmartThings_d052a800675e_flows": "data/references/mudgee_muds/SmartThingsMud.json",
+    "LiFXBulb_d073d5018308_flows": "data/references/mudgee_muds/lifxbulbMud.json",
+    "NetatmoWelcome_70ee50183443_flows": "data/references/mudgee_muds/NetatmoCameraMud.json"
+  },
+  "permissions": [
+    {"initiator": "AmazonEcho_44650d56ccd3_flows", "responder": "SamsungSmartThings_d052a800675e_flows", "proto": "tcp", "service_port": 8080, "reason": "voice command to local hub"},
+    {"initiator": "SamsungSmartThings_d052a800675e_flows", "responder": "PhilipsHue_0017882b9a25_flows", "proto": "tcp", "service_port": 80, "reason": "hub control of bulb"},
+    {"initiator": "SamsungSmartThings_d052a800675e_flows", "responder": "BelkinWemoSwitch_ec1a5979f489_flows", "proto": "tcp", "service_port": 80, "reason": "hub control of switch"},
+    {"initiator": "BelkinWemoMotionSensor_ec1a59832811_flows", "responder": "PhilipsHue_0017882b9a25_flows", "proto": "tcp", "service_port": 80, "reason": "motion-triggered lighting"},
+    {"initiator": "BelkinWemoMotionSensor_ec1a59832811_flows", "responder": "SamsungCamera_00166cab6b88_flows", "proto": "tcp", "service_port": 554, "reason": "motion-triggered recording"},
+    {"initiator": "AugustDoorBell_e076d03f00ae_flows", "responder": "SamsungSmartThings_d052a800675e_flows", "proto": "tcp", "service_port": 8080, "reason": "doorbell event to local hub"}
+  ]
+}

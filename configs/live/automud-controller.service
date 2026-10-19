@@ -1,0 +1,22 @@
+[Unit]
+Description=AutoMUD OpenFlow 1.3 controller and action API
+After=network-online.target openvswitch-switch.service
+Wants=network-online.target
+Requires=openvswitch-switch.service
+
+[Service]
+Type=simple
+User=automud
+Group=automud
+WorkingDirectory=/opt/automud/Auto-Mud
+ExecStart=/usr/bin/osken-manager --ofp-listen-host 127.0.0.1 --ofp-tcp-listen-port 6653 network/sdn/automud_controller.py
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadOnlyPaths=/opt/automud/Auto-Mud
+
+[Install]
+WantedBy=multi-user.target
