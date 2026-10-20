@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#07110f">
+  <meta name="theme-color" content="#07130f">
   <title>AutoMUD Security Console</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -104,7 +104,7 @@
       <section class="page" id="page-alerts" data-title="Alerts & decisions">
         <div class="section-intro">
           <div><p class="kicker">Review findings</p><h2>Findings</h2><p>Repeated connections are grouped by device and route. Policy violations and monitoring issues remain separate.</p></div>
-          <div class="toolbar"><select id="alert-scope" aria-label="Alert evidence age"><option value="current">Current</option><option value="historical">Historical</option><option value="all">All retained</option></select><select id="alert-filter" aria-label="Filter alerts"><option value="all">All alerts</option><option value="security">Security</option><option value="operations">Operations</option><option value="critical">Critical only</option></select></div>
+          <div class="toolbar"><select id="alert-scope" aria-label="Alert evidence age"><option value="current">Current</option><option value="historical">Recent history</option><option value="all">Current + recent</option></select><select id="alert-filter" aria-label="Filter alerts"><option value="all">All alerts</option><option value="security">Security</option><option value="operations">Operations</option><option value="critical">Critical only</option></select></div>
         </div>
         <p class="drawer-note" id="alert-summary"></p>
         <div class="alert-feed" id="alert-feed"></div>
