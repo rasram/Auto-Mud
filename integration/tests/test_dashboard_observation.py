@@ -1,7 +1,7 @@
 import copy
 
 from integration.live.config import load_deployment
-from integration.live.dashboard import build_dashboard_snapshot
+from integration.live.dashboard import _dashboard_payload, build_dashboard_snapshot
 from integration.tests.test_live_pipeline import CONFIG, flow, gnn_evidence, window
 from integration.live.mud import MUDEngine
 from network.testbed.live_probe import probe_plan
@@ -110,6 +110,27 @@ def test_operations_alerts_survive_more_than_200_security_findings():
     alerts = build_dashboard_snapshot(load_deployment(CONFIG), older + newer)["alerts"]
     assert len(alerts) == 211
     assert any(row["category"] == "operations" for row in alerts)
+
+
+def test_initial_dashboard_payload_is_bounded_without_losing_current_findings():
+    older = records(complete=False, score=None)
+    newer = records(start=120)
+    newer[-1]["payload"]["proposals"] = [
+        {
+            "proposal_id": str(index), "target_device_id": "echo", "tier": "alert",
+            "reason": "forbidden_exchange", "diagnostic": "x" * 2000,
+        }
+        for index in range(600)
+    ]
+    snapshot = build_dashboard_snapshot(
+        load_deployment(CONFIG), older + newer,
+        runtime={"active": True, "run_id": "run-1"}, now=185,
+    )
+    payload = _dashboard_payload(snapshot)
+    assert len(payload["alerts"]) == 600
+    assert all(row["current"] for row in payload["alerts"])
+    assert "proposals" not in payload["traces"][0]["decision"]
+    assert len(snapshot["trace_details"]["run-1-120"]["decision"]["proposals"]) == 600
 
 
 def test_probe_plan_uses_existing_lab_permissions_and_all_twelve_devices():

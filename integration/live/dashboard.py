@@ -21,6 +21,8 @@ from integration.live.config import active_binding, load_deployment
 
 MAX_EVENTS = 20000
 MAX_BODY_BYTES = 16384
+DASHBOARD_ALERT_LIMIT = 500
+DASHBOARD_TRACE_LIMIT = 100
 SECURITY_HEADERS = {
     "Content-Security-Policy": (
         "default-src 'self'; img-src 'self' data:; style-src 'self'; "
@@ -416,6 +418,35 @@ def _alerts(traces):
     return sorted(grouped.values(), key=lambda row: row.get("window_start") or 0, reverse=True)
 
 
+def _trace_summary(trace):
+    """Return list-view trace data without repeating full proposal documents."""
+    summary = {key: value for key, value in trace.items() if key != "events"}
+    decision = dict(summary.get("decision") or {})
+    decision.pop("proposals", None)
+    summary["decision"] = decision
+    return summary
+
+
+def _limited_alerts(alerts, limit=DASHBOARD_ALERT_LIMIT):
+    """Keep every current finding, then fill the response with recent history."""
+    limit = max(1, min(int(limit), 2000))
+    current = [row for row in alerts if row.get("current")]
+    historical = [row for row in alerts if not row.get("current")]
+    return (current + historical[:max(0, limit - len(current))])[:max(limit, len(current))]
+
+
+def _dashboard_payload(snapshot):
+    """Build the bounded initial payload used by every dashboard page."""
+    return {
+        "overview": snapshot["overview"],
+        "devices": snapshot["devices"],
+        "topology": snapshot["topology"],
+        "alerts": _limited_alerts(snapshot["alerts"]),
+        "actions": snapshot["actions"],
+        "traces": [_trace_summary(trace) for trace in snapshot["traces"][:DASHBOARD_TRACE_LIMIT]],
+    }
+
+
 def _controller_snapshot(url):
     result = {"available": False, "actions": [], "switches": [], "error": None}
     try:
@@ -563,7 +594,7 @@ def build_dashboard_snapshot(deployment, rows, finalizer=None, controller=None, 
         "overview": overview, "devices": device_rows,
         "topology": _topology(deployment, traces, device_rows),
         "alerts": alert_rows, "actions": action_rows,
-        "traces": [{key: value for key, value in trace.items() if key != "events"} for trace in traces[:250]],
+        "traces": [_trace_summary(trace) for trace in traces[:250]],
         "trace_details": {trace["trace_id"]: trace for trace in traces[:250]},
     }
 
@@ -675,7 +706,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         snapshot = self.server.snapshots.get() if parsed.path.startswith("/api/") else None
         if parsed.path == "/api/dashboard":
-            self._json({key: value for key, value in snapshot.items() if key != "trace_details"})
+            self._json(_dashboard_payload(snapshot))
             return
         if parsed.path == "/api/status":
             self._json(snapshot["overview"])
@@ -687,7 +718,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._json(snapshot["topology"])
             return
         if parsed.path == "/api/alerts":
-            self._json({"alerts": snapshot["alerts"]})
+            limit = parse_qs(parsed.query).get("limit", [DASHBOARD_ALERT_LIMIT])[0]
+            self._json({"alerts": _limited_alerts(snapshot["alerts"], limit)})
             return
         if parsed.path == "/api/actions":
             self._json({"actions": snapshot["actions"], "controller": snapshot["overview"]["controller"]})
