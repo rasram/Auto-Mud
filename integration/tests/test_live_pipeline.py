@@ -8,7 +8,7 @@ from integration.live.common import canonical_digest
 from integration.live.config import bindings, interval_inventory, load_deployment
 from integration.live.coordinator import JoinCoordinator
 from integration.live.decision import DecisionEngine
-from integration.live.dashboard import _traces
+from integration.live.dashboard import _traces, _write_overrides, build_dashboard_snapshot
 from integration.live.finalizer import DurableFinalizer, build_window
 from integration.live.gnn import validate_gnn_evidence
 from integration.live.join import join_evidence
@@ -220,6 +220,66 @@ def test_dashboard_keeps_window_and_decision_stage_times_separate():
     trace = _traces(rows)[0]
     assert trace["latency_seconds"]["window_close_to_join"] == 5.0
     assert trace["latency_seconds"]["join_to_decision"] == 1.0
+
+
+def test_dashboard_builds_device_alert_topology_and_trace_views(tmp_path):
+    deployment = load_deployment(CONFIG)
+    deployment["decision"]["override_file"] = str(tmp_path / "overrides.json")
+    observed = window([flow("denied", "10.0.0.11", "10.0.0.20", 22)])
+    observed["inventory"] = [
+        {
+            "device_id": device["device_id"], "device_type": device["device_type"],
+            "mac": device["mac"],
+            "addresses": [{"ip": device["ip"], "start": 60, "end": 120}],
+        }
+        for device in deployment["devices"]
+    ]
+    gnn = gnn_evidence(observed)
+    gnn["devices"][0].update({
+        "device_type": "speaker", "status": "active", "behavioral_score": 0.2,
+        "behavioral_flag": False, "link_anomaly": 7.0, "link_flag": True,
+        "calibration_scope": {"a": {"value": 0.7}, "b": {"value": 4.9}},
+        "unscored_reasons": {}, "history": {"fully_warmed": True},
+        "profile_support": {"known_device": True},
+    })
+    mud = MUDEngine(deployment, now=lambda: 130).evaluate(observed)
+    joined = join_evidence(observed, gnn, mud, now=lambda: 131)
+    deployment["paths"]["state_db"] = str(tmp_path / "state.sqlite3")
+    decision = DecisionEngine(deployment, now=lambda: 132).decide(joined)
+    trace_id = "trace-dashboard"
+    rows = [
+        {"trace_id": trace_id, "kind": "window", "recorded_at": 121, "payload": observed},
+        {"trace_id": trace_id, "kind": "mud_evidence", "recorded_at": 125, "payload": mud},
+        {"trace_id": trace_id, "kind": "gnn_evidence", "recorded_at": 125.5, "payload": gnn},
+        {"trace_id": trace_id, "kind": "joined_evidence", "recorded_at": 126, "payload": joined},
+        {"trace_id": trace_id, "kind": "decision", "recorded_at": 127, "payload": decision},
+    ]
+    snapshot = build_dashboard_snapshot(
+        deployment, rows, finalizer={"queue_depth": 0},
+        controller={"available": True, "actions": [], "switches": []},
+    )
+    assert snapshot["overview"]["metrics"]["devices"] == 12
+    assert snapshot["overview"]["metrics"]["anomalous_devices"] == 1
+    assert snapshot["devices"][0]["risk"] == "anomalous"
+    assert snapshot["topology"]["edges"][0]["permissions"]["denied"] == 1
+    assert snapshot["alerts"][0]["category"] == "security"
+    assert "Head B" in snapshot["alerts"][0]["explanation"]
+    assert snapshot["traces"][0]["counts"]["mud_denied"] == 1
+    assert trace_id in snapshot["trace_details"]
+
+
+def test_dashboard_override_store_is_atomic_and_private(tmp_path):
+    path = tmp_path / "human-overrides.json"
+    document = {
+        "schema_version": "automud.human-overrides.v1",
+        "overrides": [{
+            "override_id": "maintenance", "action": "suppress", "actor": "operator",
+            "reason": "planned device maintenance", "expires_at": 9999999999,
+        }],
+    }
+    _write_overrides(path, document)
+    assert json.loads(path.read_text()) == document
+    assert path.stat().st_mode & 0o777 == 0o600
 
 
 def test_finalizer_emits_silent_healthy_window_and_marks_missing_health_unavailable(tmp_path):
