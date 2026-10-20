@@ -77,6 +77,15 @@ def _trace_health(window, gnn, mud, joined):
     return {
         "sensor": "healthy" if sensor_ok else "unhealthy",
         "sensor_detail": sensor,
+        "issues": [label for condition, label in (
+            (sensor.get("complete") is not True, "incomplete_sensor_window"),
+            (sensor.get("sensor_healthy") is not True, "sensor_unhealthy"),
+            (sensor.get("clock_synchronized") is not True, "clock_unsynchronized"),
+            (sensor.get("capture_drops") != 0, "capture_drops_or_unavailable"),
+            (bool(sensor.get("unavailable_device_ids")), "device_identity_unavailable"),
+        ) if condition],
+        "complete": sensor.get("complete") is True,
+        "joined": bool(joined) and joined.get("partial") is False,
         "gnn": branch.get("gnn", "unavailable" if not gnn else "available"),
         "gnn_detail": gnn.get("health") or {},
         "gnn_fresh": freshness.get("fresh"),
@@ -134,7 +143,7 @@ def _traces(rows, include_events=True):
             "counts": {
                 "flows": len(telemetry),
                 "devices": len(devices),
-                "active_devices": sum(row.get("status") == "active" for row in devices),
+                "active_devices": sum(row.get("status") in ("ok", "active") for row in devices),
                 "behavioral_flags": sum(row.get("behavioral_flag") is True for row in devices),
                 "link_flags": sum(row.get("link_flag") is True for row in devices),
                 "mud_allowed": mud_counts["allowed"],
@@ -195,6 +204,7 @@ def _friendly_name(device_id):
 def _devices(deployment, traces):
     configured = {row["device_id"]: row for row in deployment["devices"]}
     latest = {}
+    last_valid = defaultdict(dict)
     histories = defaultdict(list)
     latest_mud = defaultdict(Counter)
     last_seen = {}
@@ -205,7 +215,16 @@ def _devices(deployment, traces):
             device_id = row.get("device_id")
             if not device_id:
                 continue
-            latest[device_id] = row
+            if trace is traces[0]:
+                latest[device_id] = row
+            for head, score, flag in (("a", "behavioral_score", "behavioral_flag"), ("b", "link_anomaly", "link_flag")):
+                if row.get(score) is not None and row.get(flag) is not None:
+                    last_valid[device_id][head] = {
+                        "score": row[score], "flag": row[flag],
+                        "threshold": ((row.get("calibration_scope") or {}).get(head) or {}).get("value"),
+                        "window_start": trace.get("window_start"), "run_id": trace.get("run_id"),
+                        "session_id": trace.get("session_id"), "trace_id": trace["trace_id"],
+                    }
             histories[device_id].append({
                 "window_start": trace.get("window_start"),
                 "behavioral_score": row.get("behavioral_score"),
@@ -230,9 +249,9 @@ def _devices(deployment, traces):
         a_flag, b_flag = evidence.get("behavioral_flag"), evidence.get("link_flag")
         if a_flag is True or b_flag is True:
             risk = "anomalous"
-        elif evidence.get("status") == "active" and a_flag is False and b_flag is False:
+        elif evidence.get("status") in ("ok", "active") and a_flag is False and b_flag is False:
             risk = "normal"
-        elif evidence.get("status") == "active":
+        elif evidence.get("status") in ("ok", "active"):
             risk = "monitoring"
         else:
             risk = "unscored"
@@ -241,7 +260,10 @@ def _devices(deployment, traces):
             "device_id": device_id,
             "name": _friendly_name(device_id),
             "device_type": config.get("device_type"),
-            "binding": {"ip": binding.get("ip"), "mac": binding.get("mac"), "switch_port": binding.get("switch_port")},
+            "binding": {"ip": None, "mac": None, "switch_port": None, **binding, "inventory_version": deployment["inventory_version"]},
+            "evidence_window": newest_window if traces else None,
+            "evidence_run_id": traces[0].get("run_id") if traces else None,
+            "last_valid": last_valid[device_id],
             "status": evidence.get("status", "unavailable"),
             "risk": risk,
             "behavioral_score": evidence.get("behavioral_score"),
@@ -250,7 +272,9 @@ def _devices(deployment, traces):
             "link_anomaly": evidence.get("link_anomaly"),
             "link_flag": b_flag,
             "link_threshold": (calibration.get("b") or {}).get("value"),
-            "unscored_reasons": evidence.get("unscored_reasons") or {},
+            "unscored_reasons": evidence.get("unscored_reasons") or (
+                {} if evidence else {"a": "current_evidence_unavailable", "b": "current_evidence_unavailable"}
+            ),
             "history_state": evidence.get("history") or {},
             "profile_support": evidence.get("profile_support") or {},
             "mud": dict(latest_mud[device_id]),
@@ -261,7 +285,7 @@ def _devices(deployment, traces):
 
 
 def _topology(deployment, traces, device_rows):
-    nodes = [{"id": "automud-gateway", "name": "AutoMUD Gateway", "type": "gateway", "status": "online"}]
+    nodes = []
     nodes.extend({
         "id": row["device_id"], "name": row["name"], "type": row["device_type"],
         "status": row["status"], "risk": row["risk"], "ip": row["binding"]["ip"],
@@ -296,7 +320,15 @@ def _topology(deployment, traces, device_rows):
         edge["permissions"] = dict(edge["permissions"])
         output.append(edge)
     output.sort(key=lambda row: (row["permissions"].get("denied", 0), row["count"]), reverse=True)
-    return {"nodes": nodes, "edges": output[:120]}
+    return {
+        "nodes": nodes, "edges": output, "total_relationships": len(output),
+        "total_flows": sum(row["count"] for row in output),
+        "window_start": min((row["window_start"] for row in traces[:5] if row.get("window_start") is not None), default=None),
+        "window_end": max((row["window_end"] for row in traces[:5] if row.get("window_end") is not None), default=None),
+        "run_ids": sorted({row["run_id"] for row in traces[:5] if row.get("run_id")}),
+        "session_ids": sorted({row["session_id"] for row in traces[:5] if row.get("session_id")}),
+        "kind": "observed_logical_communication", "retained_windows": min(5, len(traces)),
+    }
 
 
 def _explanation(proposal, observation_kind, mode):
@@ -341,6 +373,9 @@ def _alerts(traces):
                 "proposal": proposal,
             })
         problems = [reason for reason in decision.get("withheld_reasons") or [] if reason != "engineering_observation"]
+        issues = trace.get("health", {}).get("issues") or []
+        if "gnn_observation_unhealthy" in problems and issues:
+            problems = [reason for reason in problems if reason != "gnn_observation_unhealthy"] + issues
         if trace.get("health", {}).get("partial") is True and "partial_or_unavailable_branch" not in problems:
             problems.append("partial_or_unavailable_branch")
         if problems:
@@ -353,7 +388,23 @@ def _alerts(traces):
                 + ", ".join(reason.replace("_", " ") for reason in problems) + ".",
                 "state": "withheld",
             })
-    return sorted(output, key=lambda row: row.get("window_start") or 0, reverse=True)[:200]
+    grouped = {}
+    latest_trace = traces[0]["trace_id"] if traces else None
+    for row in output:
+        row["current"] = row["trace_id"] == latest_trace
+        row["occurrences"] = 1
+        row["first_window"] = row["window_start"]
+        if row["category"] == "security":
+            grouped[row["id"]] = row
+            continue
+        trace = next(item for item in traces if item["trace_id"] == row["trace_id"])
+        key = (trace.get("run_id"), row["explanation"])
+        if key in grouped:
+            grouped[key]["occurrences"] += 1
+            grouped[key]["first_window"] = row["window_start"]
+        else:
+            grouped[key] = row
+    return sorted(grouped.values(), key=lambda row: row.get("window_start") or 0, reverse=True)
 
 
 def _controller_snapshot(url):
@@ -369,14 +420,48 @@ def _controller_snapshot(url):
     return result
 
 
-def _actions(rows, controller):
+def _archived_action_events(runtime_root):
+    """Read explicit acceptance reports without inventing window/event joins."""
+    events = []
+    paths = sorted((Path(runtime_root) / "runs").glob("*/controller-action-smoke.json"), reverse=True)[:32]
+    for path in paths:
+        report = _read_json(path, {})
+        if report.get("status") != "passed":
+            continue
+        outcomes = [report.get(key) for key in ("accepted", "installed", "expired", "revoke_installed", "revoked")]
+        outage = report.get("controller_outage") or {}
+        if outage.get("installed"):
+            # A tested traffic recovery is evidence of effect, not a recorded
+            # terminal controller result. Preserve that distinction.
+            outcomes.append(outage["installed"])
+        for payload in outcomes:
+            if isinstance(payload, dict) and payload.get("request"):
+                events.append({
+                    "kind": "controller_outcome", "payload": payload,
+                    "source": "archived_acceptance", "run_id": path.parent.name,
+                    "evidence_path": str(path), "traffic_effect": {
+                        key: report[key] for key in (
+                            "tcp_reachable_before", "tcp_reachable_during", "unaffected_tcp_reachable_during",
+                            "tcp_reachable_after_expiry", "tcp_reachable_after_revoke"
+                        ) if key in report
+                    },
+                })
+    return events
+
+
+def _actions(rows, controller, now=None):
+    now = time.time() if now is None else now
     indexed = {}
+    lifecycle = defaultdict(list)
     for row in rows:
         if row.get("kind") != "controller_outcome":
             continue
         payload = row.get("payload") or {}
         request = payload.get("request") or {}
         decision_id = request.get("decision_id")
+        lifecycle[decision_id].append({key: payload.get(key) for key in (
+            "status", "accepted_at", "installed_at", "expires_at", "expired_at", "removed_at", "error"
+        )})
         indexed[decision_id or row.get("event_id")] = {
             "decision_id": decision_id, "device_id": request.get("device_id"),
             "device_name": _friendly_name(request.get("device_id")), "action": request.get("action"),
@@ -384,7 +469,9 @@ def _actions(rows, controller):
             "accepted_at": payload.get("accepted_at"), "installed_at": payload.get("installed_at"),
             "expires_at": payload.get("expires_at"), "expired_at": payload.get("expired_at"),
             "removed_at": payload.get("removed_at"), "ttl_seconds": request.get("ttl_seconds"),
-            "cookie": payload.get("cookie"), "error": payload.get("error"), "source": "event_log",
+            "cookie": payload.get("cookie"), "error": payload.get("error"), "source": row.get("source", "event_log"),
+            "run_id": row.get("run_id"), "evidence_path": row.get("evidence_path"),
+            "traffic_effect": row.get("traffic_effect"),
         }
     for payload in controller.get("actions") or []:
         request = payload.get("request") or {}
@@ -398,6 +485,10 @@ def _actions(rows, controller):
             "removed_at": payload.get("removed_at"), "ttl_seconds": request.get("ttl_seconds"),
             "cookie": payload.get("cookie"), "error": payload.get("error"), "source": "controller",
         }
+    for row in indexed.values():
+        row["lifecycle"] = lifecycle[row["decision_id"]]
+        if row["source"] == "archived_acceptance" and row.get("status") in ("accepted", "installed"):
+            row["status"] = "historical_terminal_unrecorded"
     return sorted(indexed.values(), key=lambda row: row.get("accepted_at") or 0, reverse=True)
 
 
@@ -408,16 +499,26 @@ def _percentile(values, fraction):
     return values[min(len(values) - 1, max(0, round((len(values) - 1) * fraction)))]
 
 
-def build_dashboard_snapshot(deployment, rows, finalizer=None, controller=None):
+def build_dashboard_snapshot(deployment, rows, finalizer=None, controller=None, runtime=None, now=None, archived_actions=None):
     traces = _traces(rows, include_events=True)
     device_rows = _devices(deployment, traces)
-    alert_rows = _alerts(traces)
+    alert_rows = _alerts(traces[:250])
     controller = controller or {"available": False, "actions": [], "switches": [], "error": "not queried"}
-    action_rows = _actions(rows, controller)
+    action_rows = _actions((archived_actions or []) + rows, controller, now=now)
     latest = traces[0] if traces else {}
+    now = time.time() if now is None else now
+    runtime = runtime or {}
+    last_observation = latest.get("window_end")
+    age = max(0, now - last_observation) if last_observation is not None else None
+    fresh = age is not None and age <= deployment["gnn"].get("stale_after_seconds", 180)
+    same_run = bool(runtime.get("run_id") and runtime.get("run_id") == latest.get("run_id"))
+    runtime_active = runtime.get("active") is True
+    current = runtime_active and fresh and same_run
+    for alert in alert_rows:
+        alert["current"] = alert["current"] and current
     latencies = [row.get("latency_seconds", {}).get("window_close_to_join") for row in traces]
     overview = {
-        "schema_version": "automud.dashboard.v2", "generated_at": time.time(),
+        "schema_version": "automud.dashboard.v2", "generated_at": now,
         "deployment_id": deployment["deployment_id"], "inventory_version": deployment["inventory_version"],
         "observation_kind": deployment["observation_kind"], "decision_mode": deployment["decision"]["mode"],
         "automatic_enforcement_enabled": bool(
@@ -425,12 +526,19 @@ def build_dashboard_snapshot(deployment, rows, finalizer=None, controller=None):
         ),
         "admin_controls_enabled": bool(os.environ.get("AUTOMUD_DASHBOARD_ADMIN_TOKEN")),
         "latest_window": latest.get("window_start"), "latest_health": latest.get("health") or {},
+        "last_observation": last_observation, "observation_age_seconds": age,
+        "evidence_fresh": fresh, "current_run_evidence": same_run,
+        "runtime": {key: runtime.get(key) for key in (
+            "active", "run_id", "session_id", "started_at", "stopped_at", "bridge", "sensor_interface", "traffic_kind"
+        )},
+        "sensor_input": "receiving" if current and (latest.get("health") or {}).get("sensor") == "healthy"
+        else "degraded" if current else "awaiting_current_observation" if runtime_active else "stopped",
         "model": latest.get("model") or {}, "mud_policy": latest.get("mud_policy") or {},
         "finalizer": finalizer or {}, "controller": controller,
         "metrics": {
-            "devices": len(device_rows), "active_devices": sum(row["status"] == "active" for row in device_rows),
+            "devices": len(device_rows), "active_devices": sum(row["status"] in ("ok", "active") for row in device_rows),
             "anomalous_devices": sum(row["risk"] == "anomalous" for row in device_rows),
-            "open_security_alerts": sum(row["category"] == "security" for row in alert_rows),
+            "open_security_alerts": sum(row["category"] == "security" and row["current"] for row in alert_rows),
             "active_actions": sum(row.get("status") in ("accepted", "installed", "removing") for row in action_rows),
             "windows": len(traces),
             "healthy_windows": sum(
@@ -461,18 +569,26 @@ class SnapshotCache:
     def get(self):
         event_path = Path(self.deployment["paths"]["event_log"])
         status_path = Path(self.deployment["paths"]["queue"]) / "status.json"
+        runtime_path = Path(self.deployment["paths"]["runtime_root"]) / "current.json"
         signature = (
             event_path.stat().st_mtime_ns if event_path.exists() else 0,
             event_path.stat().st_size if event_path.exists() else 0,
             status_path.stat().st_mtime_ns if status_path.exists() else 0,
+            runtime_path.stat().st_mtime_ns if runtime_path.exists() else 0,
             int(time.time() // 5),
         )
         with self.lock:
             if self.value is not None and self.signature == signature:
                 return self.value
+            runtime = _read_json(runtime_path, {})
+            if runtime.get("active") and runtime.get("topology_pid"):
+                from integration.live.finalizer import _runtime_process_active
+                runtime["active"] = _runtime_process_active(runtime)
             self.value = build_dashboard_snapshot(
                 self.deployment, _events(event_path, MAX_EVENTS), _read_json(status_path, {}),
                 _controller_snapshot(self.deployment["network"]["controller_api"]),
+                runtime=runtime,
+                archived_actions=_archived_action_events(self.deployment["paths"]["runtime_root"]),
             )
             self.signature = signature
             return self.value
@@ -509,6 +625,7 @@ class DashboardServer(ThreadingHTTPServer):
         self.deployment = deployment
         self.static_root = Path(static_root).resolve()
         self.snapshots = SnapshotCache(deployment)
+        self.override_lock = threading.Lock()
 
 
 class DashboardHandler(BaseHTTPRequestHandler):
@@ -540,7 +657,10 @@ class DashboardHandler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", "0"))
         if length <= 0 or length > MAX_BODY_BYTES:
             raise ValueError("Invalid request body size")
-        return json.loads(self.rfile.read(length))
+        value = json.loads(self.rfile.read(length))
+        if not isinstance(value, dict):
+            raise ValueError("Request body must be an object")
+        return value
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -624,14 +744,19 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 raise ValueError("Actor or reason is missing or too long")
             if expires_at < now + 60 or expires_at > now + 7 * 86400:
                 raise ValueError("Override expiry must be between one minute and seven days")
-            document = _override_document(path)
             override = {
                 "override_id": "dashboard-" + secrets.token_hex(8), "action": "suppress",
                 "actor": actor, "reason": reason, "expires_at": expires_at,
                 "target_device_id": target, "created_at": now, "source": "dashboard",
             }
-            document.setdefault("overrides", []).append(override)
-            _write_overrides(path, document)
+            with self.server.override_lock:
+                document = _override_document(path)
+                document.setdefault("overrides", []).append(override)
+                document.setdefault("audit", []).append({
+                    "operation": "create", "recorded_at": now, "actor": actor,
+                    "reason": reason, "override": dict(override),
+                })
+                _write_overrides(path, document)
             self.server.snapshots.invalidate()
             self._json({"status": "created", "override": override}, 201)
         except (ValueError, TypeError, json.JSONDecodeError, OSError) as error:
@@ -650,13 +775,22 @@ class DashboardHandler(BaseHTTPRequestHandler):
             if not path:
                 raise ValueError("No override store is configured")
             override_id = unquote(self.path[len(prefix):])
-            document = _override_document(path)
-            before = len(document.get("overrides", []))
-            document["overrides"] = [row for row in document.get("overrides", []) if row.get("override_id") != override_id]
-            if len(document["overrides"]) == before:
-                self._json({"status": "not_found"}, 404)
-                return
-            _write_overrides(path, document)
+            value = self._body()
+            actor, reason = str(value.get("actor", "")).strip(), str(value.get("reason", "")).strip()
+            if not 2 <= len(actor) <= 80 or not 5 <= len(reason) <= 300:
+                raise ValueError("Removal requires an operator name and reason")
+            with self.server.override_lock:
+                document = _override_document(path)
+                removed = next((row for row in document.get("overrides", []) if row.get("override_id") == override_id), None)
+                if removed is None:
+                    self._json({"status": "not_found"}, 404)
+                    return
+                document["overrides"] = [row for row in document.get("overrides", []) if row.get("override_id") != override_id]
+                document.setdefault("audit", []).append({
+                    "operation": "remove", "recorded_at": time.time(), "actor": actor,
+                    "reason": reason, "override": dict(removed),
+                })
+                _write_overrides(path, document)
             self.server.snapshots.invalidate()
             self._json({"status": "removed", "override_id": override_id})
         except (ValueError, OSError) as error:

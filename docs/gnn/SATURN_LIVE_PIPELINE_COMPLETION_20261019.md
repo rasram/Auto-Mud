@@ -4,6 +4,19 @@ Recorded 19 October 2026 for branch `codex/live-pipeline-completion`. This
 record describes the engineering implementation and measured Saturn evidence.
 It does not approve production inventory, policy or automatic enforcement.
 
+## Engineering observation update — 20 October 2026
+
+See the [dashboard continuation record](../dashboard/SATURN_DASHBOARD_CONTINUATION_20261020.md)
+for the new supervised runtime, three consecutive complete scoreable windows,
+15-prior-window history receipt, clean stop/restart, dashboard corrections and
+final 103-test Python / 5-test frontend validation. All twelve devices receive
+both logits; full warm-up still requires one uninterrupted hour. Jayan approved
+boot auto-start for the isolated engineering testbed and kept suppression
+controls locked. The existing model, dataset, policy, inventory and engineering /
+observe gates remain unchanged. Archived controller tests are visible with honest
+provenance, but a new packet/window-linked enforcement lifecycle and the host
+persistence-fault scenario remain pending separate approval/evidence.
+
 ## Implemented
 
 - Deployment schema v2 supports time-bounded IP/MAC/switch-port bindings while

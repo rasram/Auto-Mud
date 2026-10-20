@@ -1,12 +1,20 @@
 # AutoMUD supervised E1+Q live pipeline handoff
 
-Updated 19 October 2026. The repository model is **original E1+Q**, seed 42,
+Updated 20 October 2026. The repository model is **original E1+Q**, seed 42,
 selected epoch 5, in `models/gnn/` (version `supervised-E1Q-20261018`). Only
 the model and required loading adapter change from C; the remaining pipeline,
 service configuration, frozen preprocessing and numbered owner steps stay the same.
 An existing host requires a coordinated model cutover using the lifecycle API.
 Saturn's installation is now qualified and its E1+Q service is running, as
 recorded below. The remaining integration steps retain their team ownership.
+
+**20 October engineering update:** the `codex/live-pipeline-completion` checkout
+now includes a supervised, boot-enabled Mininet/Zeek engineering testbed with
+fresh scored windows and corrected dashboard provenance. See the authoritative
+[continuation record](../dashboard/SATURN_DASHBOARD_CONTINUATION_20261020.md) for
+current checks and remaining gates; the installation-only descriptions below
+are historical. Full one-hour warm-up, new packet/window-linked enforcement,
+host persistence-fault acceptance and production owner sign-off remain open.
 The first controller/sensor/integration implementation on Saturn is tracked in
 [Saturn live-pipeline progress](SATURN_LIVE_PIPELINE_PROGRESS_20261019.md).
 The ordered implementation and acceptance work for the remaining gates is in

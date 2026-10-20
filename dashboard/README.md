@@ -23,3 +23,12 @@ operator access. To enable suppression controls, copy
 random token, make the file root-readable only, and restart
 `automud-dashboard`. The runtime override record is stored outside Git at
 `/mnt/data/automud/live/control/human-overrides.json`.
+
+Jayan chose to keep controls locked on 20 October 2026. Do not provision a token
+as part of read-only verification. Creation and removal retain audit entries in
+the protected ledger. An authenticated DELETE to `/api/overrides/<id>` requires
+a JSON body containing `actor` and `reason`; removal never erases the audit.
+
+The [20 October continuation](../docs/dashboard/SATURN_DASHBOARD_CONTINUATION_20261020.md)
+records the supervised engineering runtime, freshness and map corrections,
+historical action provenance, verification evidence and remaining approval gates.

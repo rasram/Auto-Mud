@@ -392,3 +392,9 @@ dialog input, dialog select, dialog textarea { width: 100%; border: 1px solid va
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+:root { --mixed-permission: #d2a6ff; }
+.network-edge.mixed { stroke: var(--mixed-permission); stroke-dasharray: 6 3; }
+#network-provenance { padding: 0 20px; overflow-wrap: anywhere; }
+.network-detail { overflow-wrap: anywhere; }
+.device-card > .drawer-note { display: block; padding: 0 18px 10px; font-size: 11px; }
+#observation-banner p { overflow-wrap: anywhere; }

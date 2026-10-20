@@ -214,12 +214,16 @@ def run(
     config_path, duration=0, no_cli=False, run_action_smoke=False,
     sensor_interruption_after=None, force_clock_unsynchronized=False,
     run_controller_outage=False,
+    engineering_traffic=False,
 ):
     if os.geteuid() != 0:
         raise RuntimeError("Run the live topology with sudo /usr/bin/python3")
     CLI, set_log_level, Mininet, OVSSwitch, RemoteController = _mininet()
     set_log_level("info")
     deployment = load_deployment(config_path)
+    if engineering_traffic:
+        from network.testbed.live_probe import probe_plan
+        traffic_plan = probe_plan(deployment)
     network = deployment["network"]
     if not _controller_ready(network["controller_host"], int(network["controller_port"])):
         raise RuntimeError("Controller is not listening at the configured address")
@@ -246,6 +250,14 @@ def run(
     sensor = net.addHost(network["sensor_name"], ip=None)
     sensor_link = net.addLink(sensor, switch)
     zeek_process = None
+    probe_processes = []
+    stop_requested = False
+
+    def request_stop(*_):
+        nonlocal stop_requested
+        stop_requested = True
+
+    previous_handlers = {sig: signal.signal(sig, request_stop) for sig in (signal.SIGTERM, signal.SIGINT)}
     runtime = None
     started = int(time.time())
     try:
@@ -295,17 +307,33 @@ def run(
         loss = net.ping(list(hosts.values()))
         if loss:
             raise RuntimeError(f"Baseline connectivity lost {loss}% of packets")
+        if engineering_traffic:
+            incoming = {row["ip"]: {18080} for row in deployment["devices"]}
+            for targets in traffic_plan.values():
+                for address, port in targets:
+                    incoming[address].add(port)
+            for device in deployment["devices"]:
+                probe_processes.append(hosts[device["device_id"]].popen([
+                    "/usr/bin/python3", "-m", "network.testbed.live_probe",
+                    "--address", device["ip"], "--ports", json.dumps(sorted(incoming[device["ip"]])),
+                    "--targets", json.dumps(traffic_plan[device["device_id"]]),
+                ]))
+            runtime["traffic_kind"] = "engineering_local_permission_and_denied_ring_probes"
+            atomic_json(run_root / "runtime.json", runtime)
+            atomic_json(runtime_root / "current.json", runtime)
         if run_action_smoke:
             report = action_smoke(
                 deployment, hosts, bridge, run_id, run_root,
                 run_controller_outage=run_controller_outage,
             )
             print(json.dumps({"controller_action_smoke": report["status"]}), flush=True)
-        if duration > 0:
+        if duration > 0 or no_cli:
             run_started = time.monotonic()
-            deadline = time.monotonic() + duration
+            deadline = time.monotonic() + duration if duration > 0 else float("inf")
             sensor_interrupted = False
-            while time.monotonic() < deadline:
+            while not stop_requested and time.monotonic() < deadline:
+                if any(process.poll() is not None for process in probe_processes):
+                    raise RuntimeError("Engineering probe process stopped")
                 if (
                     sensor_interruption_after is not None and not sensor_interrupted
                     and time.monotonic() - run_started >= sensor_interruption_after
@@ -323,6 +351,14 @@ def run(
             CLI(net)
         return runtime
     finally:
+        for process in probe_processes:
+            process.terminate()
+        for process in probe_processes:
+            try:
+                process.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
         if zeek_process and zeek_process.poll() is None:
             zeek_process.send_signal(signal.SIGINT)
             try:
@@ -336,6 +372,8 @@ def run(
             atomic_json(run_root / "runtime.json", runtime)
             atomic_json(runtime_root / "current.json", runtime)
         net.stop()
+        for sig, handler in previous_handlers.items():
+            signal.signal(sig, handler)
 
 
 def main():
@@ -344,6 +382,7 @@ def main():
     parser.add_argument("--duration", type=int, default=0)
     parser.add_argument("--no-cli", action="store_true")
     parser.add_argument("--action-smoke", action="store_true")
+    parser.add_argument("--engineering-traffic", action="store_true")
     parser.add_argument("--controller-outage-smoke", action="store_true")
     parser.add_argument("--sensor-interruption-after", type=float)
     parser.add_argument("--force-clock-unsynchronized", action="store_true")
@@ -354,6 +393,7 @@ def main():
         run_controller_outage=args.controller_outage_smoke,
         sensor_interruption_after=args.sensor_interruption_after,
         force_clock_unsynchronized=args.force_clock_unsynchronized,
+        engineering_traffic=args.engineering_traffic,
     )
 
 

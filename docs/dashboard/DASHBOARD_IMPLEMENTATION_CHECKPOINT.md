@@ -4,6 +4,22 @@ Updated 20 October 2026. This file is the compact, repository-scoped handoff
 between dashboard implementation parts. It does not replace pipeline acceptance
 evidence or owner approval.
 
+## Continuation — fresh engineering observation and dashboard corrections
+
+The [20 October continuation record](SATURN_DASHBOARD_CONTINUATION_20261020.md)
+supersedes the earlier stored-data verification below. Saturn now runs a
+supervised twelve-device engineering topology, sensor and labelled lab probes.
+Jayan approved boot auto-start and chose to keep administrative controls locked.
+Complete windows score all twelve devices; a 15-prior-window receipt and clean
+stop/restart evidence are retained. Full warm-up additionally requires one hour
+and remains a distinct pending check.
+
+Runtime/freshness, current/last-valid scores, precise incomplete health, map
+filtering/provenance, historical alerts and archived controller outcomes are
+corrected. Final validation is 103 Python tests and 5 frontend checks, with
+desktop/mobile verification. Production, new end-to-end enforcement, and the
+host persistence-fault gates remain open as listed in the continuation record.
+
 ## Completed: Part 1 — backend aggregation and guarded APIs
 
 - `integration/live/dashboard.py` now builds one cached operational snapshot

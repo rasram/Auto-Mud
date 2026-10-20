@@ -28,7 +28,8 @@
       </nav>
       <div class="sidebar-footer">
         <div><span>Inventory</span><code id="inventory-short">—</code></div>
-        <div><span>Last sync</span><strong id="last-sync">—</strong></div>
+        <div><span>Dashboard refreshed</span><strong id="last-sync">—</strong></div>
+        <div><span>Last observation</span><strong id="last-observation">—</strong></div>
       </div>
     </aside>
 
@@ -48,6 +49,7 @@
         <span class="mode-pill">PLEASE WAIT</span>
       </div>
       <div class="error-banner hidden" id="error-banner" role="alert"></div>
+      <div class="mode-banner warning" id="observation-banner" role="status"></div>
 
       <section class="page active" id="page-overview">
         <div class="metric-grid" id="metrics">
@@ -75,16 +77,18 @@
         </div>
       </section>
 
-      <section class="page" id="page-network" data-title="Live network map">
+      <section class="page" id="page-network" data-title="Observed communication map">
         <div class="section-intro">
-          <div><p class="kicker">Observed communications</p><h2>Live network map</h2><p>Recent device relationships coloured by independent MUD authorization.</p></div>
+          <div><p class="kicker">Recorded engineering evidence</p><h2>Observed communication map</h2><p>Logical communication from retained observations, coloured by independent MUD authorization. External addresses are grouped for display.</p></div>
           <div class="legend"><span><i class="legend-dot allowed"></i>Allowed</span><span><i class="legend-dot denied"></i>Denied</span><span><i class="legend-dot unknown"></i>Unknown</span></div>
         </div>
         <section class="panel network-panel">
           <div class="network-toolbar">
-            <label>Show <select id="network-filter"><option value="all">All traffic</option><option value="denied">Denied only</option><option value="allowed">Allowed only</option><option value="unknown">Unknown only</option></select></label>
+            <label>Show <select id="network-filter"><option value="all">All traffic</option><option value="denied">Denied only</option><option value="allowed">Allowed only</option><option value="unknown">Unknown only</option><option value="mixed">Mixed permissions</option></select></label>
+            <button class="text-button" id="network-reset" type="button">Reset filter</button>
             <p id="network-summary">Waiting for observations…</p>
           </div>
+          <p class="drawer-note" id="network-provenance"></p>
           <div class="network-canvas" id="network-canvas"></div>
           <div class="network-detail" id="network-detail"><span>Select a connection or device to inspect it.</span></div>
         </section>
@@ -99,8 +103,9 @@
       <section class="page" id="page-alerts" data-title="Alerts & decisions">
         <div class="section-intro">
           <div><p class="kicker">Explainable findings</p><h2>Alerts & decisions</h2><p>Security findings and operational warnings with the evidence behind each decision.</p></div>
-          <div class="toolbar"><select id="alert-filter" aria-label="Filter alerts"><option value="all">All alerts</option><option value="security">Security</option><option value="operations">Operations</option><option value="critical">Critical only</option></select></div>
+          <div class="toolbar"><select id="alert-scope" aria-label="Alert evidence age"><option value="current">Current</option><option value="historical">Historical</option><option value="all">All retained</option></select><select id="alert-filter" aria-label="Filter alerts"><option value="all">All alerts</option><option value="security">Security</option><option value="operations">Operations</option><option value="critical">Critical only</option></select></div>
         </div>
+        <p class="drawer-note" id="alert-summary"></p>
         <div class="alert-feed" id="alert-feed"></div>
       </section>
       <section class="page" id="page-actions" data-title="Enforcement lifecycle">
