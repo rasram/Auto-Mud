@@ -26,8 +26,26 @@ Validation on Saturn:
 - full regression: 92 passed in 16.54 seconds;
 - one existing PyTorch `torch.jit.script` future-deprecation warning.
 
-## Next: Part 2 — application shell and visual system
+## Completed: Part 2 — application shell and visual system
 
-Replace only the frontend structure and styling. Add responsive navigation,
-overview layout, loading/error/empty states and accessible interaction patterns.
-Do not implement topology/device/alert/action rendering until later parts.
+- Replaced the trace-only page with a responsive security-console shell.
+- Added desktop/sidebar and mobile/drawer navigation for overview, network,
+  devices, alerts, enforcement and pipeline views.
+- Added a prominent safety/degraded/enforcement banner and an overview with
+  protected inventory, findings, active response, observation health, pipeline
+  stages, attention queue, recent activity and active policy/model identity.
+- Added explicit loading, empty and error states, keyboard focus styles,
+  reduced-motion support, a 10-second request timeout and bounded 30-second
+  refresh.
+
+Validation on Saturn:
+
+- all HTML, CSS and JavaScript assets served successfully;
+- desktop browser rendered real live data with no console warnings/errors;
+- 390 x 844 responsive browser check passed with usable navigation and layout.
+
+## Next: Part 3 — topology and device evidence
+
+Implement the live relationship graph, traffic authorization filter, connection
+inspection, searchable device cards, Head A/B logit histories, thresholds,
+warm-up and unscored reasons. Do not add enforcement mutations in this part.

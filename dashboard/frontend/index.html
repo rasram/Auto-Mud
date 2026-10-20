@@ -3,22 +3,87 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AutoMUD live pipeline</title>
+  <meta name="theme-color" content="#07110f">
+  <title>AutoMUD Security Console</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main>
-    <header>
-      <div><p class="eyebrow">AutoMUD</p><h1>Live pipeline trace</h1></div>
-      <div id="safety" class="badge">Loading safety state…</div>
-    </header>
-    <section id="summary" class="cards"></section>
-    <section>
-      <div class="section-title"><h2>Recent observations</h2><button id="refresh">Refresh</button></div>
-      <p class="hint">Times are separate pipeline stages. The 60-second observation window remains part of response latency.</p>
-      <div class="table-wrap"><table><thead><tr><th>Window</th><th>Kind</th><th>Stages</th><th>Window → join</th><th>Join → decision</th><th>Decision → install</th></tr></thead><tbody id="traces"></tbody></table></div>
-    </section>
-  </main>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="#overview" aria-label="AutoMUD overview">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong>AutoMUD</strong><small>Security console</small></span>
+      </a>
+      <div class="system-state" id="sidebar-state">
+        <span class="status-dot pending"></span>
+        <span><strong>Connecting</strong><small>Reading pipeline state</small></span>
+      </div>
+      <nav>
+        <button class="nav-item active" data-page="overview" type="button"><span class="nav-icon">⌂</span><span>Overview</span></button>
+        <button class="nav-item" data-page="network" type="button"><span class="nav-icon">⌘</span><span>Network map</span></button>
+        <button class="nav-item" data-page="devices" type="button"><span class="nav-icon">▦</span><span>Devices</span><span class="nav-count" id="device-count">—</span></button>
+        <button class="nav-item" data-page="alerts" type="button"><span class="nav-icon">◇</span><span>Alerts</span><span class="nav-count warning" id="alert-count">—</span></button>
+        <button class="nav-item" data-page="actions" type="button"><span class="nav-icon">⌁</span><span>Enforcement</span></button>
+        <button class="nav-item" data-page="pipeline" type="button"><span class="nav-icon">↳</span><span>Pipeline</span></button>
+      </nav>
+      <div class="sidebar-footer">
+        <div><span>Inventory</span><code id="inventory-short">—</code></div>
+        <div><span>Last sync</span><strong id="last-sync">—</strong></div>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Open navigation">☰</button>
+        <div><p class="breadcrumb">AutoMUD / <span id="breadcrumb">Overview</span></p><h1 id="page-title">Security overview</h1></div>
+        <div class="topbar-actions">
+          <div class="live-clock"><span class="status-dot live"></span><span id="clock">—</span></div>
+          <button class="icon-button" id="refresh" type="button" aria-label="Refresh dashboard" title="Refresh dashboard">↻</button>
+        </div>
+      </header>
+
+      <div class="mode-banner loading" id="mode-banner">
+        <div class="mode-icon">i</div>
+        <div><strong>Loading safety state</strong><p>The console is connecting to the live pipeline.</p></div>
+        <span class="mode-pill">PLEASE WAIT</span>
+      </div>
+      <div class="error-banner hidden" id="error-banner" role="alert"></div>
+
+      <section class="page active" id="page-overview">
+        <div class="metric-grid" id="metrics">
+          <article class="metric skeleton"></article><article class="metric skeleton"></article>
+          <article class="metric skeleton"></article><article class="metric skeleton"></article>
+        </div>
+        <div class="overview-grid">
+          <section class="panel health-panel">
+            <div class="panel-heading"><div><p class="kicker">Current window</p><h2>Pipeline health</h2></div><span class="tag neutral" id="window-time">Waiting</span></div>
+            <div class="health-flow" id="health-flow"><div class="empty-state compact"><span class="spinner"></span><strong>Loading evidence stages</strong></div></div>
+            <div class="health-details" id="health-details"></div>
+          </section>
+          <section class="panel attention-panel">
+            <div class="panel-heading"><div><p class="kicker">Priority queue</p><h2>Needs attention</h2></div><button class="text-button" data-go="alerts" type="button">View all</button></div>
+            <div id="attention-list" class="attention-list"><div class="empty-state compact"><span class="spinner"></span><strong>Checking findings</strong></div></div>
+          </section>
+          <section class="panel activity-panel">
+            <div class="panel-heading"><div><p class="kicker">Recent activity</p><h2>Observation timeline</h2></div><button class="text-button" data-go="pipeline" type="button">Open traces</button></div>
+            <div id="activity-list" class="activity-list"><div class="empty-state compact"><span class="spinner"></span><strong>Loading observations</strong></div></div>
+          </section>
+          <section class="panel posture-panel">
+            <div class="panel-heading"><div><p class="kicker">Protection posture</p><h2>Policy & model</h2></div></div>
+            <dl class="posture-list" id="posture-list"></dl>
+          </section>
+        </div>
+      </section>
+
+      <section class="page" id="page-network" data-title="Live network map"><div class="page-placeholder"><span>⌘</span><h2>Network map</h2><p>The visual network layer is delivered in Part 3.</p></div></section>
+      <section class="page" id="page-devices" data-title="Device security"><div class="page-placeholder"><span>▦</span><h2>Device security</h2><p>Per-device evidence is delivered in Part 3.</p></div></section>
+      <section class="page" id="page-alerts" data-title="Alerts & decisions"><div class="page-placeholder"><span>◇</span><h2>Alerts & decisions</h2><p>Explanations and evidence drill-down are delivered in Part 4.</p></div></section>
+      <section class="page" id="page-actions" data-title="Enforcement lifecycle"><div class="page-placeholder"><span>⌁</span><h2>Enforcement lifecycle</h2><p>Actions and guarded overrides are delivered in Part 4.</p></div></section>
+      <section class="page" id="page-pipeline" data-title="Pipeline traces"><div class="page-placeholder"><span>↳</span><h2>Pipeline traces</h2><p>Full stage timing and trace details are delivered in Part 4.</p></div></section>
+    </main>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
 </body>
 </html>
