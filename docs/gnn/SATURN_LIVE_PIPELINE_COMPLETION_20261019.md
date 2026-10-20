@@ -24,8 +24,10 @@ It does not approve production inventory, policy or automatic enforcement.
   scope, priority and TTL; confirms installs with barriers; supports idempotent
   revoke; clears owned rules on reconnect; and preserves terminal lifecycle
   state across asynchronous flow-removal events.
-- A read-only dashboard exposes service state, events, traces and separate stage
-  latency values on loopback port 8090.
+- An operations dashboard on loopback port 8090 exposes service health, an
+  interactive MUD relationship map, device Head A/B raw-logit evidence,
+  explainable alerts, controller action lifecycle, guarded suppressions and
+  complete trace-stage timing. Administrative controls default to locked.
 - The acceptance collector writes a hashed manifest, JSON failure matrix and
   Markdown report without turning missing owner approvals into passes.
 
@@ -76,6 +78,25 @@ Nine automated scenarios passed. The one remaining host-fault scenario is a
 controlled persistence/disk failure with backlog recovery; deterministic tests
 already cover exact pending bytes across process restart, but the host-level
 fault has not been injected.
+
+### Dashboard verification update — 20 October 2026
+
+After the dashboard expansion, the current regression suite passed **92 tests**
+with the same existing PyTorch future-deprecation warning. Both dashboard and
+finalizer services were active and enabled. All eight dashboard read endpoints
+returned HTTP 200; security headers were present; and an unauthenticated
+override request returned HTTP 401 without changing the protected ledger.
+
+All six views passed desktop and 390 x 844 responsive checks with no browser
+warnings/errors or horizontal overflow. The deployed snapshot showed 12
+devices, 4 operational alerts, 6 trace summaries and 120 recent relationship
+edges. The configuration remained `engineering / observe`, and administrative
+controls remained locked because no dashboard admin token was configured.
+
+This verifies the Step 11 dashboard software and observation-mode deployment.
+Production sign-off still requires the access/retention decision and the other
+owner approvals below; it also requires retaining an installed/expired action
+and measured traffic-effect trace in the final acceptance dataset.
 
 ## Remaining gates
 

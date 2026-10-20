@@ -93,8 +93,35 @@ Validation on Saturn:
   versions, measured latency and the no-action controller outcome;
 - suppression controls stayed locked and no live override was mutated.
 
-## Next: Part 5 — final acceptance and handoff evidence
+## Completed: Part 5 — final verification and handoff evidence
 
-Run the final API, security-header, service, observe-mode, desktop/mobile and
-cross-page interaction checks. Record exact evidence in the project docs,
-perform the final secret/diff review, and commit and push the acceptance record.
+- Verified all dashboard services and read APIs on Saturn after the final
+  deployment.
+- Verified the default-deny administrative boundary without changing live
+  override state.
+- Rechecked every desktop page and the 390 x 844 responsive layout, including
+  the device and enforcement routes after the navigation transition settled.
+- Preserved the final operator view at `http://127.0.0.1:8090/#overview` through
+  the documented SSH tunnel.
+
+Final verification on Saturn:
+
+- `automud-dashboard` and `automud-finalizer` were active and enabled;
+- configuration remained `observation_kind=engineering` and
+  `decision.mode=observe`;
+- status, dashboard, devices, topology, alerts, actions, traces and overrides
+  endpoints each returned HTTP 200;
+- the snapshot contained 12 devices, 4 operational alerts, 6 traces and 120
+  recent relationship edges;
+- CSP, frame, MIME, referrer and browser-permission headers were present;
+- an unauthenticated override POST returned HTTP 401 and the mode-0600 ledger
+  hash remained unchanged inside its protected mode-2700 directory;
+- Overview, Network, Devices, Alerts, Enforcement and Pipeline pages rendered
+  on desktop and mobile without browser warnings/errors or horizontal overflow;
+- administrative controls remained visibly locked while no token was set; and
+- the repository worktree was clean after the Part 4 deployment commit.
+
+The dashboard implementation is complete for engineering observation. The
+overall live-pipeline production sign-off remains subject to the owner-approved
+inventory, policy, access, retention and operational gates recorded in the
+Saturn completion record.
