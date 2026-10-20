@@ -35,7 +35,7 @@
   "decision": {
     "mode": "observe",
     "policy": "configs/live/decision-policy.json",
-    "override_file": "/etc/automud/human-overrides.json",
+    "override_file": "/mnt/data/automud/live/control/human-overrides.json",
     "join_timeout_seconds": 10,
     "cooldown_seconds": 120,
     "action_ttl_seconds": 30

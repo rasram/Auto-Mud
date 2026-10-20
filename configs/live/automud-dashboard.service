@@ -1,5 +1,5 @@
 [Unit]
-Description=AutoMUD read-only live pipeline dashboard
+Description=AutoMUD live pipeline operations dashboard
 After=network.target automud-finalizer.service
 
 [Service]
@@ -10,11 +10,14 @@ WorkingDirectory=/opt/automud/Auto-Mud
 ExecStart=/opt/automud/Auto-Mud/.venv-ml/bin/python -m integration.live.dashboard --config configs/live/saturn.json --host 127.0.0.1 --port 8090
 Restart=on-failure
 RestartSec=3
+EnvironmentFile=-/etc/automud/dashboard.env
+UMask=0077
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectHome=true
 ProtectSystem=strict
 ReadOnlyPaths=/opt/automud/Auto-Mud /mnt/data/automud/live
+ReadWritePaths=/mnt/data/automud/live/control
 
 [Install]
 WantedBy=multi-user.target

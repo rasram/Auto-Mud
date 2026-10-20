@@ -63,9 +63,38 @@ Validation on Saturn:
 - device evidence drawer open/close and empty-history state worked;
 - browser console contained no warnings or errors.
 
-## Next: Part 4 — alerts, actions, traces and guarded controls
+## Completed: Part 4 — alerts, actions, traces and guarded controls
 
-Implement alert filtering and evidence explanations, controller action lifecycle,
-active suppression display/create/remove, complete stage-latency tables and a
-trace drawer with raw IDs, health, versions, proposals and outcome. Keep controls
-locked when the admin token is unset.
+- Added security and operations alert filtering with deterministic evidence
+  explanations and direct trace inspection.
+- Added the controller action lifecycle table, including target scope, action,
+  state, installation time and expiry/removal time. Observation-mode runs keep
+  the table explicitly empty instead of implying enforcement.
+- Added active suppression display/create/remove flows. Controls are disabled
+  when `AUTOMUD_DASHBOARD_ADMIN_TOKEN` is unset; the token stays in browser
+  memory only and API mutations remain authenticated and audited.
+- Added end-to-end trace filtering, aggregate stage-latency cards and trace
+  detail drawers containing stage timestamps, raw trace/run identity, health,
+  versions, proposals, withheld reasons and controller outcome.
+- Moved the override ledger into the configured data disk and tightened its
+  directory/file permissions. The systemd service now reads an optional
+  root-owned environment file and receives write access only to that control
+  directory.
+
+Validation on Saturn:
+
+- `automud-dashboard` and `automud-finalizer` were active after deployment;
+- full regression: 92 passed in 16.11 seconds;
+- alerts, enforcement and pipeline pages rendered live records with no browser
+  console warnings/errors;
+- selecting `Partial / unavailable` returned four pipeline rows and selecting
+  `Operations` returned four alert rows;
+- a trace drawer displayed all recorded stages, identifiers, model/policy
+  versions, measured latency and the no-action controller outcome;
+- suppression controls stayed locked and no live override was mutated.
+
+## Next: Part 5 — final acceptance and handoff evidence
+
+Run the final API, security-header, service, observe-mode, desktop/mobile and
+cross-page interaction checks. Record exact evidence in the project docs,
+perform the final secret/diff review, and commit and push the acceptance record.

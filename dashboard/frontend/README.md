@@ -2,4 +2,6 @@
 
 **Owner:** Rashwanth Ram
 
-React frontend. Its JavaScript dependencies will be managed separately with its own `package.json` when this module is built. They are not part of `requirements.txt`.
+The frontend uses semantic HTML, CSS and dependency-free JavaScript. It is
+served by `integration.live.dashboard` and requires no Node runtime or CDN.
+All displayed values come from versioned live-pipeline records.

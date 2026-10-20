@@ -1,4 +1,4 @@
-const state = { data: null, loading: false };
+const state = { data: null, overrides: {enabled:false, overrides:[]}, adminToken: null, loading: false };
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -6,6 +6,7 @@ const number = value => value == null ? '—' : new Intl.NumberFormat().format(v
 const duration = value => value == null ? '—' : value < 1 ? `${Math.round(value * 1000)} ms` : `${Number(value).toFixed(value < 10 ? 2 : 1)} s`;
 const clockTime = value => value == null ? '—' : new Intl.DateTimeFormat([], {hour:'2-digit', minute:'2-digit', second:'2-digit'}).format(new Date(Number(value) * 1000));
 const shortTime = value => value == null ? '—' : new Intl.DateTimeFormat([], {hour:'2-digit', minute:'2-digit'}).format(new Date(Number(value) * 1000));
+const fullTime = value => value == null ? '—' : new Intl.DateTimeFormat([], {dateStyle:'medium', timeStyle:'medium'}).format(new Date(Number(value) * 1000));
 const relativeTime = value => {
   if (value == null) return '—';
   const seconds = Math.max(0, Date.now() / 1000 - Number(value));
@@ -315,6 +316,146 @@ function showNode(node, element) {
   $('#inspect-network-device')?.addEventListener('click', () => openDevice(device.device_id));
 }
 
+function renderAlerts() {
+  if (!state.data) return;
+  const filter = $('#alert-filter')?.value || 'all';
+  const alerts = state.data.alerts.filter(alert => filter === 'all' || alert.category === filter || (filter === 'critical' && alert.severity === 'critical'));
+  $('#alert-feed').innerHTML = alerts.length ? alerts.map(alert => `<button class="alert-row ${esc(alert.severity)} ${esc(alert.category)}" type="button" data-alert-trace="${esc(alert.trace_id)}"><span class="alert-symbol">${alert.category === 'security' ? '!' : 'i'}</span><span class="alert-copy"><span class="alert-title-line"><h3>${esc(alert.title)}</h3><span class="severity-pill ${esc(alert.severity)}">${esc(alert.severity)}</span></span><p>${esc(alert.explanation)}</p><span class="alert-meta"><span>${esc(alert.device_name)}</span><span>${esc(String(alert.reason || '').replaceAll('_',' '))}</span><span>${esc(alert.state)}</span></span></span><time>${relativeTime(alert.window_start)}</time></button>`).join('') : '<div class="empty-state"><strong>No alerts match this view</strong><p>Change the filter to inspect other security or operations findings.</p></div>';
+  $$('[data-alert-trace]').forEach(button => button.addEventListener('click', () => openTrace(button.dataset.alertTrace)));
+}
+
+function renderActions() {
+  if (!state.data) return;
+  const controller = state.data.overview.controller || {};
+  $('#controller-state').textContent = controller.available ? `${controller.switches?.length || 0} switches` : 'Unavailable';
+  $('#controller-state').className = `tag ${controller.available ? 'safe-tag' : 'warning-tag'}`;
+  const actions = state.data.actions || [];
+  $('#action-table').innerHTML = actions.length ? actions.map(action => {
+    const scope = action.scope || {};
+    const scopeText = scope.destination_ip ? `${scope.destination_ip}:${scope.destination_port || 'any'} / ${scope.proto || 'any'}` : 'Device scope';
+    return `<tr><td><strong>${esc(action.device_name || 'Unknown device')}</strong><small>${esc(String(action.decision_id || '').slice(0,12))}</small></td><td>${esc(action.action || '—')}</td><td>${esc(scopeText)}</td><td><span class="status-chip ${esc(action.status || '')}">${esc(action.status || 'unknown')}</span></td><td>${esc(fullTime(action.installed_at))}</td><td>${esc(fullTime(action.expires_at || action.removed_at))}</td></tr>`;
+  }).join('') : '<tr><td class="empty-cell" colspan="6">No controller actions have been recorded. Observation-mode decisions do not install rules.</td></tr>';
+}
+
+function renderOverrides() {
+  const enabled = Boolean(state.overrides?.enabled);
+  $('#override-state').textContent = enabled ? 'Enabled' : 'Locked';
+  $('#override-state').className = `tag ${enabled ? 'safe-tag' : 'warning-tag'}`;
+  $('#new-override').disabled = !enabled;
+  const rows = state.overrides?.overrides || [];
+  if (!enabled) {
+    $('#override-list').innerHTML = '<div class="override-lock"><span>⌁</span><strong>Administrative controls are locked</strong><p>An operator must configure the dashboard admin token before suppressions can be changed.</p></div>';
+    return;
+  }
+  $('#override-list').innerHTML = rows.length ? rows.map(row => `<div class="override-item"><div class="override-item-head"><strong>${esc(row.target_device_id ? (state.data.devices.find(device => device.device_id === row.target_device_id)?.name || row.target_device_id) : 'All devices')}</strong><button class="text-button" type="button" data-remove-override="${esc(row.override_id)}">Remove</button></div><p>${esc(row.reason)}</p><small>${esc(row.actor)} · expires ${esc(fullTime(row.expires_at))}</small></div>`).join('') : '<div class="empty-state compact"><strong>No active suppressions</strong><p>Automatic policy evaluation has no active human suppression.</p></div>';
+  $$('[data-remove-override]').forEach(button => button.addEventListener('click', () => removeOverride(button.dataset.removeOverride)));
+}
+
+function average(values) {
+  const valid = values.filter(value => value != null).map(Number);
+  return valid.length ? valid.reduce((sum, value) => sum + value, 0) / valid.length : null;
+}
+
+function renderTraces() {
+  if (!state.data) return;
+  const traces = state.data.traces || [];
+  const filter = $('#trace-filter')?.value || 'all';
+  const visible = traces.filter(trace => {
+    if (filter === 'healthy') return trace.health?.sensor === 'healthy' && trace.health?.partial !== true;
+    if (filter === 'partial') return trace.health?.partial === true || trace.health?.sensor !== 'healthy';
+    if (filter === 'decisions') return (trace.counts?.proposals || 0) > 0;
+    if (filter === 'actions') return Boolean(trace.action);
+    return true;
+  });
+  const stages = [
+    ['Window → join', average(traces.map(row => row.latency_seconds?.window_close_to_join)), 'after window close'],
+    ['Join → decision', average(traces.map(row => row.latency_seconds?.join_to_decision)), 'policy evaluation'],
+    ['Decision → install', average(traces.map(row => row.latency_seconds?.decision_to_install)), 'controller confirmation'],
+    ['Packet → action', average(traces.map(row => row.latency_seconds?.packet_to_install)), 'full measured response']
+  ];
+  $('#latency-grid').innerHTML = stages.map(([label, value, detail]) => `<article class="latency-card"><span>${esc(label)}</span><strong>${esc(duration(value))}</strong><small>${esc(detail)}</small></article>`).join('');
+  $('#trace-table').innerHTML = visible.length ? visible.map(trace => {
+    const health = trace.health || {};
+    const gnnTone = health.gnn === 'available' && health.gnn_fresh !== false ? '' : health.gnn === 'stale' ? 'warn' : 'bad';
+    const mudTone = health.mud === 'available' ? '' : 'bad';
+    return `<tr data-trace="${esc(trace.trace_id)}"><td><strong>${esc(fullTime(trace.window_start))}</strong><small>${esc(trace.observation_kind)} · ${esc(String(trace.trace_id).slice(0,10))}</small></td><td><span class="evidence-chips"><span class="evidence-chip ${gnnTone}">GNN ${esc(health.gnn || 'missing')}</span><span class="evidence-chip ${mudTone}">MUD ${esc(health.mud || 'missing')}</span></span></td><td><span class="signal-list"><span>${number(trace.counts?.behavioral_flags)} A</span><span>${number(trace.counts?.link_flags)} B</span><span>${number(trace.counts?.mud_denied)} denied</span></span></td><td>${esc(duration(trace.latency_seconds?.window_close_to_join))}</td><td>${esc(duration(trace.latency_seconds?.join_to_decision))}</td><td>${esc(duration(trace.latency_seconds?.decision_to_install))}</td><td><button class="trace-open" type="button" aria-label="Open trace">›</button></td></tr>`;
+  }).join('') : '<tr><td class="empty-cell" colspan="7">No pipeline traces match this filter.</td></tr>';
+  $$('#trace-table [data-trace]').forEach(row => row.addEventListener('click', () => openTrace(row.dataset.trace)));
+}
+
+function traceStage(label, timestamp, detail) {
+  return `<div class="trace-stage ${timestamp == null ? 'missing' : ''}"><span class="trace-stage-dot"></span><div><strong>${esc(label)}</strong><p>${esc(detail)}</p></div><time>${esc(fullTime(timestamp))}</time></div>`;
+}
+
+async function openTrace(traceId) {
+  openDrawer('Loading trace…', 'Pipeline evidence', '<div class="empty-state"><span class="spinner"></span><strong>Reading trace events</strong></div>');
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+  try {
+    const response = await fetch(`/api/traces/${encodeURIComponent(traceId)}`, {cache:'no-store', signal:controller.signal});
+    if (!response.ok) throw new Error(`Trace API returned ${response.status}`);
+    const trace = await response.json();
+    const times = trace.timestamps || {};
+    const decision = trace.decision || {};
+    const proposals = decision.proposals || [];
+    const outcome = trace.action || {};
+    const body = `<section class="detail-section"><h3>Stage timeline</h3><div class="trace-stages">${traceStage('Observation window closed', trace.window_end, `${number(trace.counts?.flows)} flows finalized`)}${traceStage('MUD evidence ready', times.mud_evidence, `${number(trace.counts?.mud_allowed)} allowed · ${number(trace.counts?.mud_denied)} denied`)}${traceStage('GNN evidence ready', times.gnn_evidence, `${number(trace.counts?.behavioral_flags)} Head A · ${number(trace.counts?.link_flags)} Head B flags`)}${traceStage('Evidence joined', times.joined_evidence, trace.health?.partial ? 'Partial evidence retained honestly' : 'Both independent branches joined')}${traceStage('Decision recorded', times.decision, decision.enforcement_eligible ? 'Eligible under response policy' : `Withheld: ${(decision.withheld_reasons || []).join(', ') || 'no action proposed'}`)}${traceStage('Controller installed action', outcome.installed_at, outcome.status ? `Controller outcome: ${outcome.status}` : 'No action was sent')}</div></section>
+      <section class="detail-section"><h3>Identity & versions</h3><div class="detail-grid"><div><span>Trace ID</span><strong>${esc(trace.trace_id)}</strong></div><div><span>Run ID</span><strong>${esc(trace.run_id || '—')}</strong></div><div><span>Inventory</span><strong>${esc(trace.inventory_version || '—')}</strong></div><div><span>Sensor</span><strong>${esc(trace.sensor_id || '—')}</strong></div><div><span>Model</span><strong>${esc(trace.model?.bundle_version || 'Unavailable')}</strong></div><div><span>MUD policy</span><strong>${esc(trace.mud_policy?.version || 'Unavailable')}</strong></div><div><span>Decision policy</span><strong>${esc(decision.policy_version || 'Unavailable')}</strong></div><div><span>Mode</span><strong>${esc(`${trace.observation_kind} / ${decision.mode || '—'}`)}</strong></div></div></section>
+      <section class="detail-section"><h3>Measured latency</h3><div class="detail-grid"><div><span>Packet → window close</span><strong>${esc(duration(trace.latency_seconds?.packet_to_window_close))}</strong></div><div><span>Window → join</span><strong>${esc(duration(trace.latency_seconds?.window_close_to_join))}</strong></div><div><span>Join → decision</span><strong>${esc(duration(trace.latency_seconds?.join_to_decision))}</strong></div><div><span>Decision → install</span><strong>${esc(duration(trace.latency_seconds?.decision_to_install))}</strong></div></div></section>
+      <section class="detail-section"><h3>Decision proposals</h3>${proposals.length ? proposals.map(proposal => `<div class="proposal-card"><strong>${esc(proposal.tier?.toUpperCase())} · ${esc(state.data.devices.find(device => device.device_id === proposal.target_device_id)?.name || proposal.target_device_id)}</strong><p>${esc(String(proposal.reason || '').replaceAll('_',' '))}. ${proposal.dispatch_eligible ? 'Dispatch eligible.' : 'Dispatch withheld.'}</p></div>`).join('') : '<div class="empty-state compact"><strong>No response proposed</strong><p>The evidence did not produce an attributable policy response.</p></div>'}</section>`;
+    openDrawer(fullTime(trace.window_start), 'Pipeline trace', body);
+  } catch (error) {
+    $('#drawer-body').innerHTML = `<div class="empty-state"><strong>Trace could not be loaded</strong><p>${esc(error.name === 'AbortError' ? 'The request timed out after 10 seconds.' : error.message)}</p></div>`;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function openOverrideDialog() {
+  if (!state.overrides?.enabled) { toast('Administrative controls are locked'); return; }
+  $('#override-device').innerHTML = '<option value="">All devices</option>' + state.data.devices.map(device => `<option value="${esc(device.device_id)}">${esc(device.name)}</option>`).join('');
+  $('#override-error').classList.add('hidden');
+  $('#override-dialog').showModal();
+}
+
+async function submitOverride(event) {
+  event.preventDefault();
+  const form = new FormData(event.currentTarget);
+  const token = String(form.get('token') || '');
+  const value = {
+    target_device_id: form.get('target_device_id') || null,
+    actor: form.get('actor'), reason: form.get('reason'),
+    expires_at: Date.now() / 1000 + Number(form.get('duration'))
+  };
+  try {
+    const response = await fetch('/api/overrides', {method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify(value)});
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || `Request returned ${response.status}`);
+    state.adminToken = token;
+    $('#override-dialog').close();
+    event.currentTarget.reset();
+    toast('Suppression created');
+    await load(false);
+  } catch (error) {
+    $('#override-error').textContent = error.message;
+    $('#override-error').classList.remove('hidden');
+  }
+}
+
+async function removeOverride(overrideId) {
+  const token = state.adminToken || window.prompt('Enter the dashboard admin token to remove this suppression');
+  if (!token) return;
+  if (!window.confirm('Remove this suppression? This can restore automatic response eligibility in enforce mode.')) return;
+  try {
+    const response = await fetch(`/api/overrides/${encodeURIComponent(overrideId)}`, {method:'DELETE', headers:{'Authorization':`Bearer ${token}`}});
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || `Request returned ${response.status}`);
+    state.adminToken = token;
+    toast('Suppression removed');
+    await load(false);
+  } catch (error) { toast(`Could not remove suppression: ${error.message}`); }
+}
+
 function render(data) {
   renderChrome(data);
   renderMetrics(data.overview);
@@ -324,6 +465,10 @@ function render(data) {
   renderPosture(data.overview);
   renderDevices();
   renderNetwork();
+  renderAlerts();
+  renderActions();
+  renderOverrides();
+  renderTraces();
 }
 
 async function load(showToast = false) {
@@ -334,9 +479,14 @@ async function load(showToast = false) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
   try {
-    const response = await fetch('/api/dashboard', {cache:'no-store', signal:controller.signal});
+    const [response, overridesResponse] = await Promise.all([
+      fetch('/api/dashboard', {cache:'no-store', signal:controller.signal}),
+      fetch('/api/overrides', {cache:'no-store', signal:controller.signal})
+    ]);
     if (!response.ok) throw new Error(`Dashboard API returned ${response.status}`);
+    if (!overridesResponse.ok) throw new Error(`Override API returned ${overridesResponse.status}`);
     state.data = await response.json();
+    state.overrides = await overridesResponse.json();
     render(state.data);
     $('#error-banner').classList.add('hidden');
     if (showToast) toast('Dashboard refreshed');
@@ -374,6 +524,10 @@ $('#close-drawer').addEventListener('click', closeDrawer);
 $('#device-search').addEventListener('input', renderDevices);
 $('#device-filter').addEventListener('change', renderDevices);
 $('#network-filter').addEventListener('change', renderNetwork);
+$('#alert-filter').addEventListener('change', renderAlerts);
+$('#trace-filter').addEventListener('change', renderTraces);
+$('#new-override').addEventListener('click', openOverrideDialog);
+$('#override-form').addEventListener('submit', submitOverride);
 window.addEventListener('hashchange', () => navigate(location.hash.slice(1), false));
 
 navigate(location.hash.slice(1) || 'overview', false);

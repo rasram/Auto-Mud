@@ -96,9 +96,37 @@
         </div>
         <div class="device-grid" id="device-grid"></div>
       </section>
-      <section class="page" id="page-alerts" data-title="Alerts & decisions"><div class="page-placeholder"><span>◇</span><h2>Alerts & decisions</h2><p>Explanations and evidence drill-down are delivered in Part 4.</p></div></section>
-      <section class="page" id="page-actions" data-title="Enforcement lifecycle"><div class="page-placeholder"><span>⌁</span><h2>Enforcement lifecycle</h2><p>Actions and guarded overrides are delivered in Part 4.</p></div></section>
-      <section class="page" id="page-pipeline" data-title="Pipeline traces"><div class="page-placeholder"><span>↳</span><h2>Pipeline traces</h2><p>Full stage timing and trace details are delivered in Part 4.</p></div></section>
+      <section class="page" id="page-alerts" data-title="Alerts & decisions">
+        <div class="section-intro">
+          <div><p class="kicker">Explainable findings</p><h2>Alerts & decisions</h2><p>Security findings and operational warnings with the evidence behind each decision.</p></div>
+          <div class="toolbar"><select id="alert-filter" aria-label="Filter alerts"><option value="all">All alerts</option><option value="security">Security</option><option value="operations">Operations</option><option value="critical">Critical only</option></select></div>
+        </div>
+        <div class="alert-feed" id="alert-feed"></div>
+      </section>
+      <section class="page" id="page-actions" data-title="Enforcement lifecycle">
+        <div class="section-intro">
+          <div><p class="kicker">Scoped response</p><h2>Enforcement lifecycle</h2><p>Controller-confirmed installation, expiry, removal, and safe human suppression.</p></div>
+          <button class="primary-button" id="new-override" type="button">Create suppression</button>
+        </div>
+        <div class="split-grid">
+          <section class="panel action-panel">
+            <div class="panel-heading"><div><p class="kicker">OpenFlow actions</p><h2>Action history</h2></div><span class="tag neutral" id="controller-state">Controller</span></div>
+            <div class="table-wrap"><table><thead><tr><th>Device</th><th>Response</th><th>Scope</th><th>Status</th><th>Installed</th><th>Expiry</th></tr></thead><tbody id="action-table"></tbody></table></div>
+          </section>
+          <section class="panel override-panel">
+            <div class="panel-heading"><div><p class="kicker">Human control</p><h2>Active suppressions</h2></div><span class="tag neutral" id="override-state">Locked</span></div>
+            <div id="override-list" class="override-list"></div>
+          </section>
+        </div>
+      </section>
+      <section class="page" id="page-pipeline" data-title="Pipeline traces">
+        <div class="section-intro">
+          <div><p class="kicker">End-to-end evidence</p><h2>Pipeline traces</h2><p>Every stage remains separate so the 60-second observation window is never hidden from response latency.</p></div>
+          <div class="toolbar"><select id="trace-filter" aria-label="Filter traces"><option value="all">All traces</option><option value="healthy">Healthy</option><option value="partial">Partial / unavailable</option><option value="decisions">With proposals</option><option value="actions">With actions</option></select></div>
+        </div>
+        <div class="latency-grid" id="latency-grid"></div>
+        <section class="panel trace-panel"><div class="table-wrap"><table class="trace-table"><thead><tr><th>Window</th><th>Evidence</th><th>Signals</th><th>Window → join</th><th>Join → decision</th><th>Decision → install</th><th></th></tr></thead><tbody id="trace-table"></tbody></table></div></section>
+      </section>
     </main>
   </div>
   <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Evidence details">
@@ -106,6 +134,19 @@
     <div class="drawer-body" id="drawer-body"></div>
   </aside>
   <div class="scrim" id="scrim"></div>
+  <dialog id="override-dialog">
+    <form method="dialog" id="override-form">
+      <div class="dialog-heading"><div><p class="kicker">Safe human control</p><h2>Create suppression</h2></div><button class="icon-button" value="cancel" formnovalidate aria-label="Close suppression form">×</button></div>
+      <p class="dialog-copy">Temporarily prevent automatic response for one device. Every suppression records an operator, reason, and expiry.</p>
+      <label>Device<select name="target_device_id" id="override-device"><option value="">All devices</option></select></label>
+      <label>Operator name<input name="actor" required minlength="2" maxlength="80" autocomplete="name"></label>
+      <label>Reason<textarea name="reason" required minlength="5" maxlength="300" rows="3" placeholder="Approved maintenance or investigation context"></textarea></label>
+      <label>Duration<select name="duration"><option value="900">15 minutes</option><option value="3600">1 hour</option><option value="14400">4 hours</option><option value="86400">24 hours</option></select></label>
+      <label>Admin token<input name="token" required type="password" autocomplete="current-password" placeholder="Dashboard admin token"></label>
+      <p class="form-error hidden" id="override-error"></p>
+      <div class="dialog-actions"><button class="secondary-button" value="cancel" formnovalidate>Cancel</button><button class="primary-button" value="submit">Create suppression</button></div>
+    </form>
+  </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
 </body>

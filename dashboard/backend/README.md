@@ -2,4 +2,7 @@
 
 **Owner:** Rashwanth Ram
 
-FastAPI backend that serves graph state, anomaly scores, alerts, and manual override actions to the frontend.
+The active standard-library HTTP backend is `integration/live/dashboard.py`.
+It aggregates the JSONL event stream, finalizer state and loopback controller
+API into cached dashboard views. Keeping it with the integration contracts
+prevents a second service from reinterpreting GNN or MUD evidence.
