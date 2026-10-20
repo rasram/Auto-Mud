@@ -4,6 +4,15 @@ Updated 20 October 2026. This file is the compact, repository-scoped handoff
 between dashboard implementation parts. It does not replace pipeline acceptance
 evidence or owner approval.
 
+## UI and validation update — 20 October 2026
+
+The [UI refresh and anomaly audit](UI_REFRESH_AND_ANOMALY_AUDIT_20261020.md)
+records the current operator interface: readable typography, locally served
+Lucide icons, GNN naming, About/technical disclosures and grouped policy findings.
+Current checks pass 105 Python tests and 8 frontend tests. The 53-window audit
+found no computational or lab-policy mismatches and reproduced 24 scores exactly;
+behavioral anomaly accuracy remains unvalidated without representative labels.
+
 ## Continuation — fresh engineering observation and dashboard corrections
 
 The [20 October continuation record](SATURN_DASHBOARD_CONTINUATION_20261020.md)

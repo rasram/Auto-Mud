@@ -60,3 +60,36 @@ test('fifteen prior windows alone never claim full warm-up', () => {
   assert.match(app("warmupLabel({history_state:{prior_windows:15,observed_age_seconds:900,fully_warmed:false}})"), /15 \/ 60 observed minutes/);
   assert.equal(app("warmupLabel({history_state:{prior_windows:15,observed_age_seconds:3600,fully_warmed:true}})"), 'History fully warmed');
 });
+
+test('repeated policy flows group by route without mixing observations or current state', () => {
+  const app = application({nodes:[],edges:[]});
+  const rows = Array.from({length:6},(_,index) => ({id:`flow-${index}`,category:'security',window_start:60,current:true,device_id:'camera',reason:'forbidden_exchange',proposal:{scope:{proto:'tcp',destination_ip:'10.0.0.12',destination_port:18080}}}));
+  rows.push({...rows[0],id:'previous',window_start:0,current:false});
+  rows.push({...rows[0],id:'different-port',proposal:{scope:{proto:'tcp',destination_ip:'10.0.0.12',destination_port:22}}});
+  const grouped = app(`groupFindings(${JSON.stringify(rows)})`);
+  assert.equal(grouped.length,3);
+  assert.equal(grouped[0].records,6);
+  assert.equal(grouped.reduce((count,row)=>count+row.records,0),8);
+  assert.equal(grouped.filter(row=>row.current).length,2);
+});
+
+test('missing signal remains unavailable and a flag remains unconfirmed', () => {
+  const app = application({nodes:[],edges:[]});
+  assert.equal(app('signalLabel(null)'), 'Unavailable');
+  assert.equal(app('signalLabel(false)'), 'No flag');
+  assert.equal(app('signalLabel(true)'), 'Flag raised');
+  assert.equal(app("riskLabel('normal')"),'No GNN flags');
+  assert.match(app("findingCopy({category:'security',records:6,proposal:{scope:{destination_port:18080,proto:'tcp'}}})"),/6 connections outside.*policy/);
+});
+
+test('all navigation and device icons exist in the locally bundled Lucide sprite', () => {
+  const sprite=fs.readFileSync(path.join(__dirname,'vendor/lucide.svg'),'utf8');
+  const ids=new Set([...sprite.matchAll(/<symbol\s+id="([^"]+)"/g)].map(match=>match[1]));
+  const html=fs.readFileSync(path.join(__dirname,'index.html'),'utf8');
+  for(const match of html.matchAll(/data-icon="([^"]+)"/g)) assert.ok(ids.has(match[1]),match[1]);
+  const app=application({nodes:[],edges:[]});
+  for(const type of ['camera','doorbell','speaker','plug','printer','light','motion_sensor','environmental_sensor','hub','other']) {
+    const name=app(`deviceIcon('${type}')`);
+    assert.ok(ids.has(name),name);
+  }
+});

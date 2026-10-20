@@ -23,7 +23,7 @@
 
 * { box-sizing: border-box; }
 html { background: var(--bg); scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--bg); color: var(--text); }
+body { margin: 0; min-width: 0; min-height: 100vh; background: var(--bg); color: var(--text); }
 button, input, select, textarea { color: inherit; font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
@@ -395,6 +395,147 @@ dialog input, dialog select, dialog textarea { width: 100%; border: 1px solid va
 :root { --mixed-permission: #d2a6ff; }
 .network-edge.mixed { stroke: var(--mixed-permission); stroke-dasharray: 6 3; }
 #network-provenance { padding: 0 20px; overflow-wrap: anywhere; }
-.network-detail { overflow-wrap: anywhere; }
+.network-detail { overflow-wrap: break-word; }
 .device-card > .drawer-note { display: block; padding: 0 18px 10px; font-size: 11px; }
-#observation-banner p { overflow-wrap: anywhere; }
+#observation-banner p { overflow-wrap: normal; }
+
+/* Operator-facing typography, shared SVG icons and progressive disclosure. */
+:root {
+  --text: #edf6f1;
+  --muted: #b3c8be;
+  --muted-2: #91aaa0;
+  font-family: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+body { font-size: 14px; line-height: 1.5; }
+.icon { display: inline-block; flex: 0 0 auto; width: 20px; height: 20px; vertical-align: middle; pointer-events: none; }
+[data-icon] { display: inline-flex; align-items: center; justify-content: center; }
+.mobile-menu { display: none; }
+.brand-mark { transform: none; width: 38px; height: 38px; border-radius: 12px; }
+.brand-mark .icon { width: 24px; height: 24px; }
+.brand strong { font-size: 18px; letter-spacing: -.3px; }
+.brand small { font-size: 11px; letter-spacing: .06em; }
+.nav-item { font-size: 14px; padding: 11px 12px; }
+.nav-icon { display: flex; align-items: center; justify-content: center; }
+.system-state strong { font-size: 13px; }
+.system-state small { font-size: 12px; }
+.sidebar-footer span { font-size: 11px; letter-spacing: .04em; }
+.sidebar-footer strong { font-size: 12px; }
+.workspace { max-width: 2000px; }
+.breadcrumb { font-size: 11px; letter-spacing: .06em; }
+.topbar h1 { font-size: clamp(24px, 2.2vw, 32px); font-weight: 650; letter-spacing: -.6px; }
+.live-clock { font-size: 12px; }
+.live-clock .icon { width: 16px; height: 16px; }
+.mode-banner { margin: 20px 0; padding: 17px 20px; }
+.mode-banner strong { font-size: 15px; font-weight: 650; }
+.mode-banner p { font-size: 13px; line-height: 1.6; margin-top: 4px; max-width: 850px; }
+.mode-pill { font-size: 10px; font-weight: 700; letter-spacing: .04em; }
+.metric { padding: 22px; min-height: 152px; }
+.metric-label { font-size: 13px; font-weight: 500; }
+.metric-value { font-size: 36px; line-height: 1.25; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -1px; }
+.metric-icon { color: var(--muted); }
+.metric-detail { display: block; font-size: 12px; line-height: 1.5; white-space: normal; overflow: visible; }
+.panel-heading { padding: 20px; }
+.panel-heading h2 { font-size: 17px; font-weight: 600; letter-spacing: -.2px; }
+.kicker { font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+.tag { font-size: 11px; }
+.text-button { font-size: 13px; }
+.text-button .icon { width: 15px; height: 15px; }
+.health-flow { padding: 24px 18px; }
+.health-stage strong { font-size: 13px; }
+.health-stage small { font-size: 11px; line-height: 1.5; }
+.stage-dot .icon { width: 17px; height: 17px; }
+.health-details span, .detail-grid span, .posture-list dt { font-size: 11px; letter-spacing: .025em; }
+.health-details strong { font-size: 13px; line-height: 1.55; white-space: normal; overflow: visible; }
+.health-details div { min-width: 0; }
+.attention-item strong, .activity-item strong { font-size: 13px; font-weight: 600; }
+.attention-item p, .activity-item p { font-size: 12px; line-height: 1.65; }
+.attention-item time, .activity-item time { font-size: 11px; }
+.attention-mark .icon, .activity-mark .icon { width: 17px; height: 17px; }
+.posture-list dd { font-size: 13px; white-space: normal; overflow: visible; }
+.empty-state strong { font-size: 14px; }
+.empty-state p, .drawer-note { font-size: 12px; line-height: 1.7; }
+.section-intro { min-height: 126px; padding: 20px 0; }
+.section-intro h2 { font-size: 23px; font-weight: 600; letter-spacing: -.45px; }
+.section-intro p:not(.kicker) { font-size: 13px; line-height: 1.7; max-width: 720px; }
+.toolbar input, .toolbar select, .network-toolbar select { font-size: 13px; height: 40px; }
+.toolbar { flex-wrap: wrap; }
+.legend, .network-toolbar label, .network-toolbar p { font-size: 12px; }
+.network-toolbar { flex-wrap: wrap; padding: 14px 20px; }
+.network-canvas { height: 520px; }
+.network-node .icon { color: #e1eee7; }
+.network-node .node-type { font-size: 10px; letter-spacing: 0; text-transform: none; fill: var(--muted); }
+.network-detail { font-size: 13px; line-height: 1.7; gap: 12px 20px; flex-wrap: wrap; }
+.network-detail > strong { flex: 1 1 240px; min-width: 0; }
+.network-detail > span { flex: 0 0 auto; max-width: 100%; }
+.network-detail .detail-separator { display: none; }
+.network-detail details { flex: 1 0 100%; min-width: 0; margin: 0; padding-inline: 0; }
+.device-card { text-align: left; padding: 0; }
+.device-card-head { padding: 20px 18px 14px; }
+.device-avatar { width: 40px; height: 40px; }
+.device-avatar .icon { width: 22px; height: 22px; }
+.device-identity strong { font-size: 14px; line-height: 1.4; font-weight: 600; white-space: normal; }
+.device-identity small { font-size: 12px; line-height: 1.6; }
+.risk-pill { font-size: 10px; text-transform: none; white-space: nowrap; letter-spacing: 0; }
+.score-label { font-size: 12px; text-transform: none; letter-spacing: 0; }
+.signal-value { display: block; font-size: 16px; font-weight: 600; margin-top: 5px; color: var(--text); }
+.signal-value.flagged { color: #ff929a; }
+.device-card > .drawer-note { font-size: 12px; padding: 0 18px 12px; }
+.device-foot { font-size: 11px; display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 18px; }
+.large-chart { margin-top: 14px; }
+.chart-legend { font-size: 12px; }
+.detail-section h3 { font-size: 15px; font-weight: 600; }
+.detail-section p { font-size: 13px; line-height: 1.7; color: var(--muted); }
+.detail-grid strong { font-size: 13px; line-height: 1.6; overflow-wrap: break-word; }
+.alert-title-line h3 { font-size: 15px; font-weight: 600; }
+.alert-copy p { font-size: 13px; line-height: 1.7; }
+.alert-meta { font-size: 11px; line-height: 1.7; flex-wrap: wrap; }
+.alert-meta .icon { width: 13px; height: 13px; }
+.alert-row time { font-size: 11px; line-height: 1.6; white-space: normal; max-width: 160px; }
+.alert-symbol .icon { width: 20px; height: 20px; }
+.severity-pill { font-size: 10px; text-transform: none; }
+th { font-size: 11px; letter-spacing: .04em; }
+td { font-size: 13px; line-height: 1.6; }
+td small { font-size: 11px; }
+.status-chip, .evidence-chip { font-size: 11px; }
+.signal-list { font-size: 12px; }
+.override-lock strong { font-size: 15px; }
+.override-lock p { font-size: 13px; line-height: 1.7; }
+.trace-stage strong { font-size: 13px; }
+.trace-stage p { font-size: 12px; line-height: 1.6; }
+.trace-stage time { font-size: 11px; white-space: normal; }
+.technical-section { padding: 12px 18px; margin: 12px 0; font-size: 12px; color: var(--muted); }
+.technical-section summary { cursor: pointer; color: #bfd5ca; font-size: 13px; font-weight: 500; padding: 8px 0; }
+.technical-section[open] summary { margin-bottom: 12px; }
+.technical-section pre { max-width: 100%; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; line-height: 1.7; }
+.detail-grid, .technical-section .detail-grid { grid-template-columns: repeat(auto-fit,minmax(min(100%,160px),1fr)); }
+.about-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.about-card { padding: 24px; margin-bottom: 20px; }
+.about-card h3 { font-size: 17px; font-weight: 600; margin: 14px 0 10px; }
+.about-card p { color: var(--muted); font-size: 14px; line-height: 1.8; max-width: 950px; }
+.about-icon { color: var(--green); background: #15382c; padding: 12px; border-radius: 12px; }
+.about-card a { color: #8ce3be; text-underline-offset: 3px; }
+.about-technical { margin-bottom: 20px; }
+.about-technical dd { white-space: normal; overflow-wrap: anywhere; text-overflow: clip; font-size: 12px; }
+@media (max-width: 1180px) { .about-grid { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .mobile-menu { display: grid; }
+  .topbar { gap: 12px; }
+  .topbar h1 { font-size: 22px; }
+  .workspace { padding-inline: 16px; }
+  .mode-banner { padding: 16px; }
+  .mode-banner p { font-size: 12px; }
+  .metric { min-height: 138px; padding: 20px; }
+  .health-details { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .health-details div { border: 0; border-top: 1px solid var(--line-soft); padding: 13px; }
+  .health-details div + div { border-left: 0; }
+  .device-card-head { gap: 9px; }
+  .device-identity strong { font-size: 13px; }
+  .network-canvas { min-height: 380px; height: 380px; }
+  .toolbar select { max-width: 100%; }
+  .about-card { padding: 20px; }
+  .trace-stage { grid-template-columns: 16px 1fr; }
+  .trace-stage time { grid-column: 2; padding-bottom: 15px; }
+  .technical-section { padding-inline: 12px; }
+}

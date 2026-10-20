@@ -193,6 +193,15 @@ def _traces(rows, include_events=True):
 
 def _friendly_name(device_id):
     raw = str(device_id or "Unknown device").split("_")[0]
+    names = {
+        "AmazonEcho": "Amazon Echo", "AugustDoorBell": "August Doorbell",
+        "BelkinWemoMotionSensor": "Belkin WeMo Motion Sensor", "BelkinWemoSwitch": "Belkin WeMo Switch",
+        "HPPrinter": "HP Printer", "LiFXBulb": "LIFX Bulb", "NestDropCam": "Nest Dropcam",
+        "NetatmoWeatherStation": "Netatmo Weather Station", "NetatmoWelcome": "Netatmo Welcome",
+        "PhilipsHue": "Philips Hue", "SamsungCamera": "Samsung Camera", "SamsungSmartThings": "Samsung SmartThings",
+    }
+    if raw in names:
+        return names[raw]
     characters = []
     for index, char in enumerate(raw):
         if index and char.isupper() and not raw[index - 1].isupper():

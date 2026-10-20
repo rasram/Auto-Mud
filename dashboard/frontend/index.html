@@ -11,7 +11,7 @@
   <div class="app-shell">
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <a class="brand" href="#overview" aria-label="AutoMUD overview">
-        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="brand-mark" data-icon="shield-check" aria-hidden="true"></span>
         <span><strong>AutoMUD</strong><small>Security console</small></span>
       </a>
       <div class="system-state" id="sidebar-state">
@@ -19,15 +19,16 @@
         <span><strong>Connecting</strong><small>Reading pipeline state</small></span>
       </div>
       <nav>
-        <button class="nav-item active" data-page="overview" type="button"><span class="nav-icon">⌂</span><span>Overview</span></button>
-        <button class="nav-item" data-page="network" type="button"><span class="nav-icon">⌘</span><span>Network map</span></button>
-        <button class="nav-item" data-page="devices" type="button"><span class="nav-icon">▦</span><span>Devices</span><span class="nav-count" id="device-count">—</span></button>
-        <button class="nav-item" data-page="alerts" type="button"><span class="nav-icon">◇</span><span>Alerts</span><span class="nav-count warning" id="alert-count">—</span></button>
-        <button class="nav-item" data-page="actions" type="button"><span class="nav-icon">⌁</span><span>Enforcement</span></button>
-        <button class="nav-item" data-page="pipeline" type="button"><span class="nav-icon">↳</span><span>Pipeline</span></button>
+        <button class="nav-item active" data-page="overview" type="button"><span class="nav-icon" data-icon="layout-dashboard"></span><span>Overview</span></button>
+        <button class="nav-item" data-page="network" type="button"><span class="nav-icon" data-icon="network"></span><span>Network map</span></button>
+        <button class="nav-item" data-page="devices" type="button"><span class="nav-icon" data-icon="monitor-smartphone"></span><span>Devices</span><span class="nav-count" id="device-count">—</span></button>
+        <button class="nav-item" data-page="alerts" type="button"><span class="nav-icon" data-icon="shield-alert"></span><span>Findings</span><span class="nav-count warning" id="alert-count">—</span></button>
+        <button class="nav-item" data-page="actions" type="button"><span class="nav-icon" data-icon="shield-check"></span><span>Network actions</span></button>
+        <button class="nav-item" data-page="pipeline" type="button"><span class="nav-icon" data-icon="activity"></span><span>Activity</span></button>
+        <button class="nav-item" data-page="about" type="button"><span class="nav-icon" data-icon="info"></span><span>About</span></button>
       </nav>
       <div class="sidebar-footer">
-        <div><span>Inventory</span><code id="inventory-short">—</code></div>
+        <div><span>Environment</span><strong id="inventory-short">—</strong></div>
         <div><span>Dashboard refreshed</span><strong id="last-sync">—</strong></div>
         <div><span>Last observation</span><strong id="last-observation">—</strong></div>
       </div>
@@ -35,43 +36,43 @@
 
     <main class="workspace">
       <header class="topbar">
-        <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Open navigation">☰</button>
+        <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Open navigation" data-icon="menu"></button>
         <div><p class="breadcrumb">AutoMUD / <span id="breadcrumb">Overview</span></p><h1 id="page-title">Security overview</h1></div>
         <div class="topbar-actions">
-          <div class="live-clock"><span class="status-dot live"></span><span id="clock">—</span></div>
-          <button class="icon-button" id="refresh" type="button" aria-label="Refresh dashboard" title="Refresh dashboard">↻</button>
+          <div class="live-clock"><span data-icon="clock-3"></span><span id="clock">—</span></div>
+          <button class="icon-button" id="refresh" type="button" aria-label="Refresh dashboard" title="Refresh dashboard" data-icon="refresh-cw"></button>
         </div>
       </header>
 
-      <div class="mode-banner loading" id="mode-banner">
-        <div class="mode-icon">i</div>
-        <div><strong>Loading safety state</strong><p>The console is connecting to the live pipeline.</p></div>
-        <span class="mode-pill">PLEASE WAIT</span>
-      </div>
       <div class="error-banner hidden" id="error-banner" role="alert"></div>
-      <div class="mode-banner warning" id="observation-banner" role="status"></div>
 
       <section class="page active" id="page-overview">
+        <div class="mode-banner loading" id="mode-banner">
+          <div class="mode-icon" data-icon="info"></div>
+          <div><strong>Loading safety state</strong><p>The console is connecting to the live pipeline.</p></div>
+          <span class="mode-pill">PLEASE WAIT</span>
+        </div>
+        <div class="mode-banner warning" id="observation-banner" role="status"></div>
         <div class="metric-grid" id="metrics">
           <article class="metric skeleton"></article><article class="metric skeleton"></article>
           <article class="metric skeleton"></article><article class="metric skeleton"></article>
         </div>
         <div class="overview-grid">
           <section class="panel health-panel">
-            <div class="panel-heading"><div><p class="kicker">Current window</p><h2>Pipeline health</h2></div><span class="tag neutral" id="window-time">Waiting</span></div>
+            <div class="panel-heading"><div><p class="kicker">Latest observation</p><h2>Monitoring health</h2></div><span class="tag neutral" id="window-time">Waiting</span></div>
             <div class="health-flow" id="health-flow"><div class="empty-state compact"><span class="spinner"></span><strong>Loading evidence stages</strong></div></div>
             <div class="health-details" id="health-details"></div>
           </section>
           <section class="panel attention-panel">
-            <div class="panel-heading"><div><p class="kicker">Priority queue</p><h2>Needs attention</h2></div><button class="text-button" data-go="alerts" type="button">View all</button></div>
+            <div class="panel-heading"><div><p class="kicker">Review queue</p><h2>Needs attention</h2></div><button class="text-button" data-go="alerts" type="button">View findings</button></div>
             <div id="attention-list" class="attention-list"><div class="empty-state compact"><span class="spinner"></span><strong>Checking findings</strong></div></div>
           </section>
           <section class="panel activity-panel">
-            <div class="panel-heading"><div><p class="kicker">Recent activity</p><h2>Observation timeline</h2></div><button class="text-button" data-go="pipeline" type="button">Open traces</button></div>
+            <div class="panel-heading"><div><p class="kicker">Recent activity</p><h2>Observation timeline</h2></div><button class="text-button" data-go="pipeline" type="button">View activity</button></div>
             <div id="activity-list" class="activity-list"><div class="empty-state compact"><span class="spinner"></span><strong>Loading observations</strong></div></div>
           </section>
           <section class="panel posture-panel">
-            <div class="panel-heading"><div><p class="kicker">Protection posture</p><h2>Policy & model</h2></div></div>
+            <div class="panel-heading"><div><p class="kicker">Current settings</p><h2>Protection status</h2></div><button class="text-button" data-go="about" type="button">About</button></div>
             <dl class="posture-list" id="posture-list"></dl>
           </section>
         </div>
@@ -79,7 +80,7 @@
 
       <section class="page" id="page-network" data-title="Observed communication map">
         <div class="section-intro">
-          <div><p class="kicker">Recorded engineering evidence</p><h2>Observed communication map</h2><p>Logical communication from retained observations, coloured by independent MUD authorization. External addresses are grouped for display.</p></div>
+          <div><p class="kicker">Observed connections</p><h2>Network map</h2><p>Recent communication, checked against each device’s network policy. Select a connection for details.</p></div>
           <div class="legend"><span><i class="legend-dot allowed"></i>Allowed</span><span><i class="legend-dot denied"></i>Denied</span><span><i class="legend-dot unknown"></i>Unknown</span></div>
         </div>
         <section class="panel network-panel">
@@ -88,21 +89,21 @@
             <button class="text-button" id="network-reset" type="button">Reset filter</button>
             <p id="network-summary">Waiting for observations…</p>
           </div>
-          <p class="drawer-note" id="network-provenance"></p>
+          <details class="technical-section"><summary>Observation source</summary><p class="drawer-note" id="network-provenance"></p></details>
           <div class="network-canvas" id="network-canvas"></div>
           <div class="network-detail" id="network-detail"><span>Select a connection or device to inspect it.</span></div>
         </section>
       </section>
       <section class="page" id="page-devices" data-title="Device security">
         <div class="section-intro">
-          <div><p class="kicker">Household inventory</p><h2>Device security</h2><p>Head A behavioural and Head B relationship logits with their frozen thresholds.</p></div>
-          <div class="toolbar"><input id="device-search" type="search" placeholder="Search device, type, or IP" aria-label="Search devices"><select id="device-filter" aria-label="Filter devices"><option value="all">All states</option><option value="anomalous">Anomalous</option><option value="normal">Normal</option><option value="monitoring">Monitoring</option><option value="unscored">Unscored</option></select></div>
+          <div><p class="kicker">Your devices</p><h2>Device security</h2><p>Behavior and connection signals from the GNN. A flag means review is needed; it does not confirm an attack.</p></div>
+          <div class="toolbar"><input id="device-search" type="search" placeholder="Search devices or IP addresses" aria-label="Search devices"><select id="device-filter" aria-label="Filter devices"><option value="all">All devices</option><option value="anomalous">Flag raised</option><option value="normal">No GNN flags</option><option value="monitoring">Partly assessed</option><option value="unscored">Not assessed</option></select></div>
         </div>
         <div class="device-grid" id="device-grid"></div>
       </section>
       <section class="page" id="page-alerts" data-title="Alerts & decisions">
         <div class="section-intro">
-          <div><p class="kicker">Explainable findings</p><h2>Alerts & decisions</h2><p>Security findings and operational warnings with the evidence behind each decision.</p></div>
+          <div><p class="kicker">Review findings</p><h2>Findings</h2><p>Repeated connections are grouped by device and route. Policy violations and monitoring issues remain separate.</p></div>
           <div class="toolbar"><select id="alert-scope" aria-label="Alert evidence age"><option value="current">Current</option><option value="historical">Historical</option><option value="all">All retained</option></select><select id="alert-filter" aria-label="Filter alerts"><option value="all">All alerts</option><option value="security">Security</option><option value="operations">Operations</option><option value="critical">Critical only</option></select></div>
         </div>
         <p class="drawer-note" id="alert-summary"></p>
@@ -110,38 +111,49 @@
       </section>
       <section class="page" id="page-actions" data-title="Enforcement lifecycle">
         <div class="section-intro">
-          <div><p class="kicker">Scoped response</p><h2>Enforcement lifecycle</h2><p>Controller-confirmed installation, expiry, removal, and safe human suppression.</p></div>
-          <button class="primary-button" id="new-override" type="button">Create suppression</button>
+          <div><p class="kicker">Response controls</p><h2>Network actions</h2><p>Review temporary network restrictions and approved pauses in automatic response.</p></div>
+          <button class="primary-button" id="new-override" type="button">Pause automatic response</button>
         </div>
         <div class="split-grid">
           <section class="panel action-panel">
-            <div class="panel-heading"><div><p class="kicker">OpenFlow actions</p><h2>Action history</h2></div><span class="tag neutral" id="controller-state">Controller</span></div>
+            <div class="panel-heading"><div><p class="kicker">Recorded responses</p><h2>Action history</h2></div><span class="tag neutral" id="controller-state">Connection</span></div>
             <div class="table-wrap"><table><thead><tr><th>Device</th><th>Response</th><th>Scope</th><th>Status</th><th>Installed</th><th>Expiry</th></tr></thead><tbody id="action-table"></tbody></table></div>
           </section>
           <section class="panel override-panel">
-            <div class="panel-heading"><div><p class="kicker">Human control</p><h2>Active suppressions</h2></div><span class="tag neutral" id="override-state">Locked</span></div>
+            <div class="panel-heading"><div><p class="kicker">Operator controls</p><h2>Response pauses</h2></div><span class="tag neutral" id="override-state">Locked</span></div>
             <div id="override-list" class="override-list"></div>
           </section>
         </div>
       </section>
       <section class="page" id="page-pipeline" data-title="Pipeline traces">
         <div class="section-intro">
-          <div><p class="kicker">End-to-end evidence</p><h2>Pipeline traces</h2><p>Every stage remains separate so the 60-second observation window is never hidden from response latency.</p></div>
+          <div><p class="kicker">Observation history</p><h2>Activity</h2><p>Review monitoring checks, findings and decisions for each observed minute.</p></div>
           <div class="toolbar"><select id="trace-filter" aria-label="Filter traces"><option value="all">All traces</option><option value="healthy">Healthy</option><option value="partial">Partial / unavailable</option><option value="decisions">With proposals</option><option value="actions">With actions</option></select></div>
         </div>
-        <div class="latency-grid" id="latency-grid"></div>
-        <section class="panel trace-panel"><div class="table-wrap"><table class="trace-table"><thead><tr><th>Window</th><th>Evidence</th><th>Signals</th><th>Window → join</th><th>Join → decision</th><th>Decision → install</th><th></th></tr></thead><tbody id="trace-table"></tbody></table></div></section>
+        <details class="technical-section"><summary>Processing timings</summary><div class="latency-grid" id="latency-grid"></div></details>
+        <section class="panel trace-panel"><div class="table-wrap"><table class="trace-table"><thead><tr><th>Observed minute</th><th>Checks</th><th>Findings</th><th>Response</th><th></th></tr></thead><tbody id="trace-table"></tbody></table></div></section>
+      </section>
+      <section class="page" id="page-about">
+        <div class="section-intro"><div><p class="kicker">About AutoMUD</p><h2>Understand what you’re seeing</h2><p>Device behavior, network permissions and response decisions are separate checks.</p></div></div>
+        <div class="about-grid">
+          <section class="panel about-card"><span class="about-icon" data-icon="brain-circuit"></span><h3>GNN signals</h3><p>The GNN checks device behavior and connection patterns. A raised flag is a signal to investigate, not a confirmed compromise or a probability.</p></section>
+          <section class="panel about-card"><span class="about-icon" data-icon="shield-check"></span><h3>Network policy</h3><p>MUD policies define permitted communication. A policy violation can occur even when the GNN raises no flag.</p></section>
+          <section class="panel about-card"><span class="about-icon" data-icon="clipboard-check"></span><h3>Review before response</h3><p>Actions depend on evidence quality and the approved response policy. Monitoring mode records findings without automatically restricting traffic.</p></section>
+        </div>
+        <section class="panel about-card" id="about-environment"></section>
+        <details class="panel technical-section about-technical"><summary>Technical details and release information</summary><dl class="posture-list" id="about-details"></dl><p class="drawer-note">Raw scores use fixed model thresholds. Model releases, policies and source identifiers are retained here for troubleshooting.</p></details>
+        <section class="panel about-card"><h3>Interface credits</h3><p>Icons by <a href="https://lucide.dev/" target="_blank" rel="noreferrer">Lucide</a>, served locally. <a href="vendor/lucide-LICENSE.txt">View icon license</a>.</p></section>
       </section>
     </main>
   </div>
   <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Evidence details">
-    <div class="drawer-header"><div><p class="kicker" id="drawer-kicker">Device evidence</p><h2 id="drawer-title">Details</h2></div><button class="icon-button" id="close-drawer" type="button" aria-label="Close details">×</button></div>
+    <div class="drawer-header"><div><p class="kicker" id="drawer-kicker">Device evidence</p><h2 id="drawer-title">Details</h2></div><button class="icon-button" id="close-drawer" type="button" aria-label="Close details" data-icon="x"></button></div>
     <div class="drawer-body" id="drawer-body"></div>
   </aside>
   <div class="scrim" id="scrim"></div>
   <dialog id="override-dialog">
     <form method="dialog" id="override-form">
-      <div class="dialog-heading"><div><p class="kicker">Safe human control</p><h2>Create suppression</h2></div><button class="icon-button" value="cancel" formnovalidate aria-label="Close suppression form">×</button></div>
+      <div class="dialog-heading"><div><p class="kicker">Operator control</p><h2>Pause automatic response</h2></div><button class="icon-button" value="cancel" formnovalidate aria-label="Close suppression form" data-icon="x"></button></div>
       <p class="dialog-copy">Temporarily prevent automatic response for one device. Every suppression records an operator, reason, and expiry.</p>
       <label>Device<select name="target_device_id" id="override-device"><option value="">All devices</option></select></label>
       <label>Operator name<input name="actor" required minlength="2" maxlength="80" autocomplete="name"></label>
