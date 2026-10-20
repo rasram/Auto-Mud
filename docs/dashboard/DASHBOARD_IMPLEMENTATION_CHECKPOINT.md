@@ -44,8 +44,28 @@ Validation on Saturn:
 - desktop browser rendered real live data with no console warnings/errors;
 - 390 x 844 responsive browser check passed with usable navigation and layout.
 
-## Next: Part 3 — topology and device evidence
+## Completed: Part 3 — topology and device evidence
 
-Implement the live relationship graph, traffic authorization filter, connection
-inspection, searchable device cards, Head A/B logit histories, thresholds,
-warm-up and unscored reasons. Do not add enforcement mutations in this part.
+- Added an interactive SVG relationship map built from recent MUD exchanges.
+- Relationships retain allowed, denied and unknown authorization states and can
+  be filtered and inspected for direction, count, bytes and protocol.
+- Added searchable/filterable inventory cards with active binding, risk state,
+  MUD counts, score history and model warm-up state.
+- Added device evidence drawers with stable identity, IP/MAC/switch binding,
+  profile support, Head A/B raw logits, frozen thresholds, history and explicit
+  null/unscored reasons. The interface states that logits are not probabilities.
+
+Validation on Saturn:
+
+- rendered 12 devices and 36 aggregated recent relationships from live records;
+- connection selection and all/permission filtering worked;
+- device search for `camera` returned the three camera entries;
+- device evidence drawer open/close and empty-history state worked;
+- browser console contained no warnings or errors.
+
+## Next: Part 4 — alerts, actions, traces and guarded controls
+
+Implement alert filtering and evidence explanations, controller action lifecycle,
+active suppression display/create/remove, complete stage-latency tables and a
+trace drawer with raw IDs, health, versions, proposals and outcome. Keep controls
+locked when the admin token is unset.

@@ -75,13 +75,36 @@
         </div>
       </section>
 
-      <section class="page" id="page-network" data-title="Live network map"><div class="page-placeholder"><span>⌘</span><h2>Network map</h2><p>The visual network layer is delivered in Part 3.</p></div></section>
-      <section class="page" id="page-devices" data-title="Device security"><div class="page-placeholder"><span>▦</span><h2>Device security</h2><p>Per-device evidence is delivered in Part 3.</p></div></section>
+      <section class="page" id="page-network" data-title="Live network map">
+        <div class="section-intro">
+          <div><p class="kicker">Observed communications</p><h2>Live network map</h2><p>Recent device relationships coloured by independent MUD authorization.</p></div>
+          <div class="legend"><span><i class="legend-dot allowed"></i>Allowed</span><span><i class="legend-dot denied"></i>Denied</span><span><i class="legend-dot unknown"></i>Unknown</span></div>
+        </div>
+        <section class="panel network-panel">
+          <div class="network-toolbar">
+            <label>Show <select id="network-filter"><option value="all">All traffic</option><option value="denied">Denied only</option><option value="allowed">Allowed only</option><option value="unknown">Unknown only</option></select></label>
+            <p id="network-summary">Waiting for observations…</p>
+          </div>
+          <div class="network-canvas" id="network-canvas"></div>
+          <div class="network-detail" id="network-detail"><span>Select a connection or device to inspect it.</span></div>
+        </section>
+      </section>
+      <section class="page" id="page-devices" data-title="Device security">
+        <div class="section-intro">
+          <div><p class="kicker">Household inventory</p><h2>Device security</h2><p>Head A behavioural and Head B relationship logits with their frozen thresholds.</p></div>
+          <div class="toolbar"><input id="device-search" type="search" placeholder="Search device, type, or IP" aria-label="Search devices"><select id="device-filter" aria-label="Filter devices"><option value="all">All states</option><option value="anomalous">Anomalous</option><option value="normal">Normal</option><option value="monitoring">Monitoring</option><option value="unscored">Unscored</option></select></div>
+        </div>
+        <div class="device-grid" id="device-grid"></div>
+      </section>
       <section class="page" id="page-alerts" data-title="Alerts & decisions"><div class="page-placeholder"><span>◇</span><h2>Alerts & decisions</h2><p>Explanations and evidence drill-down are delivered in Part 4.</p></div></section>
       <section class="page" id="page-actions" data-title="Enforcement lifecycle"><div class="page-placeholder"><span>⌁</span><h2>Enforcement lifecycle</h2><p>Actions and guarded overrides are delivered in Part 4.</p></div></section>
       <section class="page" id="page-pipeline" data-title="Pipeline traces"><div class="page-placeholder"><span>↳</span><h2>Pipeline traces</h2><p>Full stage timing and trace details are delivered in Part 4.</p></div></section>
     </main>
   </div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Evidence details">
+    <div class="drawer-header"><div><p class="kicker" id="drawer-kicker">Device evidence</p><h2 id="drawer-title">Details</h2></div><button class="icon-button" id="close-drawer" type="button" aria-label="Close details">×</button></div>
+    <div class="drawer-body" id="drawer-body"></div>
+  </aside>
   <div class="scrim" id="scrim"></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
