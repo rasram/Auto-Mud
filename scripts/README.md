@@ -7,6 +7,13 @@ dataset, bootstrapping the testbed's traffic inputs, and inspecting shared
 outputs. Module-specific runtime code belongs inside its owning module's
 directory.
 
+## Integrated evaluation
+
+[`integrated_evaluation/`](integrated_evaluation/README.md) provides portable
+detector, MUD and response record recounts, plus links to the native live-pipeline
+verification and acceptance commands. It takes explicit evidence paths and does
+not change datasets, run traffic or control services.
+
 ## PCAP topology visualizer
 
 `pcap_topology_visualizer.py` animates packets from a PCAP over the device

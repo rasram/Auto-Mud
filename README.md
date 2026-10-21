@@ -22,6 +22,12 @@ engineering/observe mode and cannot be treated as production sign-off.
 E1 uses directed learned neighbor messages, graph-derived context and own-device history.
 Earlier architecture/training descriptions below are project background.
 
+The [presentation results](docs/presentation/AutoMUD_Presentation_Results.md)
+contain the selected four-model comparison, MUDgee reference comparison and
+21 October pipeline results with their measured coverage and limits.
+[Shared evaluation tools](scripts/integrated_evaluation/README.md) document
+record recounts and the native running-pipeline checks.
+
 ---
 
 ## Objectives

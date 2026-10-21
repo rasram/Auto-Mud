@@ -1,0 +1,142 @@
+{
+  "schema_version": "automud.presentation-evidence-summary.v1",
+  "evaluated_commit": "ba7da81d532ab9df3650c0508be4a9474aefe7b4",
+  "study_date": "2026-10-21",
+  "scope": "Frozen known-device consumed-corpus offline correctness plus separate predefined live controller checks",
+  "case_counts": {
+    "matched_control": 27,
+    "attack": 27,
+    "normal": 3
+  },
+  "graphs": 1140,
+  "household_device_windows": 13680,
+  "detection": {
+    "A": {
+      "TP": 3824,
+      "FP": 13,
+      "TN": 9543,
+      "FN": 9,
+      "unscored_positive": 0,
+      "unscored_negative": 0,
+      "population": 13389,
+      "excluded": 291,
+      "precision": 0.9966119364086526,
+      "population_recall": 0.9976519697364988,
+      "population_f1": 0.9971316818774446,
+      "fpr": 0.0013604018417748011,
+      "coverage": 1.0
+    },
+    "B": {
+      "TP": 360,
+      "FP": 0,
+      "TN": 12820,
+      "FN": 0,
+      "unscored_positive": 0,
+      "unscored_negative": 209,
+      "population": 13389,
+      "excluded": 291,
+      "precision": 1.0,
+      "population_recall": 1.0,
+      "population_f1": 1.0,
+      "fpr": 0.0,
+      "coverage": 0.984390171035925
+    }
+  },
+  "mud": {
+    "retained_new_flow_records": 76154,
+    "reference_counts": {
+      "TP": 9937,
+      "FP": 0,
+      "TN": 873,
+      "FN": 0,
+      "unsupported": 65344,
+      "eligible": 10810
+    },
+    "actual_states": {
+      "unknown_device": 54135,
+      "unknown_policy": 11209,
+      "denied": 9937,
+      "allowed": 873
+    }
+  },
+  "response_proposal_presence_vs_truth": {
+    "TP": 5755,
+    "FP": 0,
+    "TN": 7633,
+    "FN": 1
+  },
+  "response_tiers_vs_truth": {
+    "none -> none": 7633,
+    "alert -> alert": 5395,
+    "block -> block": 360,
+    "alert -> none": 1
+  },
+  "decision_conformance": {
+    "windows": 1140,
+    "conforming_base_proposal_windows": 1140,
+    "proposals": 12740,
+    "cooldown_mismatches": 0,
+    "engineering_withheld_windows": 1140,
+    "enforcement_eligible_windows": 0
+  },
+  "live": {
+    "status": "passed",
+    "kind": "Predefined engineering controller verification; actions not caused by the offline detector",
+    "repetitions": 3,
+    "installed_rules": 6,
+    "expired_rules": 3,
+    "explicitly_removed_rules": 3,
+    "before_reachable": 3,
+    "before_checks": 3,
+    "target_blocked": 6,
+    "target_block_checks": 6,
+    "unaffected_reachable": 3,
+    "unaffected_checks": 3,
+    "after_reachable": 6,
+    "after_checks": 6,
+    "idempotent_retries_same_cookie": 3,
+    "seconds": 29.40408968925476,
+    "production_gates_changed": false,
+    "fresh_warm_gnn_study": false,
+    "controller_outage_injected": false
+  },
+  "verification": {
+    "status": "independent_recount_passed",
+    "compared_prediction_records": 27360,
+    "flag_mismatches": 0,
+    "max_logit_error_vs_saved_reference": 7.62939453125e-06,
+    "cleanup_verified": true
+  },
+  "controller_acceptance_to_barrier_ms": {
+    "min": 0.972747802734375,
+    "max": 1.7266273498535156,
+    "median": 1.5034675598144531
+  },
+  "limitations": [
+    "PCAP extraction",
+    "Realtime packet capture",
+    "Live GNN warm-up",
+    "Native live finalizer/HTTP/join timing",
+    "Installed actions caused by these offline observations",
+    "Truth-based proposal presence includes required alerts for benign policy violations; it is not attack detection precision",
+    "Full-identity MUD reference can identify original simultaneous aliases that the deployed primary-only binding contract cannot resolve",
+    "Excluded inactive rows and unscored B opportunities remain explicit",
+    "Known-device consumed-corpus subset; one authored household",
+    "PCAP extraction in the replacement offline pass",
+    "live finalizer/HTTP/async-join correctness on all selected recordings",
+    "fresh fully-warmed live GNN attack study",
+    "live first malicious packet-to-enforcement delay",
+    "long-running fault/backlog acceptance"
+  ],
+  "evidence_sha256": {
+    "manifest.json": "2eff7c293ed27375a8dbfad74407f570fff4a829b39c8029be958b6ba4dd95fd",
+    "result.json": "fce48860026165f0143ea2bd85c648f139076ad15b2f4805328d8dd8d0d85534",
+    "independent-verification.json": "c41efddb9854673c51af946cc24461b4794ffa42b6f0204657cb5469ce3ca699",
+    "short-live/result.json": "57b39d47c499656912f4a921ce2381dc3ca03a6ecd5a33e80e5fdf3a30a5839f",
+    "short-live/cleanup.json": "6a2dd13705000047b3b945f93640beb426dfc25b427daf6de4a31f00cef8260b",
+    "completion.json": "cab46c322ac24d5c858e54c86c8877700ee7f1aa4c12713ecdecc45eb1ba10ee"
+  },
+  "strict_device_local_report_sha256": "e80e12c1094790e0e703e5d2826053619fa7f316f29f059cd301287487db551b",
+  "evidence_availability": "Aggregate summary shared; raw corpus, dated protocol, run progress and detailed evidence retained privately by the evaluation owner.",
+  "same_labelled_live_packet_to_automatic_action_accuracy": "not_established"
+}
